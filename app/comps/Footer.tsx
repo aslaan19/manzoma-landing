@@ -87,61 +87,37 @@ export default function Footer() {
       dir="rtl"
       ref={ref}
       style={{
-        background: COLORS.ink,
+        background: COLORS.offwhite,
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* ── BACKGROUND TREATMENT ── */}
+      {/* Same faint grid as every other section */}
       <div
         aria-hidden
         style={{
           position: "absolute",
           inset: 0,
           pointerEvents: "none",
-          backgroundImage: `radial-gradient(${COLORS.petroleum}35 1px, transparent 1px)`,
-          backgroundSize: "32px 32px",
+          backgroundImage: `
+          linear-gradient(${COLORS.petroleum}04 1px, transparent 1px),
+          linear-gradient(90deg, ${COLORS.petroleum}04 1px, transparent 1px)
+        `,
+          backgroundSize: "60px 60px",
         }}
       />
-      {/* Radial petroleum glow */}
+
+      {/* Subtle decorative rings — same style as other sections */}
       <div
         aria-hidden
         style={{
           position: "absolute",
-          bottom: -200,
-          right: -200,
-          width: 700,
-          height: 700,
+          bottom: -160,
+          right: -160,
+          width: 480,
+          height: 480,
           borderRadius: "50%",
-          background: `radial-gradient(circle, ${COLORS.petroleum}30 0%, transparent 65%)`,
-          pointerEvents: "none",
-        }}
-      />
-      {/* Gold glow top left */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          top: -150,
-          left: -150,
-          width: 500,
-          height: 500,
-          borderRadius: "50%",
-          background: `radial-gradient(circle, ${COLORS.gold}08 0%, transparent 65%)`,
-          pointerEvents: "none",
-        }}
-      />
-      {/* Decorative arcs */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          bottom: -120,
-          right: -120,
-          width: 380,
-          height: 380,
-          borderRadius: "50%",
-          border: `1px solid ${COLORS.petroleum}25`,
+          border: `1px solid ${COLORS.petroleum}06`,
           pointerEvents: "none",
         }}
       />
@@ -149,256 +125,269 @@ export default function Footer() {
         aria-hidden
         style={{
           position: "absolute",
-          bottom: -60,
-          right: -60,
-          width: 220,
-          height: 220,
+          bottom: -80,
+          right: -80,
+          width: 280,
+          height: 280,
           borderRadius: "50%",
-          border: `1px solid ${COLORS.petroleum}18`,
+          border: `1px solid ${COLORS.petroleum}04`,
           pointerEvents: "none",
         }}
       />
 
       {/* ══════════════════════════════════════════
-          TOP BRAND BAND
+          TOP LINE — same 4-color gradient
       ══════════════════════════════════════════ */}
       <div
         style={{
-          borderBottom: `1px solid rgba(255,255,255,0.06)`,
-          padding: "64px 24px",
+          position: "absolute",
+          top: 0,
+          right: 0,
+          left: 0,
+          height: 3,
+          background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
+        }}
+      />
+
+      {/* ══════════════════════════════════════════
+          MAIN BODY
+      ══════════════════════════════════════════ */}
+      <div
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "72px 24px 56px",
           position: "relative",
           zIndex: 10,
         }}
       >
-        {/* Gold top line */}
         <div
           style={{
-            position: "absolute",
-            top: 0,
-            right: 0,
-            left: 0,
-            height: 3,
-            background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
+            display: "grid",
+            gridTemplateColumns: "1.8fr 1fr 1fr 1fr",
+            gap: 64,
+            alignItems: "start",
           }}
-        />
-
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.6fr 1fr 1fr 1fr",
-              gap: 64,
-              alignItems: "start",
-            }}
-            className="footer-main-grid"
-          >
-            {/* Brand column */}
-            <div style={vis(100)}>
-              {/* Logo */}
-              <div style={{ marginBottom: 28 }}>
-                <Image
-                  src="/logo.png"
-                  alt="منظومة - Manzoma"
-                  width={160}
-                  height={72}
-                  style={{
-                    objectFit: "contain",
-                    filter: "brightness(0) invert(1)",
-                    opacity: 0.9,
-                  }}
-                />
-              </div>
-
-              <p
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 15,
-                  fontWeight: 500,
-                  color: "rgba(255,255,255,0.5)",
-                  lineHeight: 1.9,
-                  margin: "0 0 36px",
-                  maxWidth: 300,
-                }}
-              >
-                شركة متخصصة في بناء النماذج والمنتجات المعرفية التي تمكّن
-                المؤسسات من تحقيق نمو اقتصادي حقيقي.
-              </p>
-
-              {/* 4 element dots */}
-              <div
-                style={{ display: "flex", flexDirection: "column", gap: 10 }}
-              >
-                {elements.map((el, i) => (
-                  <div
-                    key={i}
-                    style={{ display: "flex", alignItems: "center", gap: 10 }}
-                  >
-                    <div
-                      style={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: "50%",
-                        background: el.accent,
-                        flexShrink: 0,
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontFamily: "'Beiruti', sans-serif",
-                        fontSize: 13,
-                        fontWeight: 700,
-                        color: "rgba(255,255,255,0.4)",
-                      }}
-                    >
-                      {el.ar}
-                    </span>
-                    <span
-                      style={{
-                        fontFamily: "Helvetica, Arial, sans-serif",
-                        fontSize: 9,
-                        fontWeight: 600,
-                        color: "rgba(255,255,255,0.2)",
-                        letterSpacing: "1.5px",
-                        textTransform: "uppercase",
-                        marginRight: "auto",
-                      }}
-                    >
-                      {el.en}
-                    </span>
-                  </div>
-                ))}
-              </div>
+          className="footer-grid"
+        >
+          {/* ── BRAND COLUMN ── */}
+          <div style={vis(100)}>
+            {/* Logo */}
+            <div style={{ marginBottom: 24 }}>
+              <Image
+                src="/logo.png"
+                alt="منظومة - Manzoma"
+                width={160}
+                height={72}
+                style={{ objectFit: "contain" }}
+              />
             </div>
 
-            {/* Nav columns */}
-            {navLinks.map((col, ci) => (
-              <div key={ci} style={vis(200 + ci * 100)}>
-                {/* Heading */}
+            <p
+              style={{
+                fontFamily: "'Beiruti', sans-serif",
+                fontSize: 15,
+                fontWeight: 500,
+                color: COLORS.inkMuted,
+                lineHeight: 1.9,
+                margin: "0 0 32px",
+                maxWidth: 300,
+              }}
+            >
+              شركة متخصصة في بناء النماذج والمنتجات المعرفية التي تمكّن المؤسسات
+              من تحقيق نمو اقتصادي حقيقي.
+            </p>
+
+            {/* 4 element pills */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {elements.map((el, i) => (
                 <div
+                  key={i}
                   style={{
                     display: "flex",
                     alignItems: "center",
                     gap: 10,
-                    marginBottom: 28,
                   }}
                 >
                   <div
                     style={{
-                      width: 20,
-                      height: 2,
-                      background: COLORS.gold,
-                      borderRadius: 2,
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      background: el.accent,
+                      flexShrink: 0,
                     }}
                   />
-                  <h4
+                  <span
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
-                      fontSize: 14,
-                      fontWeight: 800,
-                      color: COLORS.white,
-                      margin: 0,
-                      letterSpacing: "0.3px",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: COLORS.inkSoft,
                     }}
                   >
-                    {col.heading}
-                  </h4>
+                    {el.ar}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 9,
+                      fontWeight: 600,
+                      color: COLORS.inkMuted,
+                      letterSpacing: "1.5px",
+                      textTransform: "uppercase",
+                      marginRight: "auto",
+                      opacity: 0.6,
+                    }}
+                  >
+                    {el.en}
+                  </span>
                 </div>
-                <p
-                  style={{
-                    fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: "rgba(255,255,255,0.2)",
-                    letterSpacing: "2.5px",
-                    textTransform: "uppercase",
-                    margin: "0 0 24px",
-                  }}
-                >
-                  {col.headingEn}
-                </p>
-
-                {/* Links */}
-                <ul
-                  style={{
-                    listStyle: "none",
-                    padding: 0,
-                    margin: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 16,
-                  }}
-                >
-                  {col.links.map((link, li) => {
-                    const key = `${ci}-${li}`;
-                    const isHovered = hoveredLink === key;
-                    return (
-                      <li key={li}>
-                        <a
-                          href={link.href}
-                          target={
-                            "external" in link && link.external
-                              ? "_blank"
-                              : undefined
-                          }
-                          rel={
-                            "external" in link && link.external
-                              ? "noopener noreferrer"
-                              : undefined
-                          }
-                          onMouseEnter={() => setHoveredLink(key)}
-                          onMouseLeave={() => setHoveredLink(null)}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 8,
-                            fontFamily: "'Beiruti', sans-serif",
-                            fontSize: 14,
-                            fontWeight: 600,
-                            color: isHovered
-                              ? COLORS.gold
-                              : "rgba(255,255,255,0.45)",
-                            textDecoration: "none",
-                            transition: "color 0.2s ease",
-                          }}
-                        >
-                          {/* Sliding line */}
-                          <span
-                            style={{
-                              display: "block",
-                              width: isHovered ? 16 : 0,
-                              height: 1,
-                              background: COLORS.gold,
-                              borderRadius: 1,
-                              transition: "width 0.2s ease",
-                              flexShrink: 0,
-                            }}
-                          />
-                          {link.label}
-                          {"external" in link && link.external && (
-                            <svg
-                              width="10"
-                              height="10"
-                              viewBox="0 0 10 10"
-                              fill="none"
-                              style={{ opacity: 0.5, flexShrink: 0 }}
-                            >
-                              <path
-                                d="M2 8L8 2M8 2H4M8 2V6"
-                                stroke={COLORS.gold}
-                                strokeWidth="1.2"
-                                strokeLinecap="round"
-                              />
-                            </svg>
-                          )}
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {/* ── NAV COLUMNS ── */}
+          {navLinks.map((col, ci) => (
+            <div key={ci} style={vis(200 + ci * 100)}>
+              {/* Heading */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  marginBottom: 8,
+                }}
+              >
+                <div
+                  style={{
+                    width: 20,
+                    height: 2,
+                    background: COLORS.petroleum,
+                    borderRadius: 2,
+                  }}
+                />
+                <h4
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 15,
+                    fontWeight: 800,
+                    color: COLORS.ink,
+                    margin: 0,
+                  }}
+                >
+                  {col.heading}
+                </h4>
+              </div>
+              <p
+                style={{
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color: COLORS.inkMuted,
+                  letterSpacing: "2.5px",
+                  textTransform: "uppercase",
+                  margin: "0 0 24px",
+                  opacity: 0.7,
+                }}
+              >
+                {col.headingEn}
+              </p>
+
+              {/* Links */}
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 14,
+                }}
+              >
+                {col.links.map((link, li) => {
+                  const key = `${ci}-${li}`;
+                  const isHovered = hoveredLink === key;
+                  return (
+                    <li key={li}>
+                      <a
+                        href={link.href}
+                        target={
+                          "external" in link && link.external
+                            ? "_blank"
+                            : undefined
+                        }
+                        rel={
+                          "external" in link && link.external
+                            ? "noopener noreferrer"
+                            : undefined
+                        }
+                        onMouseEnter={() => setHoveredLink(key)}
+                        onMouseLeave={() => setHoveredLink(null)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          fontFamily: "'Beiruti', sans-serif",
+                          fontSize: 14,
+                          fontWeight: 600,
+                          color: isHovered ? COLORS.petroleum : COLORS.inkMuted,
+                          textDecoration: "none",
+                          transition: "color 0.2s ease",
+                        }}
+                      >
+                        {/* Sliding petroleum line */}
+                        <span
+                          style={{
+                            display: "block",
+                            width: isHovered ? 14 : 0,
+                            height: 1,
+                            background: COLORS.petroleum,
+                            borderRadius: 1,
+                            flexShrink: 0,
+                            transition: "width 0.2s ease",
+                          }}
+                        />
+                        {link.label}
+                        {"external" in link && link.external && (
+                          <svg
+                            width="9"
+                            height="9"
+                            viewBox="0 0 9 9"
+                            fill="none"
+                            style={{ opacity: 0.4, flexShrink: 0 }}
+                          >
+                            <path
+                              d="M1.5 7.5L7.5 1.5M7.5 1.5H3.5M7.5 1.5V5.5"
+                              stroke={COLORS.petroleum}
+                              strokeWidth="1.2"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          ))}
         </div>
+      </div>
+
+      {/* ══════════════════════════════════════════
+          DIVIDER
+      ══════════════════════════════════════════ */}
+      <div
+        style={{
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "0 24px",
+          position: "relative",
+          zIndex: 10,
+        }}
+      >
+        <div style={{ height: 1, background: COLORS.border }} />
       </div>
 
       {/* ══════════════════════════════════════════
@@ -406,82 +395,71 @@ export default function Footer() {
       ══════════════════════════════════════════ */}
       <div
         style={{
-          borderTop: `1px solid rgba(255,255,255,0.05)`,
+          maxWidth: 1280,
+          margin: "0 auto",
           padding: "20px 24px",
           position: "relative",
           zIndex: 10,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 16,
         }}
       >
-        <div
+        {/* Copyright */}
+        <p
           style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 16,
+            fontFamily: "'Beiruti', sans-serif",
+            fontSize: 12,
+            fontWeight: 500,
+            color: COLORS.inkMuted,
+            margin: 0,
           }}
         >
-          {/* Copyright */}
-          <p
-            style={{
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontSize: 9,
-              fontWeight: 600,
-              color: "rgba(255,255,255,0.2)",
-              letterSpacing: "2px",
-              textTransform: "uppercase",
-              margin: 0,
-            }}
-          >
-            © 2025 منظومة المعرفية. جميع الحقوق محفوظة.
-          </p>
+          © 2026 منظومة المعرفية. جميع الحقوق محفوظة.
+        </p>
 
-          {/* Center — 4 color dots */}
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            {elements.map((el, i) => (
-              <div
-                key={i}
-                style={{ display: "flex", alignItems: "center", gap: 6 }}
-              >
-                {i > 0 && (
-                  <div
-                    style={{
-                      width: 1,
-                      height: 10,
-                      background: "rgba(255,255,255,0.08)",
-                    }}
-                  />
-                )}
+        {/* Center — 4 colored dots */}
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          {elements.map((el, i) => (
+            <div
+              key={i}
+              style={{ display: "flex", alignItems: "center", gap: 8 }}
+            >
+              {i > 0 && (
                 <div
-                  style={{
-                    width: 5,
-                    height: 5,
-                    borderRadius: "50%",
-                    background: el.accent,
-                    opacity: 0.6,
-                  }}
+                  style={{ width: 1, height: 10, background: COLORS.border }}
                 />
-              </div>
-            ))}
-          </div>
-
-          {/* Right — URL */}
-          <p
-            style={{
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontSize: 9,
-              fontWeight: 700,
-              color: `${COLORS.gold}50`,
-              letterSpacing: "2.5px",
-              textTransform: "uppercase",
-              margin: 0,
-            }}
-          >
-            manzoma.sa
-          </p>
+              )}
+              <div
+                style={{
+                  width: 5,
+                  height: 5,
+                  borderRadius: "50%",
+                  background: el.accent,
+                  opacity: 0.7,
+                }}
+              />
+            </div>
+          ))}
         </div>
+
+        {/* Right — URL */}
+        <p
+          style={{
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontSize: 10,
+            fontWeight: 700,
+            color: COLORS.petroleum,
+            letterSpacing: "2.5px",
+            textTransform: "uppercase",
+            margin: 0,
+            opacity: 0.6,
+          }}
+        >
+          manzoma.sa
+        </p>
       </div>
     </footer>
   );

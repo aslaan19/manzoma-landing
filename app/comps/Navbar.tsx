@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 
 const navLinks = [
   { label: "الرئيسية", href: "#home" },
@@ -11,10 +13,20 @@ const navLinks = [
   { label: "تواصل معنا", href: "#contact" },
 ];
 
+// Brand colors
+const colors = {
+  petroleum: "#1F5A5E",
+  petroleumLight: "#2A7A7E",
+  gold: "#C9A227",
+  cream: "#F8F6F1",
+  textMuted: "#536668",
+};
+
 function ManzomLogo() {
   return (
     <a
       href="#home"
+      className="logo-link"
       style={{
         textDecoration: "none",
         display: "inline-flex",
@@ -22,99 +34,56 @@ function ManzomLogo() {
         gap: "12px",
       }}
     >
-      {/* Symbol — 2×2 dot grid, bottom-right slightly smaller */}
-      <div
+      <Image
+        src="/logo.png"
+        alt="منظومة - Manzoma"
+        width={380}
+        height={100}
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "5px",
-          alignItems: "end",
+          objectFit: "contain",
+          width: "auto",
+          height: "50px",
         }}
-      >
-        <div
-          style={{
-            width: "16px",
-            height: "16px",
-            borderRadius: "50%",
-            background: "#1F5A5E",
-          }}
-        />
-        <div
-          style={{
-            width: "16px",
-            height: "16px",
-            borderRadius: "50%",
-            background: "#1F5A5E",
-          }}
-        />
-        <div
-          style={{
-            width: "16px",
-            height: "16px",
-            borderRadius: "50%",
-            background: "#1F5A5E",
-          }}
-        />
-        {/* Bottom-right dot — slightly smaller */}
-        <div
-          style={{
-            width: "16px",
-            height: "16px",
-            borderRadius: "50%",
-            background: "#1F5A5E",
-            justifySelf: "end",
-            alignSelf: "end",
-          }}
-        />
-      </div>
-      {/* Wordmark */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          gap: "0px",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "'Tajawal', sans-serif",
-            fontSize: "26px",
-            fontWeight: 800,
-            color: "#1F5A5E",
-            lineHeight: 1.15,
-            letterSpacing: "-0.5px",
-          }}
-        >
-          منظومة
-        </span>
-        <span
-          style={{
-            fontFamily: "Helvetica, Arial, sans-serif",
-            fontSize: "13px",
-            fontWeight: 700,
-            color: "#1F5A5E",
-            letterSpacing: "0.5px",
-            lineHeight: 1.2,
-          }}
-        >
-          Manzoma
-        </span>
-      </div>
+        priority
+      />
     </a>
   );
 }
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("#home");
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+  // Detect scroll position and active section
+  const handleScroll = useCallback(() => {
+    // Show navbar only after scrolling past hero (approx 100vh)
+    const heroHeight = window.innerHeight;
+    setVisible(window.scrollY > heroHeight * 0.85);
+
+    // Detect active section
+    const sections = navLinks.map((link) => link.href.replace("#", ""));
+    let currentSection = "#home";
+
+    for (const sectionId of sections) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        if (rect.top <= 150 && rect.bottom >= 150) {
+          currentSection = `#${sectionId}`;
+          break;
+        }
+      }
+    }
+
+    setActiveHash(currentSection);
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   const handleLinkClick = (href: string) => {
     setActiveHash(href);
@@ -131,16 +100,17 @@ export default function Navbar() {
           right: 0,
           left: 0,
           zIndex: 50,
-          transition: "all 0.3s ease",
-          background: scrolled
-            ? "rgba(255,255,255,0.97)"
-            : "rgba(255,255,255,0.85)",
-          backdropFilter: "blur(12px)",
-          WebkitBackdropFilter: "blur(12px)",
-          borderBottom: scrolled
-            ? "1px solid #DCE7E5"
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          background: visible ? "rgba(248, 246, 241, 0.95)" : "transparent",
+          backdropFilter: visible ? "blur(16px)" : "none",
+          WebkitBackdropFilter: visible ? "blur(16px)" : "none",
+          borderBottom: visible
+            ? `1px solid rgba(31, 90, 94, 0.1)`
             : "1px solid transparent",
-          boxShadow: scrolled ? "0 4px 24px rgba(31,90,94,0.06)" : "none",
+          boxShadow: visible ? "0 4px 30px rgba(31, 90, 94, 0.08)" : "none",
+          transform: visible ? "translateY(0)" : "translateY(-100%)",
+          opacity: visible ? 1 : 0,
+          pointerEvents: visible ? "auto" : "none",
         }}
       >
         <nav
@@ -148,7 +118,7 @@ export default function Navbar() {
             maxWidth: "1280px",
             margin: "0 auto",
             padding: "0 24px",
-            height: "70px",
+            height: "72px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -159,9 +129,9 @@ export default function Navbar() {
           {/* Desktop links */}
           <div
             className="desktop-nav"
-            style={{ display: "flex", alignItems: "center", gap: "4px" }}
+            style={{ display: "flex", alignItems: "center", gap: "6px" }}
           >
-            {navLinks.map((link) => {
+            {navLinks.slice(0, -1).map((link) => {
               const isActive = activeHash === link.href;
               return (
                 <a
@@ -169,32 +139,47 @@ export default function Navbar() {
                   href={link.href}
                   onClick={() => handleLinkClick(link.href)}
                   style={{
-                    fontFamily: "'Tajawal', sans-serif",
+                    fontFamily: "var(--font-beiruti), sans-serif",
                     fontSize: "15px",
                     fontWeight: isActive ? 700 : 500,
-                    color: isActive ? "#1F5A5E" : "#536668",
+                    color: isActive ? colors.petroleum : colors.textMuted,
                     textDecoration: "none",
-                    padding: "6px 14px",
+                    padding: "8px 16px",
                     borderRadius: "999px",
-                    background: isActive ? "#EEF5F5" : "transparent",
-                    transition: "all 0.2s ease",
+                    background: isActive
+                      ? `rgba(31, 90, 94, 0.1)`
+                      : "transparent",
+                    position: "relative",
+                    transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      (e.currentTarget as HTMLElement).style.color = "#1F5A5E";
-                      (e.currentTarget as HTMLElement).style.background =
-                        "#F3F8F6";
+                      e.currentTarget.style.color = colors.petroleum;
+                      e.currentTarget.style.background = `rgba(31, 90, 94, 0.06)`;
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      (e.currentTarget as HTMLElement).style.color = "#536668";
-                      (e.currentTarget as HTMLElement).style.background =
-                        "transparent";
+                      e.currentTarget.style.color = colors.textMuted;
+                      e.currentTarget.style.background = "transparent";
                     }
                   }}
                 >
                   {link.label}
+                  {isActive && (
+                    <span
+                      style={{
+                        position: "absolute",
+                        bottom: "2px",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "20px",
+                        height: "3px",
+                        background: colors.gold,
+                        borderRadius: "2px",
+                      }}
+                    />
+                  )}
                 </a>
               );
             })}
@@ -203,22 +188,27 @@ export default function Navbar() {
               href="#contact"
               onClick={() => handleLinkClick("#contact")}
               style={{
-                fontFamily: "'Tajawal', sans-serif",
+                fontFamily: "var(--font-beiruti), sans-serif",
                 fontSize: "14px",
                 fontWeight: 700,
                 color: "#FFFFFF",
                 textDecoration: "none",
-                padding: "9px 22px",
+                padding: "10px 24px",
                 borderRadius: "999px",
-                background: "#1F5A5E",
-                marginRight: "10px",
-                transition: "background 0.2s ease",
+                background: `linear-gradient(135deg, ${colors.petroleum} 0%, ${colors.petroleumLight} 100%)`,
+                marginRight: "12px",
+                transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                boxShadow: "0 4px 15px rgba(31, 90, 94, 0.25)",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "#2F7D7E";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow =
+                  "0 6px 20px rgba(31, 90, 94, 0.35)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.background = "#1F5A5E";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 15px rgba(31, 90, 94, 0.25)";
               }}
             >
               تواصل معنا
@@ -243,11 +233,11 @@ export default function Navbar() {
           >
             <div
               style={{
-                width: "22px",
-                height: "2px",
-                background: "#1F5A5E",
+                width: "24px",
+                height: "2.5px",
+                background: colors.petroleum,
                 borderRadius: "2px",
-                transition: "all 0.3s ease",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                 transform: menuOpen
                   ? "rotate(45deg) translate(5px, 5px)"
                   : "none",
@@ -255,21 +245,21 @@ export default function Navbar() {
             />
             <div
               style={{
-                width: "22px",
-                height: "2px",
-                background: "#1F5A5E",
+                width: "24px",
+                height: "2.5px",
+                background: colors.petroleum,
                 borderRadius: "2px",
                 opacity: menuOpen ? 0 : 1,
-                transition: "all 0.3s ease",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             />
             <div
               style={{
-                width: "22px",
-                height: "2px",
-                background: "#1F5A5E",
+                width: "24px",
+                height: "2.5px",
+                background: colors.petroleum,
                 borderRadius: "2px",
-                transition: "all 0.3s ease",
+                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                 transform: menuOpen
                   ? "rotate(-45deg) translate(5px, -5px)"
                   : "none",
@@ -285,22 +275,22 @@ export default function Navbar() {
         className="mobile-menu"
         style={{
           position: "fixed",
-          top: "70px",
+          top: "72px",
           right: 0,
           left: 0,
           zIndex: 49,
-          background: "rgba(255,255,255,0.98)",
-          backdropFilter: "blur(12px)",
-          borderBottom: "1px solid #DCE7E5",
-          boxShadow: "0 8px 24px rgba(31,90,94,0.08)",
+          background: "rgba(248, 246, 241, 0.98)",
+          backdropFilter: "blur(16px)",
+          borderBottom: `1px solid rgba(31, 90, 94, 0.1)`,
+          boxShadow: "0 8px 30px rgba(31, 90, 94, 0.1)",
           transform: menuOpen ? "translateY(0)" : "translateY(-110%)",
           opacity: menuOpen ? 1 : 0,
-          transition: "all 0.3s ease",
+          transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
           pointerEvents: menuOpen ? "all" : "none",
         }}
       >
         <div style={{ padding: "16px 24px 24px" }}>
-          {navLinks.map((link) => {
+          {navLinks.map((link, index) => {
             const isActive = activeHash === link.href;
             return (
               <a
@@ -308,16 +298,34 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => handleLinkClick(link.href)}
                 style={{
-                  display: "block",
-                  fontFamily: "'Tajawal', sans-serif",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "12px",
+                  fontFamily: "var(--font-beiruti), sans-serif",
                   fontSize: "17px",
                   fontWeight: isActive ? 700 : 500,
-                  color: isActive ? "#1F5A5E" : "#1A2E2F",
+                  color: isActive ? colors.petroleum : "#1A2E2F",
                   textDecoration: "none",
-                  padding: "13px 0",
-                  borderBottom: "1px solid #F0F5F4",
+                  padding: "14px 0",
+                  borderBottom:
+                    index < navLinks.length - 1
+                      ? `1px solid rgba(31, 90, 94, 0.08)`
+                      : "none",
+                  position: "relative",
                 }}
               >
+                {isActive && (
+                  <span
+                    style={{
+                      width: "4px",
+                      height: "20px",
+                      background: colors.gold,
+                      borderRadius: "2px",
+                      position: "absolute",
+                      right: "-12px",
+                    }}
+                  />
+                )}
                 {link.label}
               </a>
             );
@@ -327,7 +335,7 @@ export default function Navbar() {
             onClick={() => handleLinkClick("#contact")}
             style={{
               display: "block",
-              fontFamily: "'Tajawal', sans-serif",
+              fontFamily: "var(--font-beiruti), sans-serif",
               fontSize: "16px",
               fontWeight: 700,
               color: "#FFFFFF",
@@ -335,8 +343,9 @@ export default function Navbar() {
               textAlign: "center",
               padding: "14px",
               borderRadius: "12px",
-              background: "#1F5A5E",
-              marginTop: "16px",
+              background: `linear-gradient(135deg, ${colors.petroleum} 0%, ${colors.petroleumLight} 100%)`,
+              marginTop: "20px",
+              boxShadow: "0 4px 15px rgba(31, 90, 94, 0.2)",
             }}
           >
             تواصل معنا
