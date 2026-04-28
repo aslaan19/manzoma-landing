@@ -293,8 +293,8 @@ export default function Models() {
               {/* Counters */}
               <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
                 {[
-                  { val: "٨", label: "نماذج معرفية" },
-                  { val: "١٠٠٪", label: "تخصص معرفي" },
+                  { val: "8", label: "نماذج معرفية" },
+                  { val: "100%", label: "تخصص معرفي" },
                 ].map((s, i) => (
                   <div
                     key={i}

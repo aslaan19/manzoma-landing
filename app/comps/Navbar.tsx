@@ -4,92 +4,70 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
+const COLORS = {
+  petroleum: "#015A62",
+  accent: "#01707A",
+  gold: "#C7A856",
+  crimson: "#972B28",
+  rose: "#B18083",
+  white: "#FFFFFF",
+  offwhite: "#F8F6F1",
+  border: "#E8E4DC",
+  ink: "#0D1F21",
+  inkMuted: "#6B7C7D",
+};
+
 const navLinks = [
   { label: "الرئيسية", href: "#home" },
   { label: "من نحن", href: "#about" },
   { label: "لماذا منظومة", href: "#why" },
   { label: "الاستراتيجية", href: "#strategy" },
   { label: "النماذج", href: "#models" },
-  { label: "تواصل معنا", href: "#contact" },
 ];
-
-// Brand colors
-const colors = {
-  petroleum: "#1F5A5E",
-  petroleumLight: "#2A7A7E",
-  gold: "#C9A227",
-  cream: "#F8F6F1",
-  textMuted: "#536668",
-};
-
-function ManzomLogo() {
-  return (
-    <a
-      href="#home"
-      className="logo-link"
-      style={{
-        textDecoration: "none",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: "12px",
-      }}
-    >
-      {/* Logo */}
-      <div style={{ marginTop: 8 }}>
-        <Image
-          src="/logo.png"
-          alt="منظومة - Manzoma"
-          width={160}
-          height={72}
-          style={{ objectFit: "contain" }}
-        />
-      </div>
-    </a>
-  );
-}
 
 export default function Navbar() {
   const [visible, setVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("#home");
 
-  // Detect scroll position and active section
   const handleScroll = useCallback(() => {
-    // Show navbar only after scrolling past hero (approx 100vh)
-    const heroHeight = window.innerHeight;
-    setVisible(window.scrollY > heroHeight * 0.85);
+    const sy = window.scrollY;
+    const heroH = window.innerHeight;
+    setVisible(sy > heroH * 0.85);
+    setScrolled(sy > heroH * 0.85 + 40);
 
-    // Detect active section
-    const sections = navLinks.map((link) => link.href.replace("#", ""));
-    let currentSection = "#home";
-
-    for (const sectionId of sections) {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        const rect = element.getBoundingClientRect();
-        if (rect.top <= 150 && rect.bottom >= 150) {
-          currentSection = `#${sectionId}`;
+    const ids = [...navLinks.map((l) => l.href.slice(1)), "contact"];
+    let cur = "#home";
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (el) {
+        const r = el.getBoundingClientRect();
+        if (r.top <= 120 && r.bottom >= 120) {
+          cur = `#${id}`;
           break;
         }
       }
     }
-
-    setActiveHash(currentSection);
+    setActiveHash(cur);
   }, []);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  const handleLinkClick = (href: string) => {
+  const go = (href: string) => {
     setActiveHash(href);
     setMenuOpen(false);
   };
 
   return (
     <>
+      {/* ══════════════════════════════════════════
+          MAIN HEADER
+      ══════════════════════════════════════════ */}
       <header
         dir="rtl"
         style={{
@@ -98,254 +76,341 @@ export default function Navbar() {
           right: 0,
           left: 0,
           zIndex: 50,
-          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-          background: visible ? "rgba(248, 246, 241, 0.95)" : "transparent",
-          backdropFilter: visible ? "blur(16px)" : "none",
-          WebkitBackdropFilter: visible ? "blur(16px)" : "none",
-          borderBottom: visible
-            ? `1px solid rgba(31, 90, 94, 0.1)`
-            : "1px solid transparent",
-          boxShadow: visible ? "0 4px 30px rgba(31, 90, 94, 0.08)" : "none",
           transform: visible ? "translateY(0)" : "translateY(-100%)",
           opacity: visible ? 1 : 0,
           pointerEvents: visible ? "auto" : "none",
+          transition:
+            "transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease",
         }}
       >
+        {/* Glass panel */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: scrolled
+              ? "rgba(248,246,241,0.97)"
+              : "rgba(248,246,241,0.93)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            borderBottom: `1px solid ${scrolled ? COLORS.border : "transparent"}`,
+            boxShadow: scrolled ? "0 8px 40px rgba(1,90,98,0.07)" : "none",
+            transition: "all 0.35s ease",
+          }}
+        />
+
+        {/* 4-color top accent line */}
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            right: 0,
+            left: 0,
+            height: 3,
+            background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
+            opacity: scrolled ? 1 : 0,
+            transition: "opacity 0.4s ease",
+          }}
+        />
+
         <nav
           style={{
-            maxWidth: "1280px",
+            maxWidth: 1280,
             margin: "0 auto",
-            padding: "0 24px",
-            height: "72px",
+            padding: "0 32px",
+            height: 72,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            position: "relative",
+            zIndex: 1,
           }}
         >
-          <ManzomLogo />
-
-          {/* Desktop links */}
-          <div
-            className="desktop-nav"
-            style={{ display: "flex", alignItems: "center", gap: "6px" }}
+          {/* ── LOGO ── */}
+          <a
+            href="#home"
+            onClick={() => go("#home")}
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              flexShrink: 0,
+            }}
           >
-            {navLinks.slice(0, -1).map((link) => {
+            <div style={{ marginTop: 8 }}>
+              <Image
+                src="/logo.png"
+                alt="منظومة - Manzoma"
+                width={160}
+                height={72}
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+          </a>
+
+          {/* ── DESKTOP NAV ── */}
+          <div
+            className="nav-desktop"
+            style={{ display: "flex", alignItems: "center", gap: 0 }}
+          >
+            {navLinks.map((link) => {
               const isActive = activeHash === link.href;
               return (
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => handleLinkClick(link.href)}
+                  onClick={() => go(link.href)}
                   style={{
-                    fontFamily: "var(--font-beiruti), sans-serif",
-                    fontSize: "15px",
+                    position: "relative",
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 15,
                     fontWeight: isActive ? 700 : 500,
-                    color: isActive ? colors.petroleum : colors.textMuted,
+                    color: isActive ? COLORS.petroleum : COLORS.inkMuted,
                     textDecoration: "none",
                     padding: "8px 16px",
-                    borderRadius: "999px",
+                    borderRadius: 999,
+                    transition: "all 0.2s ease",
                     background: isActive
-                      ? `rgba(31, 90, 94, 0.1)`
+                      ? `${COLORS.petroleum}0C`
                       : "transparent",
-                    position: "relative",
-                    transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.color = colors.petroleum;
-                      e.currentTarget.style.background = `rgba(31, 90, 94, 0.06)`;
+                      (e.currentTarget as HTMLElement).style.color =
+                        COLORS.petroleum;
+                      (e.currentTarget as HTMLElement).style.background =
+                        `${COLORS.petroleum}07`;
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.color = colors.textMuted;
-                      e.currentTarget.style.background = "transparent";
+                      (e.currentTarget as HTMLElement).style.color =
+                        COLORS.inkMuted;
+                      (e.currentTarget as HTMLElement).style.background =
+                        "transparent";
                     }
                   }}
                 >
                   {link.label}
-                  {isActive && (
-                    <span
-                      style={{
-                        position: "absolute",
-                        bottom: "2px",
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "20px",
-                        height: "3px",
-                        background: colors.gold,
-                        borderRadius: "2px",
-                      }}
-                    />
-                  )}
+                  {/* Animated gold underline */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: 4,
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      height: 2,
+                      borderRadius: 2,
+                      background: COLORS.gold,
+                      width: isActive ? "60%" : "0%",
+                      transition: "width 0.3s ease",
+                      display: "block",
+                    }}
+                  />
                 </a>
               );
             })}
 
+            {/* Vertical separator */}
+            <div
+              style={{
+                width: 1,
+                height: 24,
+                background: COLORS.border,
+                margin: "0 14px",
+                flexShrink: 0,
+              }}
+            />
+
+            {/* CTA button */}
             <a
               href="#contact"
-              onClick={() => handleLinkClick("#contact")}
+              onClick={() => go("#contact")}
               style={{
-                fontFamily: "var(--font-beiruti), sans-serif",
-                fontSize: "14px",
-                fontWeight: 700,
-                color: "#FFFFFF",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                fontFamily: "'Beiruti', sans-serif",
+                fontSize: 14,
+                fontWeight: 800,
+                color: COLORS.white,
                 textDecoration: "none",
-                padding: "10px 24px",
-                borderRadius: "999px",
-                background: `linear-gradient(135deg, ${colors.petroleum} 0%, ${colors.petroleumLight} 100%)`,
-                marginRight: "12px",
-                transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
-                boxShadow: "0 4px 15px rgba(31, 90, 94, 0.25)",
+                padding: "10px 22px",
+                borderRadius: 999,
+                background: COLORS.petroleum,
+                boxShadow: `0 4px 20px ${COLORS.petroleum}28`,
+                transition: "all 0.25s ease",
+                position: "relative",
+                overflow: "hidden",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow =
-                  "0 6px 20px rgba(31, 90, 94, 0.35)";
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = COLORS.accent;
+                el.style.transform = "translateY(-1px)";
+                el.style.boxShadow = `0 8px 28px ${COLORS.petroleum}38`;
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 15px rgba(31, 90, 94, 0.25)";
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = COLORS.petroleum;
+                el.style.transform = "translateY(0)";
+                el.style.boxShadow = `0 4px 20px ${COLORS.petroleum}28`;
               }}
             >
+              {/* Gold dot */}
               تواصل معنا
             </a>
           </div>
 
-          {/* Mobile hamburger */}
+          {/* ── HAMBURGER ── */}
           <button
-            className="mobile-menu-btn"
-            onClick={() => setMenuOpen(!menuOpen)}
+            className="nav-hamburger"
+            onClick={() => setMenuOpen((o) => !o)}
             aria-label="Toggle menu"
             style={{
               display: "none",
               background: "none",
               border: "none",
               cursor: "pointer",
-              padding: "8px",
+              padding: 8,
               flexDirection: "column",
               justifyContent: "center",
               gap: "5px",
             }}
           >
-            <div
-              style={{
-                width: "24px",
-                height: "2.5px",
-                background: colors.petroleum,
-                borderRadius: "2px",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                transform: menuOpen
-                  ? "rotate(45deg) translate(5px, 5px)"
-                  : "none",
-              }}
-            />
-            <div
-              style={{
-                width: "24px",
-                height: "2.5px",
-                background: colors.petroleum,
-                borderRadius: "2px",
-                opacity: menuOpen ? 0 : 1,
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-              }}
-            />
-            <div
-              style={{
-                width: "24px",
-                height: "2.5px",
-                background: colors.petroleum,
-                borderRadius: "2px",
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-                transform: menuOpen
-                  ? "rotate(-45deg) translate(5px, -5px)"
-                  : "none",
-              }}
-            />
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                style={{
+                  display: "block",
+                  width: 22,
+                  height: 2,
+                  background: COLORS.petroleum,
+                  borderRadius: 2,
+                  transition: "all 0.3s ease",
+                  transform: menuOpen
+                    ? i === 0
+                      ? "rotate(45deg) translate(5px, 5px)"
+                      : i === 2
+                        ? "rotate(-45deg) translate(5px, -5px)"
+                        : "none"
+                    : "none",
+                  opacity: menuOpen && i === 1 ? 0 : 1,
+                }}
+              />
+            ))}
           </button>
         </nav>
       </header>
 
-      {/* Mobile dropdown */}
+      {/* ══════════════════════════════════════════
+          MOBILE MENU
+      ══════════════════════════════════════════ */}
       <div
         dir="rtl"
-        className="mobile-menu"
+        className="nav-mobile-menu"
         style={{
           position: "fixed",
-          top: "72px",
+          top: 72,
           right: 0,
           left: 0,
           zIndex: 49,
-          background: "rgba(248, 246, 241, 0.98)",
-          backdropFilter: "blur(16px)",
-          borderBottom: `1px solid rgba(31, 90, 94, 0.1)`,
-          boxShadow: "0 8px 30px rgba(31, 90, 94, 0.1)",
+          background: "rgba(248,246,241,0.98)",
+          backdropFilter: "blur(24px)",
+          WebkitBackdropFilter: "blur(24px)",
+          borderBottom: `1px solid ${COLORS.border}`,
+          boxShadow: "0 16px 48px rgba(1,90,98,0.1)",
           transform: menuOpen ? "translateY(0)" : "translateY(-110%)",
           opacity: menuOpen ? 1 : 0,
-          transition: "all 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
           pointerEvents: menuOpen ? "all" : "none",
         }}
       >
-        <div style={{ padding: "16px 24px 24px" }}>
-          {navLinks.map((link, index) => {
+        {/* 4-color top line */}
+        <div
+          style={{
+            height: 3,
+            background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
+            opacity: 0.7,
+          }}
+        />
+
+        <div style={{ padding: "12px 24px 28px" }}>
+          {navLinks.map((link, i) => {
             const isActive = activeHash === link.href;
             return (
               <a
                 key={link.href}
                 href={link.href}
-                onClick={() => handleLinkClick(link.href)}
+                onClick={() => go(link.href)}
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "12px",
-                  fontFamily: "var(--font-beiruti), sans-serif",
-                  fontSize: "17px",
-                  fontWeight: isActive ? 700 : 500,
-                  color: isActive ? colors.petroleum : "#1A2E2F",
+                  justifyContent: "space-between",
+                  fontFamily: "'Beiruti', sans-serif",
+                  fontSize: 16,
+                  fontWeight: isActive ? 800 : 500,
+                  color: isActive ? COLORS.petroleum : COLORS.ink,
                   textDecoration: "none",
-                  padding: "14px 0",
-                  borderBottom:
-                    index < navLinks.length - 1
-                      ? `1px solid rgba(31, 90, 94, 0.08)`
-                      : "none",
-                  position: "relative",
+                  padding: "15px 0",
+                  borderBottom: `1px solid ${COLORS.border}`,
+                  transition: "color 0.2s ease",
                 }}
               >
-                {isActive && (
-                  <span
-                    style={{
-                      width: "4px",
-                      height: "20px",
-                      background: colors.gold,
-                      borderRadius: "2px",
-                      position: "absolute",
-                      right: "-12px",
-                    }}
-                  />
-                )}
                 {link.label}
+                {isActive && (
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 6 }}
+                  >
+                    <div
+                      style={{
+                        width: 20,
+                        height: 2,
+                        background: COLORS.gold,
+                        borderRadius: 2,
+                      }}
+                    />
+                    <div
+                      style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: "50%",
+                        background: COLORS.petroleum,
+                      }}
+                    />
+                  </div>
+                )}
               </a>
             );
           })}
+
           <a
             href="#contact"
-            onClick={() => handleLinkClick("#contact")}
+            onClick={() => go("#contact")}
             style={{
-              display: "block",
-              fontFamily: "var(--font-beiruti), sans-serif",
-              fontSize: "16px",
-              fontWeight: 700,
-              color: "#FFFFFF",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              fontFamily: "'Beiruti', sans-serif",
+              fontSize: 15,
+              fontWeight: 800,
+              color: COLORS.white,
               textDecoration: "none",
-              textAlign: "center",
-              padding: "14px",
-              borderRadius: "12px",
-              background: `linear-gradient(135deg, ${colors.petroleum} 0%, ${colors.petroleumLight} 100%)`,
-              marginTop: "20px",
-              boxShadow: "0 4px 15px rgba(31, 90, 94, 0.2)",
+              padding: "14px 20px",
+              borderRadius: 14,
+              background: COLORS.petroleum,
+              marginTop: 20,
+              boxShadow: `0 8px 28px ${COLORS.petroleum}28`,
             }}
           >
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: COLORS.gold,
+              }}
+            />
             تواصل معنا
           </a>
         </div>
@@ -353,8 +418,8 @@ export default function Navbar() {
 
       <style>{`
         @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
+          .nav-desktop    { display: none !important; }
+          .nav-hamburger  { display: flex !important; }
         }
       `}</style>
     </>

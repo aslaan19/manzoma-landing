@@ -1,5 +1,6 @@
 "use client";
 
+import { Scale } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const COLORS = {
@@ -22,6 +23,7 @@ const pillars = [
     en: "Knowledge Model Formation",
     desc: "بناء الإطار الفكري والمنهجي الحاكم للقرار",
     accent: COLORS.petroleum,
+    dir: "top" as const,
   },
   {
     num: "02",
@@ -29,6 +31,7 @@ const pillars = [
     en: "Internal Capacity Building",
     desc: "تعزيز القدرات المؤسسية والقيادية",
     accent: COLORS.gold,
+    dir: "right" as const,
   },
   {
     num: "03",
@@ -36,6 +39,7 @@ const pillars = [
     en: "Economic Resource Extraction",
     desc: "تحويل المعرفة إلى موارد قابلة للتفعيل",
     accent: COLORS.crimson,
+    dir: "bottom" as const,
   },
   {
     num: "04",
@@ -43,6 +47,7 @@ const pillars = [
     en: "Governance & Councils",
     desc: "تأسيس بنية حوكمة تضبط القرار",
     accent: COLORS.rose,
+    dir: "left" as const,
   },
 ];
 
@@ -67,29 +72,32 @@ function PillarCard({
   hovered,
   onEnter,
   onLeave,
+  compact = false,
 }: {
   pillar: (typeof pillars)[0];
   hovered: boolean;
   onEnter: () => void;
   onLeave: () => void;
+  compact?: boolean;
 }) {
   return (
     <div
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       style={{
-        width: 240,
+        width: compact ? "100%" : 230,
         background: hovered ? COLORS.white : COLORS.offwhite,
         border: `1.5px solid ${hovered ? pillar.accent : COLORS.border}`,
-        borderRadius: 20,
-        padding: "24px 24px 20px",
+        borderRadius: 18,
+        padding: compact ? "18px 18px 16px" : "22px 22px 18px",
         cursor: "default",
         position: "relative",
         overflow: "hidden",
         boxShadow: hovered
-          ? `0 20px 50px ${pillar.accent}22`
+          ? `0 20px 50px ${pillar.accent}22, 0 4px 16px ${pillar.accent}10`
           : "0 4px 20px rgba(1,90,98,0.05)",
-        transition: "all 0.3s ease",
+        transition: "all 0.35s cubic-bezier(0.16,1,0.3,1)",
+        transform: hovered ? "translateY(-4px)" : "translateY(0)",
       }}
     >
       {/* Accent top bar */}
@@ -111,13 +119,13 @@ function PillarCard({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          marginBottom: 12,
+          marginBottom: 10,
         }}
       >
         <span
           style={{
             fontFamily: "Helvetica, Arial, sans-serif",
-            fontSize: 32,
+            fontSize: compact ? 26 : 30,
             fontWeight: 900,
             lineHeight: 1,
             color: hovered ? pillar.accent : COLORS.border,
@@ -129,8 +137,8 @@ function PillarCard({
         </span>
         <div
           style={{
-            width: 8,
-            height: 8,
+            width: 7,
+            height: 7,
             borderRadius: "50%",
             background: hovered ? pillar.accent : COLORS.border,
             transition: "background 0.3s ease",
@@ -142,7 +150,7 @@ function PillarCard({
       <h4
         style={{
           fontFamily: "'Beiruti', sans-serif",
-          fontSize: 15,
+          fontSize: compact ? 14 : 15,
           fontWeight: 800,
           color: hovered ? pillar.accent : COLORS.ink,
           margin: "0 0 6px",
@@ -157,7 +165,7 @@ function PillarCard({
       <p
         style={{
           fontFamily: "'Beiruti', sans-serif",
-          fontSize: 12,
+          fontSize: compact ? 11 : 12,
           fontWeight: 500,
           color: COLORS.inkMuted,
           margin: "0 0 8px",
@@ -182,6 +190,237 @@ function PillarCard({
       >
         {pillar.en}
       </p>
+    </div>
+  );
+}
+
+/* ── Mobile diamond layout ── */
+function MobileDiamond({
+  hovered,
+  setHovered,
+  inView,
+}: {
+  hovered: number | null;
+  setHovered: (v: number | null) => void;
+  inView: boolean;
+}) {
+  return (
+    <div style={{ padding: "0 16px 0", width: "100%" }}>
+      {/* TOP card */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: 0,
+          opacity: inView ? 1 : 0,
+          transform: inView ? "translateY(0)" : "translateY(-16px)",
+          transition: "opacity 0.7s ease 600ms, transform 0.7s ease 600ms",
+        }}
+      >
+        <div style={{ width: "min(320px, 100%)" }}>
+          <PillarCard
+            pillar={pillars[0]}
+            hovered={hovered === 0}
+            onEnter={() => setHovered(0)}
+            onLeave={() => setHovered(null)}
+            compact
+          />
+        </div>
+      </div>
+
+      {/* Connector top-to-center */}
+      <div style={{ display: "flex", justifyContent: "center", height: 32 }}>
+        <div
+          style={{
+            width: 2,
+            height: "100%",
+            background: `linear-gradient(to bottom, ${pillars[0].accent}60, ${COLORS.petroleum}60)`,
+            opacity: inView ? 1 : 0,
+            transition: "opacity 0.5s ease 750ms",
+          }}
+        />
+      </div>
+
+      {/* MIDDLE ROW: left card — center node — right card */}
+      <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+        {/* Left card */}
+        <div
+          style={{
+            flex: 1,
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateX(0)" : "translateX(-16px)",
+            transition: "opacity 0.7s ease 900ms, transform 0.7s ease 900ms",
+          }}
+        >
+          <PillarCard
+            pillar={pillars[3]}
+            hovered={hovered === 3}
+            onEnter={() => setHovered(3)}
+            onLeave={() => setHovered(null)}
+            compact
+          />
+        </div>
+
+        {/* Connector left */}
+        <div
+          style={{
+            height: 2,
+            width: 12,
+            flexShrink: 0,
+            background: `${pillars[3].accent}60`,
+            opacity: inView ? 1 : 0,
+            transition: "opacity 0.5s ease 1000ms",
+          }}
+        />
+
+        {/* Center node */}
+        <div
+          style={{
+            flexShrink: 0,
+            width: 140,
+            height: 140,
+            borderRadius: "50%",
+            background: COLORS.petroleum,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: `0 0 0 10px ${COLORS.petroleum}12, 0 0 0 20px ${COLORS.petroleum}07, 0 16px 48px ${COLORS.petroleum}40`,
+            opacity: inView ? 1 : 0,
+            transform: inView ? "scale(1)" : "scale(0.7)",
+            transition:
+              "opacity 0.8s ease 500ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) 500ms",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: "50%",
+              backgroundImage:
+                "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
+              backgroundSize: "8px 8px",
+            }}
+          />
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 8,
+              borderRadius: "50%",
+              border: `1px solid ${COLORS.gold}25`,
+            }}
+          />
+          <span
+            style={{
+              fontFamily: "Helvetica, Arial, sans-serif",
+              fontSize: 7,
+              fontWeight: 700,
+              color: `${COLORS.gold}80`,
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+              marginBottom: 4,
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            CORE
+          </span>
+          <span
+            style={{
+              fontFamily: "'Beiruti', sans-serif",
+              fontSize: 20,
+              fontWeight: 900,
+              color: COLORS.white,
+              lineHeight: 1,
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            المعرفة
+          </span>
+          <span
+            style={{
+              fontFamily: "'Beiruti', sans-serif",
+              fontSize: 9,
+              fontWeight: 500,
+              color: "rgba(255,255,255,0.5)",
+              marginTop: 4,
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            المحور المركزي
+          </span>
+        </div>
+
+        {/* Connector right */}
+        <div
+          style={{
+            height: 2,
+            width: 12,
+            flexShrink: 0,
+            background: `${pillars[1].accent}60`,
+            opacity: inView ? 1 : 0,
+            transition: "opacity 0.5s ease 1000ms",
+          }}
+        />
+
+        {/* Right card */}
+        <div
+          style={{
+            flex: 1,
+            opacity: inView ? 1 : 0,
+            transform: inView ? "translateX(0)" : "translateX(16px)",
+            transition: "opacity 0.7s ease 900ms, transform 0.7s ease 900ms",
+          }}
+        >
+          <PillarCard
+            pillar={pillars[1]}
+            hovered={hovered === 1}
+            onEnter={() => setHovered(1)}
+            onLeave={() => setHovered(null)}
+            compact
+          />
+        </div>
+      </div>
+
+      {/* Connector center-to-bottom */}
+      <div style={{ display: "flex", justifyContent: "center", height: 32 }}>
+        <div
+          style={{
+            width: 2,
+            height: "100%",
+            background: `linear-gradient(to bottom, ${COLORS.petroleum}60, ${pillars[2].accent}60)`,
+            opacity: inView ? 1 : 0,
+            transition: "opacity 0.5s ease 750ms",
+          }}
+        />
+      </div>
+
+      {/* BOTTOM card */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          opacity: inView ? 1 : 0,
+          transform: inView ? "translateY(0)" : "translateY(16px)",
+          transition: "opacity 0.7s ease 1100ms, transform 0.7s ease 1100ms",
+        }}
+      >
+        <div style={{ width: "min(320px, 100%)" }}>
+          <PillarCard
+            pillar={pillars[2]}
+            hovered={hovered === 2}
+            onEnter={() => setHovered(2)}
+            onLeave={() => setHovered(null)}
+            compact
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -231,7 +470,7 @@ export default function Strategy() {
           zIndex: 10,
         }}
       >
-        {/* 3-color gradient top line */}
+        {/* 3-color top line */}
         <div
           style={{
             position: "absolute",
@@ -383,12 +622,11 @@ export default function Strategy() {
           zIndex: 10,
         }}
       >
-        {/* Desktop */}
+        {/* ── DESKTOP DIAMOND ── */}
         <div
           className="strategy-desktop"
           style={{ position: "relative", height: 700, ...vis(400) }}
         >
-          {/* SVG */}
           <svg
             style={{
               position: "absolute",
@@ -425,12 +663,12 @@ export default function Strategy() {
               strokeWidth="1"
             />
 
-            {/* Spokes — each in its pillar color */}
+            {/* SOLID spokes */}
             {[
               { x2: "50%", y2: "8%", color: COLORS.petroleum, delay: 600 },
-              { x2: "90%", y2: "50%", color: COLORS.gold, delay: 700 },
+              { x2: "87%", y2: "50%", color: COLORS.gold, delay: 700 },
               { x2: "50%", y2: "92%", color: COLORS.crimson, delay: 800 },
-              { x2: "10%", y2: "50%", color: COLORS.rose, delay: 900 },
+              { x2: "13%", y2: "50%", color: COLORS.rose, delay: 900 },
             ].map((l, i) => (
               <line
                 key={i}
@@ -439,9 +677,8 @@ export default function Strategy() {
                 x2={l.x2}
                 y2={l.y2}
                 stroke={l.color}
-                strokeOpacity="0.4"
-                strokeWidth="1.5"
-                strokeDasharray="5 4"
+                strokeOpacity="0.5"
+                strokeWidth="1.8"
                 style={{
                   opacity: inView ? 1 : 0,
                   transition: `opacity 0.7s ease ${l.delay}ms`,
@@ -449,12 +686,12 @@ export default function Strategy() {
               />
             ))}
 
-            {/* Diamond outline */}
+            {/* Diamond outline — solid */}
             {[
-              ["50%", "8%", "90%", "50%"],
-              ["90%", "50%", "50%", "92%"],
-              ["50%", "92%", "10%", "50%"],
-              ["10%", "50%", "50%", "8%"],
+              ["50%", "8%", "87%", "50%"],
+              ["87%", "50%", "50%", "92%"],
+              ["50%", "92%", "13%", "50%"],
+              ["13%", "50%", "50%", "8%"],
             ].map(([x1, y1, x2, y2], i) => (
               <line
                 key={i}
@@ -462,9 +699,8 @@ export default function Strategy() {
                 y1={y1}
                 x2={x2}
                 y2={y2}
-                stroke="url(#sg1)"
+                stroke={`${COLORS.gold}35`}
                 strokeWidth="1"
-                strokeDasharray="4 7"
                 style={{
                   opacity: inView ? 1 : 0,
                   transition: `opacity 0.7s ease ${1000 + i * 100}ms`,
@@ -475,9 +711,9 @@ export default function Strategy() {
             {/* Endpoint dots */}
             {[
               { cx: "50%", cy: "8%", fill: COLORS.petroleum },
-              { cx: "90%", cy: "50%", fill: COLORS.gold },
+              { cx: "87%", cy: "50%", fill: COLORS.gold },
               { cx: "50%", cy: "92%", fill: COLORS.crimson },
-              { cx: "10%", cy: "50%", fill: COLORS.rose },
+              { cx: "13%", cy: "50%", fill: COLORS.rose },
             ].map((d, i) => (
               <circle
                 key={i}
@@ -485,7 +721,7 @@ export default function Strategy() {
                 cy={d.cy}
                 r="5"
                 fill={d.fill}
-                fillOpacity="0.55"
+                fillOpacity="0.6"
                 style={{
                   opacity: inView ? 1 : 0,
                   transition: `opacity 0.6s ease ${650 + i * 150}ms`,
@@ -507,7 +743,9 @@ export default function Strategy() {
               marginLeft: -80,
               zIndex: 20,
               opacity: inView ? 1 : 0,
-              transition: "opacity 0.8s ease 500ms",
+              transform: inView ? "scale(1)" : "scale(0.7)",
+              transition:
+                "opacity 0.8s ease 500ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) 500ms",
             }}
           >
             <div
@@ -531,7 +769,6 @@ export default function Strategy() {
                   position: "absolute",
                   inset: 0,
                   borderRadius: "50%",
-                  pointerEvents: "none",
                   backgroundImage:
                     "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
                   backgroundSize: "10px 10px",
@@ -543,7 +780,6 @@ export default function Strategy() {
                   position: "absolute",
                   inset: 10,
                   borderRadius: "50%",
-                  pointerEvents: "none",
                   border: `1px solid ${COLORS.gold}25`,
                 }}
               />
@@ -591,13 +827,13 @@ export default function Strategy() {
             </div>
           </div>
 
-          {/* TOP card */}
+          {/* TOP */}
           <div
             style={{
               position: "absolute",
               top: 0,
               left: "50%",
-              marginLeft: -120,
+              marginLeft: -115,
               zIndex: 10,
               opacity: inView ? 1 : 0,
               transform: inView ? "translateY(0)" : "translateY(-16px)",
@@ -612,7 +848,7 @@ export default function Strategy() {
             />
           </div>
 
-          {/* RIGHT card */}
+          {/* RIGHT */}
           <div
             style={{
               position: "absolute",
@@ -633,13 +869,13 @@ export default function Strategy() {
             />
           </div>
 
-          {/* BOTTOM card */}
+          {/* BOTTOM */}
           <div
             style={{
               position: "absolute",
               bottom: 0,
               left: "50%",
-              marginLeft: -120,
+              marginLeft: -115,
               zIndex: 10,
               opacity: inView ? 1 : 0,
               transform: inView ? "translateY(0)" : "translateY(16px)",
@@ -654,7 +890,7 @@ export default function Strategy() {
             />
           </div>
 
-          {/* LEFT card */}
+          {/* LEFT */}
           <div
             style={{
               position: "absolute",
@@ -677,79 +913,16 @@ export default function Strategy() {
           </div>
         </div>
 
-        {/* Mobile */}
+        {/* ── MOBILE DIAMOND ── */}
         <div className="strategy-mobile" style={{ display: "none" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: 40,
-            }}
-          >
-            <div
-              style={{
-                width: 140,
-                height: 140,
-                borderRadius: "50%",
-                background: COLORS.petroleum,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 0 0 12px ${COLORS.petroleum}10, 0 20px 50px ${COLORS.petroleum}30`,
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "Helvetica, Arial, sans-serif",
-                  fontSize: 8,
-                  fontWeight: 700,
-                  color: `${COLORS.gold}80`,
-                  letterSpacing: "4px",
-                  textTransform: "uppercase",
-                  marginBottom: 6,
-                }}
-              >
-                CORE
-              </span>
-              <span
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 26,
-                  fontWeight: 900,
-                  color: COLORS.white,
-                }}
-              >
-                المعرفة
-              </span>
-              <span
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 10,
-                  color: "rgba(255,255,255,0.5)",
-                  marginTop: 4,
-                }}
-              >
-                المحور المركزي
-              </span>
-            </div>
-          </div>
-          <div
-            style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}
-          >
-            {pillars.map((p, i) => (
-              <PillarCard
-                key={i}
-                pillar={p}
-                hovered={hovered === i}
-                onEnter={() => setHovered(i)}
-                onLeave={() => setHovered(null)}
-              />
-            ))}
-          </div>
+          <MobileDiamond
+            hovered={hovered}
+            setHovered={setHovered}
+            inView={inView}
+          />
         </div>
 
-        {/* Summary strip */}
+        {/* ── SUMMARY STRIP ── */}
         <div
           style={{
             display: "grid",
@@ -858,6 +1031,7 @@ export default function Strategy() {
             boxShadow: `0 32px 80px ${COLORS.petroleum}25`,
           }}
         >
+          {/* Gold top line */}
           <div
             style={{
               position: "absolute",
@@ -868,6 +1042,8 @@ export default function Strategy() {
               background: COLORS.gold,
             }}
           />
+
+          {/* Dot texture */}
           <div
             aria-hidden
             style={{
@@ -879,6 +1055,8 @@ export default function Strategy() {
               backgroundSize: "20px 20px",
             }}
           />
+
+          {/* Decorative circle */}
           <div
             aria-hidden
             style={{
@@ -893,6 +1071,7 @@ export default function Strategy() {
             }}
           />
 
+          {/* Left: text */}
           <div style={{ position: "relative", zIndex: 1 }}>
             <div
               style={{
@@ -930,7 +1109,7 @@ export default function Strategy() {
                 fontWeight: 900,
                 color: COLORS.white,
                 margin: "0 0 10px",
-                lineHeight: 1.2,
+                lineHeight: 1.3,
               }}
             >
               التوجه نحو الرؤية
@@ -942,102 +1121,140 @@ export default function Strategy() {
                 fontWeight: 500,
                 color: "rgba(255,255,255,0.65)",
                 margin: 0,
+                lineHeight: 1.5,
               }}
             >
               التكاملية بين العناصر الأربعة تقودنا نحو تحقيق الرؤية
             </p>
           </div>
 
+          {/* Right: numbers in rectangle → arrow → star */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 8,
+              gap: 16,
               position: "relative",
               zIndex: 1,
               flexWrap: "wrap",
             }}
           >
-            {pillars.map((p, i) => (
-              <div
-                key={i}
-                style={{ display: "flex", alignItems: "center", gap: 8 }}
-              >
-                <div
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 12,
-                    background: "rgba(255,255,255,0.08)",
-                    border: `1px solid ${p.accent}50`,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "Helvetica, Arial, sans-serif",
-                      fontSize: 11,
-                      fontWeight: 800,
-                      color: p.accent,
-                    }}
-                  >
-                    {p.num}
-                  </span>
-                </div>
-                {i < pillars.length - 1 && (
-                  <div
-                    style={{
-                      width: 14,
-                      height: 1,
-                      background: "rgba(255,255,255,0.15)",
-                    }}
-                  />
-                )}
-              </div>
-            ))}
+            {/* Grouped rectangle containing 01–04 */}
             <div
               style={{
+                border: `1px solid rgba(255,255,255,0.18)`,
+                borderRadius: 16,
+                background: "rgba(255,255,255,0.06)",
+                padding: "14px 20px",
                 display: "flex",
                 alignItems: "center",
-                gap: 6,
-                marginRight: 4,
+                gap: 10,
               }}
             >
-              <svg width="22" height="10" viewBox="0 0 22 10" fill="none">
+              {pillars.map((p, i) => (
+                <div
+                  key={i}
+                  style={{ display: "flex", alignItems: "center", gap: 10 }}
+                >
+                  <div
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 11,
+                      background: "rgba(255,255,255,0.07)",
+                      border: `1.5px solid ${p.accent}60`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      transition: "background 0.3s ease",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: p.accent,
+                      }}
+                    >
+                      {p.num}
+                    </span>
+                  </div>
+                  {i < pillars.length - 1 && (
+                    <div
+                      style={{
+                        width: 10,
+                        height: 1,
+                        background: "rgba(255,255,255,0.12)",
+                      }}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Arrow pointing toward star (RTL: arrow points LEFT = toward star on left) */}
+            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              {/* Shaft */}
+              <div
+                style={{
+                  width: 32,
+                  height: 1.5,
+                  background: `${COLORS.gold}70`,
+                  borderRadius: 2,
+                }}
+              />
+              {/* Arrowhead pointing left */}
+              <svg
+                width="10"
+                height="14"
+                viewBox="0 0 10 14"
+                fill="none"
+                style={{ flexShrink: 0, marginRight: -2 }}
+              >
                 <path
-                  d="M0 5H20M20 5L15 1M20 5L15 9"
-                  stroke={`${COLORS.gold}60`}
-                  strokeWidth="1.5"
+                  d="M9 1L1 7L9 13"
+                  stroke={COLORS.gold}
+                  strokeWidth="2"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </div>
+
+            {/* Star destination */}
             <div
               style={{
-                width: 44,
-                height: 44,
-                borderRadius: 12,
+                width: 52,
+                height: 52,
+                borderRadius: 14,
                 background: `${COLORS.gold}20`,
                 border: `2px solid ${COLORS.gold}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: `0 8px 20px ${COLORS.gold}30`,
+                boxShadow: `0 8px 24px ${COLORS.gold}35`,
+                flexShrink: 0,
               }}
             >
-              <span style={{ color: COLORS.gold, fontSize: 18 }}>✦</span>
+              <span style={{ color: COLORS.gold, fontSize: 22 }}>✦</span>
             </div>
           </div>
         </div>
       </div>
 
       <style>{`
+        @media (min-width: 1025px) {
+          .strategy-desktop { display: block !important; }
+          .strategy-mobile  { display: none !important; }
+        }
         @media (max-width: 1024px) {
           .strategy-desktop { display: none !important; }
           .strategy-mobile  { display: block !important; }
           .strategy-strip   { grid-template-columns: repeat(2,1fr) !important; }
+        }
+        @media (max-width: 600px) {
+          .strategy-strip { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
