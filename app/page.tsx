@@ -6,6 +6,7 @@ import Strategy from "./comps/Strategy";
 import Models from "./comps/Models";
 import CTA from "./comps/CTA";
 import Footer from "./comps/Footer";
+import Partners from "./comps/Partners";
 export default function Home() {
   return (
     <main dir="rtl" className="min-h-screen bg-[#F7FAF8] text-[#1A2E2F]">
@@ -15,6 +16,7 @@ export default function Home() {
       <Why />
       <Strategy />
       <Models />
+      <Partners />
       <CTA />
       <Footer />
     </main>
