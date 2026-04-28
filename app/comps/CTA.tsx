@@ -229,6 +229,7 @@ export default function CTA() {
                     color: COLORS.petroleum,
                     position: "relative",
                     display: "inline-block",
+                    paddingBottom: 6,
                   }}
                 >
                   منظومة

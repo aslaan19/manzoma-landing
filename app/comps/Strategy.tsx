@@ -308,6 +308,7 @@ export default function Strategy() {
                     color: COLORS.petroleum,
                     position: "relative",
                     display: "inline-block",
+                    paddingBottom: 6,
                   }}
                 >
                   منظومة

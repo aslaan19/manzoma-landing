@@ -188,6 +188,7 @@ export default function Why() {
                     color: COLORS.petroleum,
                     position: "relative",
                     display: "inline-block",
+                    paddingBottom: 6,
                   }}
                 >
                   منظومة؟
@@ -198,6 +199,7 @@ export default function Why() {
                       right: 0,
                       left: 0,
                       height: 3,
+
                       background: COLORS.gold,
                       transformOrigin: "right",
                       transform: inView ? "scaleX(1)" : "scaleX(0)",
@@ -252,447 +254,512 @@ export default function Why() {
       </div>
 
       {/* ══════════════════════════════════════════
-          TAB STRIP — 4 colored tabs
+          MAIN INTERACTIVE SECTION
       ══════════════════════════════════════════ */}
       <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(4,1fr)",
-          gap: 1,
-          background: COLORS.border,
-          borderBottom: `1px solid ${COLORS.border}`,
-          ...vis(320),
-        }}
-        className="why-tabs"
+        style={{ maxWidth: 1280, margin: "0 auto", padding: "64px 24px 104px" }}
       >
-        {reasons.map((r, i) => (
-          <button
-            key={i}
-            onClick={() => handleSetActive(i)}
-            style={{
-              background: active === i ? COLORS.petroleum : COLORS.white,
-              border: "none",
-              cursor: "pointer",
-              padding: "22px 28px",
-              textAlign: "right",
-              position: "relative",
-              transition: "background 0.3s ease",
-            }}
-          >
-            {/* Colored top bar */}
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                left: 0,
-                height: 3,
-                background: active === i ? COLORS.gold : r.accent,
-                opacity: active === i ? 1 : 0.4,
-                transition: "opacity 0.3s ease",
-              }}
-            />
-            <p
-              style={{
-                fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 10,
-                fontWeight: 800,
-                color: active === i ? "rgba(255,255,255,0.45)" : COLORS.gold,
-                letterSpacing: "2px",
-                margin: "0 0 8px",
-                transition: "color 0.3s ease",
-              }}
-            >
-              {r.num}
-            </p>
-            <p
-              style={{
-                fontFamily: "'Beiruti', sans-serif",
-                fontSize: 16,
-                fontWeight: 800,
-                color: active === i ? COLORS.white : COLORS.ink,
-                margin: "0 0 4px",
-                lineHeight: 1.3,
-                transition: "color 0.3s ease",
-              }}
-            >
-              {r.tag}
-            </p>
-            <p
-              style={{
-                fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 9,
-                fontWeight: 600,
-                color:
-                  active === i ? "rgba(255,255,255,0.35)" : COLORS.inkMuted,
-                letterSpacing: "1.5px",
-                textTransform: "uppercase",
-                margin: 0,
-                transition: "color 0.3s ease",
-              }}
-            >
-              {r.en}
-            </p>
-          </button>
-        ))}
-      </div>
-
-      {/* ══════════════════════════════════════════
-          SPLIT PANEL
-      ══════════════════════════════════════════ */}
-      <div
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px 104px" }}
-      >
+        {/* ── 4 FLOATING REASON CARDS ── */}
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 1,
-            background: COLORS.border,
-            borderRadius: "0 0 24px 24px",
-            overflow: "hidden",
-            boxShadow: "0 40px 100px rgba(1,90,98,0.08)",
+            gridTemplateColumns: "repeat(4,1fr)",
+            gap: 12,
+            marginBottom: 16,
+            ...vis(320),
           }}
-          className="why-panel"
+          className="why-tabs"
         >
-          {/* LEFT — detail */}
-          <div
-            style={{
-              background: COLORS.offwhite,
-              padding: "64px 60px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              position: "relative",
-              overflow: "hidden",
-              minHeight: 480,
-            }}
-          >
-            {/* Giant watermark */}
-            <div
-              aria-hidden
+          {reasons.map((r, i) => (
+            <button
+              key={i}
+              onClick={() => handleSetActive(i)}
               style={{
-                position: "absolute",
-                bottom: -28,
-                left: -8,
-                fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 240,
-                fontWeight: 900,
-                color: `${COLORS.petroleum}05`,
-                lineHeight: 1,
-                letterSpacing: -12,
-                userSelect: "none",
-                pointerEvents: "none",
-              }}
-            >
-              {reasons[active].num}
-            </div>
-
-            {/* Accent line — uses each reason's color */}
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                left: 0,
-                height: 4,
-                background: reasons[active].accent,
-                transition: "background 0.4s ease",
-              }}
-            />
-
-            {/* Content — animates on tab change */}
-            <div
-              key={animKey}
-              style={{
+                background: active === i ? r.accent : COLORS.white,
+                border: `1.5px solid ${active === i ? r.accent : COLORS.border}`,
+                borderRadius: 20,
+                cursor: "pointer",
+                padding: "28px 28px 24px",
+                textAlign: "right",
                 position: "relative",
-                zIndex: 1,
-                animation: "fadeSlideUp 0.45s ease forwards",
+                overflow: "hidden",
+                transition: "all 0.3s ease",
+                boxShadow:
+                  active === i
+                    ? `0 20px 48px ${r.accent}30`
+                    : "0 4px 16px rgba(1,90,98,0.04)",
+                transform: active === i ? "translateY(-3px)" : "translateY(0)",
+              }}
+              onMouseEnter={(e) => {
+                if (active !== i) {
+                  (e.currentTarget as HTMLElement).style.borderColor = r.accent;
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(-2px)";
+                  (e.currentTarget as HTMLElement).style.boxShadow =
+                    `0 12px 32px ${r.accent}18`;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (active !== i) {
+                  (e.currentTarget as HTMLElement).style.borderColor =
+                    COLORS.border;
+                  (e.currentTarget as HTMLElement).style.transform =
+                    "translateY(0)";
+                  (e.currentTarget as HTMLElement).style.boxShadow =
+                    "0 4px 16px rgba(1,90,98,0.04)";
+                }
               }}
             >
-              {/* Accent badge */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  height: 3,
+                  background: r.accent,
+                  opacity: active === i ? 0.6 : 0.25,
+                  transition: "opacity 0.3s ease",
+                }}
+              />
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  bottom: -12,
+                  left: 8,
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 80,
+                  fontWeight: 900,
+                  color:
+                    active === i ? "rgba(255,255,255,0.12)" : `${r.accent}10`,
+                  lineHeight: 1,
+                  letterSpacing: -4,
+                  userSelect: "none",
+                  pointerEvents: "none",
+                  transition: "color 0.3s ease",
+                }}
+              >
+                {r.num}
+              </div>
               <div
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: 8,
-                  background: COLORS.white,
-                  border: `1px solid ${COLORS.border}`,
-                  borderRadius: 999,
-                  padding: "7px 18px",
-                  marginBottom: 28,
-                  borderRight: `3px solid ${reasons[active].accent}`,
+                  justifyContent: "center",
+                  width: 36,
+                  height: 36,
+                  borderRadius: 10,
+                  background:
+                    active === i ? "rgba(255,255,255,0.2)" : `${r.accent}10`,
+                  border: `1px solid ${active === i ? "rgba(255,255,255,0.3)" : `${r.accent}25`}`,
+                  marginBottom: 20,
+                  transition: "all 0.3s ease",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontSize: 11,
+                    fontWeight: 800,
+                    color: active === i ? COLORS.white : r.accent,
+                    letterSpacing: "0.5px",
+                    transition: "color 0.3s ease",
+                  }}
+                >
+                  {r.num}
+                </span>
+              </div>
+              <p
+                style={{
+                  fontFamily: "'Beiruti', sans-serif",
+                  fontSize: 20,
+                  fontWeight: 900,
+                  color: active === i ? COLORS.white : COLORS.ink,
+                  margin: "0 0 6px",
+                  lineHeight: 1.25,
+                  transition: "color 0.3s ease",
+                }}
+              >
+                {r.tag}
+              </p>
+              <p
+                style={{
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 9,
+                  fontWeight: 700,
+                  color:
+                    active === i ? "rgba(255,255,255,0.5)" : COLORS.inkMuted,
+                  letterSpacing: "2px",
+                  textTransform: "uppercase",
+                  margin: "0 0 16px",
+                  transition: "color 0.3s ease",
+                }}
+              >
+                {r.en}
+              </p>
+              <div
+                style={{
+                  width: active === i ? 32 : 0,
+                  height: 2,
+                  background: active === i ? "rgba(255,255,255,0.6)" : r.accent,
+                  borderRadius: 2,
+                  transition: "width 0.35s ease",
+                }}
+              />
+            </button>
+          ))}
+        </div>
+
+        {/* ── DETAIL PANEL ── */}
+        <div
+          style={{
+            background: COLORS.white,
+            borderRadius: 24,
+            border: `1px solid ${COLORS.border}`,
+            overflow: "hidden",
+            boxShadow: `0 32px 80px rgba(1,90,98,0.07)`,
+            ...vis(420),
+          }}
+        >
+          <div
+            style={{
+              height: 4,
+              background: reasons[active].accent,
+              transition: "background 0.4s ease",
+            }}
+          />
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              minHeight: 380,
+            }}
+            className="why-panel"
+          >
+            {/* LEFT — content */}
+            <div
+              style={{
+                padding: "56px 60px",
+                position: "relative",
+                overflow: "hidden",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                borderLeft: `1px solid ${COLORS.border}`,
+              }}
+            >
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  bottom: -20,
+                  left: -8,
+                  fontFamily: "Helvetica, Arial, sans-serif",
+                  fontSize: 220,
+                  fontWeight: 900,
+                  color: `${reasons[active].accent}06`,
+                  lineHeight: 1,
+                  letterSpacing: -10,
+                  userSelect: "none",
+                  pointerEvents: "none",
+                  transition: "color 0.4s ease",
+                }}
+              >
+                {reasons[active].num}
+              </div>
+              <div
+                key={animKey}
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  animation: "fadeSlideUp 0.4s ease forwards",
                 }}
               >
                 <div
                   style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: reasons[active].accent,
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: reasons[active].accent,
-                    letterSpacing: "3px",
-                    textTransform: "uppercase",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: `${reasons[active].accent}0E`,
+                    border: `1px solid ${reasons[active].accent}30`,
+                    borderRadius: 999,
+                    padding: "6px 16px",
+                    marginBottom: 28,
                   }}
                 >
-                  {reasons[active].en}
-                </span>
-              </div>
-
-              <h3
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(26px, 3vw, 40px)",
-                  fontWeight: 900,
-                  color: COLORS.ink,
-                  lineHeight: 1.4,
-                  margin: "0 0 20px",
-                  letterSpacing: -0.5,
-                }}
-              >
-                {reasons[active].ar}
-              </h3>
-
-              {/* Divider using accent color */}
-              <div
-                style={{
-                  width: 40,
-                  height: 2,
-                  background: reasons[active].accent,
-                  borderRadius: 2,
-                  marginBottom: 20,
-                  transition: "background 0.4s ease",
-                }}
-              />
-
-              <p
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 17,
-                  fontWeight: 500,
-                  color: COLORS.inkSoft,
-                  lineHeight: 2.1,
-                  margin: 0,
-                }}
-              >
-                {reasons[active].desc}
-              </p>
-            </div>
-
-            {/* Bottom nav */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginTop: 48,
-                position: "relative",
-                zIndex: 1,
-              }}
-            >
-              {/* Progress dots */}
-              <div style={{ display: "flex", gap: 6 }}>
-                {reasons.map((r, i) => (
-                  <button
-                    key={i}
-                    onClick={() => handleSetActive(i)}
+                  <div
                     style={{
-                      width: active === i ? 32 : 8,
-                      height: 8,
-                      borderRadius: 999,
-                      background:
-                        active === i ? reasons[active].accent : COLORS.border,
-                      border: "none",
-                      cursor: "pointer",
-                      padding: 0,
-                      transition: "all 0.35s ease",
+                      width: 5,
+                      height: 5,
+                      borderRadius: "50%",
+                      background: reasons[active].accent,
                     }}
                   />
-                ))}
-              </div>
-
-              {/* Arrows */}
-              <div style={{ display: "flex", gap: 8 }}>
-                {[
-                  {
-                    onClick: () =>
-                      handleSetActive(
-                        (active - 1 + reasons.length) % reasons.length,
-                      ),
-                    dir: "prev",
-                  },
-                  {
-                    onClick: () =>
-                      handleSetActive((active + 1) % reasons.length),
-                    dir: "next",
-                  },
-                ].map(({ onClick, dir }) => (
-                  <button
-                    key={dir}
-                    onClick={onClick}
+                  <span
                     style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 12,
-                      background: COLORS.white,
-                      border: `1px solid ${COLORS.border}`,
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 9,
+                      fontWeight: 700,
+                      color: reasons[active].accent,
+                      letterSpacing: "3px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {reasons[active].en}
+                  </span>
+                </div>
+                <h3
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: "clamp(26px, 2.8vw, 40px)",
+                    fontWeight: 900,
+                    color: COLORS.ink,
+                    lineHeight: 1.4,
+                    margin: "0 0 20px",
+                    letterSpacing: -0.5,
+                  }}
+                >
+                  {reasons[active].ar}
+                </h3>
+                <div
+                  style={{
+                    width: 44,
+                    height: 3,
+                    borderRadius: 2,
+                    background: reasons[active].accent,
+                    marginBottom: 20,
+                    transition: "background 0.4s ease",
+                  }}
+                />
+                <p
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 17,
+                    fontWeight: 500,
+                    color: COLORS.inkSoft,
+                    lineHeight: 2.1,
+                    margin: 0,
+                    maxWidth: 440,
+                  }}
+                >
+                  {reasons[active].desc}
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginTop: 44,
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                <div style={{ display: "flex", gap: 6 }}>
+                  {reasons.map((r, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSetActive(i)}
+                      style={{
+                        width: active === i ? 32 : 8,
+                        height: 8,
+                        borderRadius: 999,
+                        background:
+                          active === i ? reasons[active].accent : COLORS.border,
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 0,
+                        transition: "all 0.35s ease",
+                      }}
+                    />
+                  ))}
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {[
+                    {
+                      onClick: () =>
+                        handleSetActive(
+                          (active - 1 + reasons.length) % reasons.length,
+                        ),
+                      dir: "prev",
+                    },
+                    {
+                      onClick: () =>
+                        handleSetActive((active + 1) % reasons.length),
+                      dir: "next",
+                    },
+                  ].map(({ onClick, dir }) => (
+                    <button
+                      key={dir}
+                      onClick={onClick}
+                      style={{
+                        width: 44,
+                        height: 44,
+                        borderRadius: 12,
+                        background: COLORS.offwhite,
+                        border: `1px solid ${COLORS.border}`,
+                        cursor: "pointer",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        transition: "all 0.2s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLElement).style.background =
+                          COLORS.petroleum;
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                          COLORS.petroleum;
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLElement).style.background =
+                          COLORS.offwhite;
+                        (e.currentTarget as HTMLElement).style.borderColor =
+                          COLORS.border;
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderTop: `2px solid ${COLORS.inkMuted}`,
+                          [dir === "prev" ? "borderRight" : "borderLeft"]:
+                            `2px solid ${COLORS.inkMuted}`,
+                          transform:
+                            dir === "prev" ? "rotate(45deg)" : "rotate(-45deg)",
+                          [dir === "prev" ? "marginRight" : "marginLeft"]: 2,
+                        }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT — list */}
+            <div style={{ background: COLORS.offwhite }}>
+              {reasons.map((r, i) => (
+                <div key={i} style={visX(400 + i * 90)}>
+                  <button
+                    onClick={() => handleSetActive(i)}
+                    style={{
+                      width: "100%",
+                      border: "none",
+                      textAlign: "right",
                       cursor: "pointer",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
-                      transition: "all 0.2s ease",
+                      gap: 18,
+                      padding: "26px 32px",
+                      background: active === i ? COLORS.white : "transparent",
+                      borderBottom:
+                        i < reasons.length - 1
+                          ? `1px solid ${COLORS.border}`
+                          : "none",
+                      borderRight: `4px solid ${active === i ? r.accent : "transparent"}`,
+                      transition: "all 0.25s ease",
                     }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.background =
-                        COLORS.petroleum;
-                      (e.currentTarget as HTMLElement).style.borderColor =
-                        COLORS.petroleum;
+                      if (active !== i)
+                        (e.currentTarget as HTMLElement).style.background =
+                          `${COLORS.white}80`;
                     }}
                     onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.background =
-                        COLORS.white;
-                      (e.currentTarget as HTMLElement).style.borderColor =
-                        COLORS.border;
+                      if (active !== i)
+                        (e.currentTarget as HTMLElement).style.background =
+                          "transparent";
                     }}
                   >
                     <div
                       style={{
-                        width: 8,
-                        height: 8,
-                        borderTop: `2px solid ${COLORS.inkMuted}`,
-                        [dir === "prev" ? "borderRight" : "borderLeft"]:
-                          `2px solid ${COLORS.inkMuted}`,
-                        transform:
-                          dir === "prev" ? "rotate(45deg)" : "rotate(-45deg)",
-                        [dir === "prev" ? "marginRight" : "marginLeft"]: 2,
+                        width: 52,
+                        height: 52,
+                        borderRadius: 16,
+                        flexShrink: 0,
+                        background: active === i ? r.accent : COLORS.white,
+                        border: `1.5px solid ${active === i ? r.accent : COLORS.border}`,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        boxShadow:
+                          active === i
+                            ? `0 8px 24px ${r.accent}30`
+                            : "0 2px 8px rgba(0,0,0,0.04)",
+                        transition: "all 0.25s ease",
                       }}
-                    />
+                    >
+                      <span
+                        style={{
+                          fontFamily: "Helvetica, Arial, sans-serif",
+                          fontSize: 14,
+                          fontWeight: 900,
+                          color: active === i ? COLORS.white : r.accent,
+                          transition: "color 0.25s ease",
+                        }}
+                      >
+                        {r.num}
+                      </span>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <p
+                        style={{
+                          fontFamily: "'Beiruti', sans-serif",
+                          fontSize: 16,
+                          fontWeight: 800,
+                          color: active === i ? r.accent : COLORS.ink,
+                          margin: "0 0 4px",
+                          lineHeight: 1.4,
+                          transition: "color 0.25s ease",
+                        }}
+                      >
+                        {r.ar}
+                      </p>
+                      <p
+                        style={{
+                          fontFamily: "Helvetica, Arial, sans-serif",
+                          fontSize: 9,
+                          fontWeight: 700,
+                          color:
+                            active === i ? `${r.accent}90` : COLORS.inkMuted,
+                          letterSpacing: "2px",
+                          textTransform: "uppercase",
+                          margin: 0,
+                          transition: "color 0.25s ease",
+                        }}
+                      >
+                        {r.en}
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: 8,
+                        flexShrink: 0,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        background:
+                          active === i ? `${r.accent}12` : "transparent",
+                        border: `1px solid ${active === i ? `${r.accent}30` : "transparent"}`,
+                        transition: "all 0.25s ease",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 6,
+                          height: 6,
+                          borderTop: `2px solid ${active === i ? r.accent : COLORS.border}`,
+                          borderLeft: `2px solid ${active === i ? r.accent : COLORS.border}`,
+                          transform: "rotate(-45deg)",
+                          transition: "border-color 0.25s ease",
+                        }}
+                      />
+                    </div>
                   </button>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
-          </div>
-
-          {/* RIGHT — list */}
-          <div style={{ background: COLORS.white }}>
-            {reasons.map((r, i) => (
-              <div key={i} style={visX(380 + i * 100)}>
-                <button
-                  onClick={() => handleSetActive(i)}
-                  style={{
-                    width: "100%",
-                    border: "none",
-                    textAlign: "right",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 20,
-                    padding: "32px 36px",
-                    background: active === i ? COLORS.offwhite : COLORS.white,
-                    borderBottom:
-                      i < reasons.length - 1
-                        ? `1px solid ${COLORS.border}`
-                        : "none",
-                    borderRight: `4px solid ${active === i ? r.accent : "transparent"}`,
-                    transition: "all 0.25s ease",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (active !== i) {
-                      (e.currentTarget as HTMLElement).style.background =
-                        COLORS.offwhite;
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (active !== i) {
-                      (e.currentTarget as HTMLElement).style.background =
-                        COLORS.white;
-                    }
-                  }}
-                >
-                  {/* Number badge */}
-                  <div
-                    style={{
-                      width: 48,
-                      height: 48,
-                      borderRadius: 14,
-                      flexShrink: 0,
-                      background: active === i ? r.accent : COLORS.offwhite,
-                      border: `1px solid ${active === i ? r.accent : COLORS.border}`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      boxShadow:
-                        active === i ? `0 8px 24px ${r.accent}30` : "none",
-                      transition: "all 0.25s ease",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Helvetica, Arial, sans-serif",
-                        fontSize: 13,
-                        fontWeight: 800,
-                        color: active === i ? COLORS.white : COLORS.petroleum,
-                        transition: "color 0.25s ease",
-                      }}
-                    >
-                      {r.num}
-                    </span>
-                  </div>
-
-                  {/* Text */}
-                  <div style={{ flex: 1, textAlign: "right" }}>
-                    <p
-                      style={{
-                        fontFamily: "'Beiruti', sans-serif",
-                        fontSize: 17,
-                        fontWeight: 800,
-                        color: active === i ? r.accent : COLORS.ink,
-                        margin: "0 0 5px",
-                        lineHeight: 1.4,
-                        transition: "color 0.25s ease",
-                      }}
-                    >
-                      {r.ar}
-                    </p>
-                    <p
-                      style={{
-                        fontFamily: "Helvetica, Arial, sans-serif",
-                        fontSize: 9,
-                        fontWeight: 700,
-                        color: active === i ? r.accent : COLORS.inkMuted,
-                        letterSpacing: "2.5px",
-                        textTransform: "uppercase",
-                        margin: 0,
-                        opacity: active === i ? 0.7 : 1,
-                        transition: "color 0.25s ease",
-                      }}
-                    >
-                      {r.en}
-                    </p>
-                  </div>
-
-                  {/* Chevron */}
-                  <div
-                    style={{
-                      width: 7,
-                      height: 7,
-                      flexShrink: 0,
-                      borderTop: `2px solid ${active === i ? r.accent : COLORS.border}`,
-                      borderLeft: `2px solid ${active === i ? r.accent : COLORS.border}`,
-                      transform: "rotate(-45deg)",
-                      transition: "border-color 0.25s ease",
-                    }}
-                  />
-                </button>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -701,6 +768,10 @@ export default function Why() {
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
+        }
+        @media (max-width: 1024px) {
+          .why-header-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+          .why-chips { grid-template-columns: 1fr 1fr !important; }
         }
         @media (max-width: 900px) {
           .why-tabs  { grid-template-columns: repeat(2,1fr) !important; }

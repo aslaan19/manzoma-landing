@@ -34,18 +34,16 @@ function ManzomLogo() {
         gap: "12px",
       }}
     >
-      <Image
-        src="/logo.png"
-        alt="منظومة - Manzoma"
-        width={380}
-        height={100}
-        style={{
-          objectFit: "contain",
-          width: "auto",
-          height: "50px",
-        }}
-        priority
-      />
+      {/* Logo */}
+      <div style={{ marginTop: 8 }}>
+        <Image
+          src="/logo.png"
+          alt="منظومة - Manzoma"
+          width={160}
+          height={72}
+          style={{ objectFit: "contain" }}
+        />
+      </div>
     </a>
   );
 }

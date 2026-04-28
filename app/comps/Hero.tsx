@@ -133,7 +133,6 @@ function useTyping(words: string[], speed = 85, pause = 2000) {
   useEffect(() => {
     const current = words[wordIdx];
     let timeout: ReturnType<typeof setTimeout>;
-
     if (!deleting && charIdx < current.length) {
       timeout = setTimeout(() => setCharIdx((i) => i + 1), speed);
     } else if (!deleting && charIdx === current.length) {
@@ -144,7 +143,6 @@ function useTyping(words: string[], speed = 85, pause = 2000) {
       setDeleting(false);
       setWordIdx((i) => (i + 1) % words.length);
     }
-
     setDisplayed(current.slice(0, charIdx));
     return () => clearTimeout(timeout);
   }, [charIdx, deleting, wordIdx, words, speed, pause]);
@@ -168,7 +166,6 @@ export default function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  // Sync active element with typed word
   useEffect(() => {
     const idx = elements.findIndex(
       (e) => e.ar.startsWith(typedWord.slice(0, 3)) && typedWord.length > 2,
@@ -197,7 +194,7 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* ── BACKGROUNDS ── */}
+      {/* Background grid */}
       <div
         aria-hidden
         style={{
@@ -211,16 +208,18 @@ export default function Hero() {
           backgroundSize: "56px 56px",
         }}
       />
+
+      {/* Radial glow */}
       <div
         aria-hidden
         style={{
           position: "absolute",
-          top: "40%",
+          top: "45%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "80vw",
-          height: "80vw",
-          maxWidth: 900,
+          width: "70vw",
+          height: "70vw",
+          maxWidth: 800,
           borderRadius: "50%",
           background: `radial-gradient(circle, ${COLORS.petroleum}07 0%, transparent 65%)`,
           pointerEvents: "none",
@@ -315,42 +314,59 @@ export default function Hero() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "100px 24px 48px",
+          padding: "100px 24px 40px",
           position: "relative",
           zIndex: 10,
           textAlign: "center",
         }}
       >
-        {/* Logo — BIG */}
-        <Image
-          src="/logo.png"
-          alt="منظومة - Manzoma"
-          width={840}
-          height={420}
+        {/* ── LOGO — crop internal PNG padding with negative margins ── */}
+        <div
           style={{
-            objectFit: "contain",
-            width: "clamp(280px, 35vw, 520px)",
-            height: "auto",
-            mixBlendMode: "multiply", // ← THIS removes the black background
+            // Crop the whitespace inside the PNG file
+            // by using a fixed height container + overflow hidden
+            width: "clamp(280px, 38vw, 500px)",
+            overflow: "hidden",
+            // Pull content up/down to remove internal padding
+            marginTop: "-5%",
+            marginBottom: "0px",
+            ...stagger(100),
           }}
-          priority
-        />
-        {/* Gold divider */}
-        <div style={{ marginBottom: 40, ...stagger(280) }}>
-          <div
+        >
+          <Image
+            src="/logo.png"
+            alt="منظومة - Manzoma"
+            width={840}
+            height={600}
+            priority
             style={{
-              width: loaded ? 56 : 0,
-              height: 2,
-              background: COLORS.gold,
-              borderRadius: 2,
-              margin: "0 auto",
-              transition: "width 1s ease 400ms",
+              objectFit: "contain",
+              width: "100%",
+              height: "auto",
+              display: "block",
+              // Shift image up to crop top padding, and compensate bottom
+              marginTop: "-8%",
+              marginBottom: "-8%",
             }}
           />
         </div>
 
-        {/* Slogan line 1 — typing + static */}
-        <div style={{ marginBottom: 10, ...stagger(380) }}>
+        {/* Gold divider */}
+        <div style={{ marginBottom: 24, ...stagger(260) }}>
+          <div
+            style={{
+              width: loaded ? 48 : 0,
+              height: 2,
+              background: COLORS.gold,
+              borderRadius: 2,
+              margin: "0 auto",
+              transition: "width 1s ease 380ms",
+            }}
+          />
+        </div>
+
+        {/* Slogan line 1 — ب + typing word + نبني النمو */}
+        <div style={{ marginBottom: 6, ...stagger(360) }}>
           <h1
             style={{
               fontFamily: "'Beiruti', sans-serif",
@@ -360,14 +376,23 @@ export default function Hero() {
               lineHeight: 1.45,
               margin: 0,
               letterSpacing: -0.5,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 4,
+              flexWrap: "wrap",
             }}
           >
+            {/* Static ب prefix */}
+            <span style={{ color: COLORS.ink }}>بـ</span>
+
+            {/* Typing word + cursor */}
             <span
               style={{
                 color: currentAccent,
                 display: "inline-block",
-                minWidth: "clamp(120px, 14vw, 200px)",
-                textAlign: "right",
+                minWidth: "clamp(100px, 12vw, 190px)",
+                textAlign: "center",
                 transition: "color 0.4s ease",
               }}
             >
@@ -378,7 +403,7 @@ export default function Hero() {
                   width: 3,
                   height: "0.8em",
                   background: currentAccent,
-                  marginRight: 4,
+                  marginRight: 3,
                   marginBottom: -3,
                   borderRadius: 2,
                   animation: "cursorBlink 1s ease-in-out infinite",
@@ -386,13 +411,15 @@ export default function Hero() {
                   verticalAlign: "middle",
                 }}
               />
-            </span>{" "}
-            نبني النمو
+            </span>
+
+            {/* Static suffix */}
+            <span style={{ color: COLORS.ink }}>نبني النمو</span>
           </h1>
         </div>
 
         {/* Slogan line 2 */}
-        <div style={{ marginBottom: 44, ...stagger(460) }}>
+        <div style={{ marginBottom: 36, ...stagger(440) }}>
           <h1
             style={{
               fontFamily: "'Beiruti', sans-serif",
@@ -409,19 +436,17 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* ══════════════════════════════════════════
-            PILLARS SECTION — Centered with Icons
-        ══════════════════════════════════════════ */}
+        {/* ── 4 PILLARS ── */}
         <div
           style={{
-            marginBottom: 48,
-            padding: "40px 32px",
+            marginBottom: 40,
+            padding: "32px 32px 28px",
             borderRadius: 24,
             background: `linear-gradient(180deg, ${COLORS.white}90 0%, ${COLORS.offwhite}60 100%)`,
             backdropFilter: "blur(12px)",
             border: `1px solid ${COLORS.border}`,
             boxShadow: `0 8px 32px ${COLORS.petroleum}08`,
-            ...stagger(560),
+            ...stagger(540),
           }}
         >
           <div
@@ -429,15 +454,14 @@ export default function Hero() {
               display: "flex",
               flexWrap: "wrap",
               justifyContent: "center",
-              gap: "clamp(24px, 5vw, 64px)",
+              gap: "clamp(20px, 4vw, 56px)",
             }}
             className="pillars-grid"
           >
             {elements.map((el, i) => {
               const isActive = activeEl === i;
               const isHovered = hoveredEl === i;
-              const shouldHighlight = isActive || isHovered;
-
+              const highlight = isActive || isHovered;
               return (
                 <div
                   key={i}
@@ -447,93 +471,81 @@ export default function Hero() {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    gap: 16,
+                    gap: 12,
                     cursor: "pointer",
-                    padding: "20px 28px",
+                    padding: "16px 24px",
                     borderRadius: 16,
-                    background: shouldHighlight
-                      ? `${el.accent}08`
-                      : "transparent",
-                    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                    transform: shouldHighlight
-                      ? "translateY(-4px)"
-                      : "translateY(0)",
+                    background: highlight ? `${el.accent}08` : "transparent",
+                    transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
+                    transform: highlight ? "translateY(-4px)" : "translateY(0)",
                     opacity: loaded ? 1 : 0,
                     animation: loaded
                       ? `fadeSlideUp 0.8s ease ${700 + i * 120}ms both`
                       : "none",
                   }}
                 >
-                  {/* Icon Container with Animation */}
+                  {/* Icon circle */}
                   <div
                     style={{
-                      width: 72,
-                      height: 72,
+                      width: 68,
+                      height: 68,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: "50%",
-                      background: shouldHighlight
+                      background: highlight
                         ? `${el.accent}12`
                         : `${el.accent}06`,
-                      border: `1.5px solid ${shouldHighlight ? el.accent : `${el.accent}30`}`,
-                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      transform: shouldHighlight ? "scale(1.1)" : "scale(1)",
-                      boxShadow: shouldHighlight
+                      border: `1.5px solid ${highlight ? el.accent : `${el.accent}30`}`,
+                      transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
+                      transform: highlight ? "scale(1.1)" : "scale(1)",
+                      boxShadow: highlight
                         ? `0 8px 24px ${el.accent}25, 0 0 0 4px ${el.accent}08`
                         : `0 4px 12px ${el.accent}10`,
                     }}
                   >
-                    <div
-                      style={{
-                        transition: "transform 0.4s ease",
-                        transform: shouldHighlight ? "scale(1.05)" : "scale(1)",
-                      }}
-                    >
-                      {el.icon(el.accent)}
-                    </div>
+                    {el.icon(el.accent)}
                   </div>
 
-                  {/* Arabic Name */}
+                  {/* Name */}
                   <p
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
-                      fontSize: "clamp(16px, 2vw, 20px)",
+                      fontSize: "clamp(15px, 1.8vw, 19px)",
                       fontWeight: 800,
-                      color: shouldHighlight ? el.accent : COLORS.ink,
+                      color: highlight ? el.accent : COLORS.ink,
                       margin: 0,
                       textAlign: "center",
                       transition: "color 0.4s ease",
-                      letterSpacing: -0.3,
                     }}
                   >
                     {el.ar}
                   </p>
 
-                  {/* Description */}
+                  {/* Desc */}
                   <p
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
-                      fontSize: "clamp(12px, 1.4vw, 14px)",
+                      fontSize: "clamp(11px, 1.3vw, 13px)",
                       fontWeight: 500,
-                      color: shouldHighlight ? el.accent : COLORS.inkMuted,
+                      color: highlight ? el.accent : COLORS.inkMuted,
                       margin: 0,
                       textAlign: "center",
-                      transition: "color 0.4s ease, opacity 0.4s ease",
-                      opacity: shouldHighlight ? 1 : 0.7,
+                      transition: "color 0.4s ease",
+                      opacity: highlight ? 1 : 0.7,
                     }}
                   >
                     {el.desc}
                   </p>
 
-                  {/* Accent Line */}
+                  {/* Accent line */}
                   <div
                     style={{
-                      width: shouldHighlight ? 40 : 0,
+                      width: highlight ? 36 : 0,
                       height: 2,
                       background: el.accent,
                       borderRadius: 2,
-                      transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                      transition: "width 0.4s cubic-bezier(0.4,0,0.2,1)",
                     }}
                   />
                 </div>
@@ -549,7 +561,8 @@ export default function Hero() {
             gap: 14,
             flexWrap: "wrap",
             justifyContent: "center",
-            ...stagger(900),
+            marginBottom: 40,
+            ...stagger(860),
           }}
         >
           <a
@@ -561,7 +574,7 @@ export default function Hero() {
               color: COLORS.white,
               textDecoration: "none",
               background: COLORS.petroleum,
-              padding: "14px 44px",
+              padding: "13px 44px",
               borderRadius: 999,
               boxShadow: `0 10px 32px ${COLORS.petroleum}30`,
               transition: "all 0.25s ease",
@@ -571,13 +584,11 @@ export default function Hero() {
               const el = e.currentTarget as HTMLElement;
               el.style.background = "#01707A";
               el.style.transform = "translateY(-2px)";
-              el.style.boxShadow = `0 16px 40px ${COLORS.petroleum}35`;
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement;
               el.style.background = COLORS.petroleum;
               el.style.transform = "translateY(0)";
-              el.style.boxShadow = `0 10px 32px ${COLORS.petroleum}30`;
             }}
           >
             اكتشف منظومة
@@ -592,7 +603,7 @@ export default function Hero() {
               textDecoration: "none",
               background: "transparent",
               border: `1.5px solid ${COLORS.border}`,
-              padding: "13px 36px",
+              padding: "12px 36px",
               borderRadius: 999,
               transition: "all 0.25s ease",
               display: "inline-block",
@@ -615,19 +626,18 @@ export default function Hero() {
         {/* Scroll indicator */}
         <div
           style={{
-            marginTop: 48,
             opacity: loaded ? 0.45 : 0,
             transition: "opacity 0.8s ease 1200ms",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            gap: 6,
+            gap: 5,
           }}
         >
           <span
             style={{
               fontFamily: "Helvetica, Arial, sans-serif",
-              fontSize: 9,
+              fontSize: 8,
               fontWeight: 700,
               color: COLORS.inkMuted,
               letterSpacing: "3px",
@@ -639,7 +649,7 @@ export default function Hero() {
           <div
             style={{
               width: 1,
-              height: 40,
+              height: 32,
               background: `linear-gradient(to bottom, ${COLORS.petroleum}, transparent)`,
               animation: "scrollPulse 2s ease-in-out infinite",
             }}
@@ -657,29 +667,14 @@ export default function Hero() {
           50%       { opacity: 0.9; transform: scaleY(1.15); }
         }
         @keyframes fadeSlideUp {
-          0% {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        @keyframes iconPulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
+          from { opacity: 0; transform: translateY(20px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         @media (max-width: 768px) {
-          .pillars-grid {
-            gap: 20px !important;
-          }
+          .pillars-grid { gap: 16px !important; }
         }
         @media (max-width: 480px) {
-          .pillars-grid {
-            flex-direction: column !important;
-            align-items: center !important;
-          }
+          .pillars-grid { flex-direction: column !important; align-items: center !important; }
         }
       `}</style>
     </section>
