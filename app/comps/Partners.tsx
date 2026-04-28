@@ -233,6 +233,7 @@ export default function Partners() {
                     color: C.petroleum,
                     position: "relative",
                     display: "inline-block",
+                    paddingBottom: 6,
                   }}
                 >
                   النجاح
