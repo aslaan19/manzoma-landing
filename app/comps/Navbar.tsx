@@ -23,6 +23,7 @@ const navLinks = [
   { label: "لماذا منظومة", href: "#why" },
   { label: "الاستراتيجية", href: "#strategy" },
   { label: "النماذج", href: "#models" },
+  { label: "الشركاء", href: "#partners" },
 ];
 
 export default function Navbar() {

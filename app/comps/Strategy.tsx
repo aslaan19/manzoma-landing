@@ -1,6 +1,6 @@
+/* eslint-disable react-hooks/static-components */
 "use client";
 
-import { Scale } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 const COLORS = {
@@ -100,7 +100,6 @@ function PillarCard({
         transform: hovered ? "translateY(-4px)" : "translateY(0)",
       }}
     >
-      {/* Accent top bar */}
       <div
         style={{
           position: "absolute",
@@ -112,8 +111,6 @@ function PillarCard({
           transition: "background 0.3s ease",
         }}
       />
-
-      {/* Number + dot */}
       <div
         style={{
           display: "flex",
@@ -145,8 +142,6 @@ function PillarCard({
           }}
         />
       </div>
-
-      {/* Title */}
       <h4
         style={{
           fontFamily: "'Beiruti', sans-serif",
@@ -160,8 +155,6 @@ function PillarCard({
       >
         {pillar.ar}
       </h4>
-
-      {/* Desc */}
       <p
         style={{
           fontFamily: "'Beiruti', sans-serif",
@@ -174,8 +167,6 @@ function PillarCard({
       >
         {pillar.desc}
       </p>
-
-      {/* EN */}
       <p
         style={{
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -194,237 +185,6 @@ function PillarCard({
   );
 }
 
-/* ── Mobile diamond layout ── */
-function MobileDiamond({
-  hovered,
-  setHovered,
-  inView,
-}: {
-  hovered: number | null;
-  setHovered: (v: number | null) => void;
-  inView: boolean;
-}) {
-  return (
-    <div style={{ padding: "0 16px 0", width: "100%" }}>
-      {/* TOP card */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: 0,
-          opacity: inView ? 1 : 0,
-          transform: inView ? "translateY(0)" : "translateY(-16px)",
-          transition: "opacity 0.7s ease 600ms, transform 0.7s ease 600ms",
-        }}
-      >
-        <div style={{ width: "min(320px, 100%)" }}>
-          <PillarCard
-            pillar={pillars[0]}
-            hovered={hovered === 0}
-            onEnter={() => setHovered(0)}
-            onLeave={() => setHovered(null)}
-            compact
-          />
-        </div>
-      </div>
-
-      {/* Connector top-to-center */}
-      <div style={{ display: "flex", justifyContent: "center", height: 32 }}>
-        <div
-          style={{
-            width: 2,
-            height: "100%",
-            background: `linear-gradient(to bottom, ${pillars[0].accent}60, ${COLORS.petroleum}60)`,
-            opacity: inView ? 1 : 0,
-            transition: "opacity 0.5s ease 750ms",
-          }}
-        />
-      </div>
-
-      {/* MIDDLE ROW: left card — center node — right card */}
-      <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-        {/* Left card */}
-        <div
-          style={{
-            flex: 1,
-            opacity: inView ? 1 : 0,
-            transform: inView ? "translateX(0)" : "translateX(-16px)",
-            transition: "opacity 0.7s ease 900ms, transform 0.7s ease 900ms",
-          }}
-        >
-          <PillarCard
-            pillar={pillars[3]}
-            hovered={hovered === 3}
-            onEnter={() => setHovered(3)}
-            onLeave={() => setHovered(null)}
-            compact
-          />
-        </div>
-
-        {/* Connector left */}
-        <div
-          style={{
-            height: 2,
-            width: 12,
-            flexShrink: 0,
-            background: `${pillars[3].accent}60`,
-            opacity: inView ? 1 : 0,
-            transition: "opacity 0.5s ease 1000ms",
-          }}
-        />
-
-        {/* Center node */}
-        <div
-          style={{
-            flexShrink: 0,
-            width: 140,
-            height: 140,
-            borderRadius: "50%",
-            background: COLORS.petroleum,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: `0 0 0 10px ${COLORS.petroleum}12, 0 0 0 20px ${COLORS.petroleum}07, 0 16px 48px ${COLORS.petroleum}40`,
-            opacity: inView ? 1 : 0,
-            transform: inView ? "scale(1)" : "scale(0.7)",
-            transition:
-              "opacity 0.8s ease 500ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) 500ms",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              borderRadius: "50%",
-              backgroundImage:
-                "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
-              backgroundSize: "8px 8px",
-            }}
-          />
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 8,
-              borderRadius: "50%",
-              border: `1px solid ${COLORS.gold}25`,
-            }}
-          />
-          <span
-            style={{
-              fontFamily: "Helvetica, Arial, sans-serif",
-              fontSize: 7,
-              fontWeight: 700,
-              color: `${COLORS.gold}80`,
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              marginBottom: 4,
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            CORE
-          </span>
-          <span
-            style={{
-              fontFamily: "'Beiruti', sans-serif",
-              fontSize: 20,
-              fontWeight: 900,
-              color: COLORS.white,
-              lineHeight: 1,
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            المعرفة
-          </span>
-          <span
-            style={{
-              fontFamily: "'Beiruti', sans-serif",
-              fontSize: 9,
-              fontWeight: 500,
-              color: "rgba(255,255,255,0.5)",
-              marginTop: 4,
-              position: "relative",
-              zIndex: 1,
-            }}
-          >
-            المحور المركزي
-          </span>
-        </div>
-
-        {/* Connector right */}
-        <div
-          style={{
-            height: 2,
-            width: 12,
-            flexShrink: 0,
-            background: `${pillars[1].accent}60`,
-            opacity: inView ? 1 : 0,
-            transition: "opacity 0.5s ease 1000ms",
-          }}
-        />
-
-        {/* Right card */}
-        <div
-          style={{
-            flex: 1,
-            opacity: inView ? 1 : 0,
-            transform: inView ? "translateX(0)" : "translateX(16px)",
-            transition: "opacity 0.7s ease 900ms, transform 0.7s ease 900ms",
-          }}
-        >
-          <PillarCard
-            pillar={pillars[1]}
-            hovered={hovered === 1}
-            onEnter={() => setHovered(1)}
-            onLeave={() => setHovered(null)}
-            compact
-          />
-        </div>
-      </div>
-
-      {/* Connector center-to-bottom */}
-      <div style={{ display: "flex", justifyContent: "center", height: 32 }}>
-        <div
-          style={{
-            width: 2,
-            height: "100%",
-            background: `linear-gradient(to bottom, ${COLORS.petroleum}60, ${pillars[2].accent}60)`,
-            opacity: inView ? 1 : 0,
-            transition: "opacity 0.5s ease 750ms",
-          }}
-        />
-      </div>
-
-      {/* BOTTOM card */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          opacity: inView ? 1 : 0,
-          transform: inView ? "translateY(0)" : "translateY(16px)",
-          transition: "opacity 0.7s ease 1100ms, transform 0.7s ease 1100ms",
-        }}
-      >
-        <div style={{ width: "min(320px, 100%)" }}>
-          <PillarCard
-            pillar={pillars[2]}
-            hovered={hovered === 2}
-            onEnter={() => setHovered(2)}
-            onLeave={() => setHovered(null)}
-            compact
-          />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Strategy() {
   const { ref, inView } = useInView();
   const [hovered, setHovered] = useState<number | null>(null);
@@ -434,6 +194,92 @@ export default function Strategy() {
     transform: inView ? "translateY(0)" : "translateY(20px)",
     transition: `opacity 0.8s ease ${delay}ms, transform 0.8s ease ${delay}ms`,
   });
+
+  /* ── Center node — shared between desktop + mobile ── */
+  const CenterNode = ({ size = 160 }: { size?: number }) => (
+    <div
+      style={{
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        background: COLORS.petroleum,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+        boxShadow: `0 0 0 ${size * 0.088}px ${COLORS.petroleum}12, 0 0 0 ${size * 0.175}px ${COLORS.petroleum}07, 0 28px 72px ${COLORS.petroleum}40`,
+        opacity: inView ? 1 : 0,
+        transform: inView ? "scale(1)" : "scale(0.7)",
+        transition:
+          "opacity 0.8s ease 500ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) 500ms",
+        flexShrink: 0,
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: "50%",
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
+          backgroundSize: "10px 10px",
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 10,
+          borderRadius: "50%",
+          border: `1px solid ${COLORS.gold}25`,
+        }}
+      />
+      <span
+        style={{
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontSize: 7,
+          fontWeight: 700,
+          color: `${COLORS.gold}80`,
+          letterSpacing: "4px",
+          textTransform: "uppercase",
+          marginBottom: 6,
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        CORE
+      </span>
+      <span
+        style={{
+          fontFamily: "'Beiruti', sans-serif",
+          fontSize: size * 0.19,
+          fontWeight: 900,
+          color: COLORS.white,
+          lineHeight: 1,
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        المعرفة
+      </span>
+      <span
+        style={{
+          fontFamily: "'Beiruti', sans-serif",
+          fontSize: 10,
+          fontWeight: 500,
+          color: "rgba(255,255,255,0.5)",
+          marginTop: 6,
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        المحور المركزي
+      </span>
+    </div>
+  );
 
   return (
     <section
@@ -461,7 +307,9 @@ export default function Strategy() {
         }}
       />
 
-      {/* ── HEADER ── */}
+      {/* ══════════════════════════════════════════
+          HEADER
+      ══════════════════════════════════════════ */}
       <div
         style={{
           borderBottom: `1px solid ${COLORS.border}`,
@@ -470,7 +318,6 @@ export default function Strategy() {
           zIndex: 10,
         }}
       >
-        {/* 3-color top line */}
         <div
           style={{
             position: "absolute",
@@ -478,12 +325,11 @@ export default function Strategy() {
             right: 0,
             left: 0,
             height: 3,
-            background: `linear-gradient(to left, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
+            background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
           }}
         />
 
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          {/* Breadcrumb */}
           <div
             style={{
               display: "flex",
@@ -522,17 +368,16 @@ export default function Strategy() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))",
               gap: 72,
               alignItems: "end",
             }}
           >
-            {/* Heading */}
             <div style={vis(150)}>
               <h2
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(48px, 5.5vw, 80px)",
+                  fontSize: "clamp(48px,5.5vw,80px)",
                   fontWeight: 900,
                   color: COLORS.ink,
                   lineHeight: 1.1,
@@ -568,8 +413,6 @@ export default function Strategy() {
                 </span>
               </h2>
             </div>
-
-            {/* Description */}
             <div style={{ paddingBottom: 8, ...vis(280) }}>
               <div
                 style={{
@@ -612,7 +455,9 @@ export default function Strategy() {
         </div>
       </div>
 
-      {/* ── DIAGRAM ── */}
+      {/* ══════════════════════════════════════════
+          DIAGRAM WRAPPER
+      ══════════════════════════════════════════ */}
       <div
         style={{
           maxWidth: 1280,
@@ -637,15 +482,6 @@ export default function Strategy() {
               zIndex: 0,
             }}
           >
-            <defs>
-              <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor={COLORS.gold} stopOpacity="0.1" />
-                <stop offset="50%" stopColor={COLORS.gold} stopOpacity="0.45" />
-                <stop offset="100%" stopColor={COLORS.gold} stopOpacity="0.1" />
-              </linearGradient>
-            </defs>
-
-            {/* Decorative rings */}
             <circle
               cx="50%"
               cy="50%"
@@ -662,8 +498,6 @@ export default function Strategy() {
               stroke={`${COLORS.gold}07`}
               strokeWidth="1"
             />
-
-            {/* SOLID spokes */}
             {[
               { x2: "50%", y2: "8%", color: COLORS.petroleum, delay: 600 },
               { x2: "87%", y2: "50%", color: COLORS.gold, delay: 700 },
@@ -685,8 +519,6 @@ export default function Strategy() {
                 }}
               />
             ))}
-
-            {/* Diamond outline — solid */}
             {[
               ["50%", "8%", "87%", "50%"],
               ["87%", "50%", "50%", "92%"],
@@ -707,8 +539,6 @@ export default function Strategy() {
                 }}
               />
             ))}
-
-            {/* Endpoint dots */}
             {[
               { cx: "50%", cy: "8%", fill: COLORS.petroleum },
               { cx: "87%", cy: "50%", fill: COLORS.gold },
@@ -728,12 +558,10 @@ export default function Strategy() {
                 }}
               />
             ))}
-
-            {/* Center gold dot */}
             <circle cx="50%" cy="50%" r="6" fill={COLORS.gold} />
           </svg>
 
-          {/* Center node */}
+          {/* Center */}
           <div
             style={{
               position: "absolute",
@@ -742,89 +570,9 @@ export default function Strategy() {
               marginTop: -80,
               marginLeft: -80,
               zIndex: 20,
-              opacity: inView ? 1 : 0,
-              transform: inView ? "scale(1)" : "scale(0.7)",
-              transition:
-                "opacity 0.8s ease 500ms, transform 0.8s cubic-bezier(0.16,1,0.3,1) 500ms",
             }}
           >
-            <div
-              style={{
-                width: 160,
-                height: 160,
-                borderRadius: "50%",
-                background: COLORS.petroleum,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                position: "relative",
-                overflow: "hidden",
-                boxShadow: `0 0 0 14px ${COLORS.petroleum}12, 0 0 0 28px ${COLORS.petroleum}07, 0 28px 72px ${COLORS.petroleum}40`,
-              }}
-            >
-              <div
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  borderRadius: "50%",
-                  backgroundImage:
-                    "radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)",
-                  backgroundSize: "10px 10px",
-                }}
-              />
-              <div
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  inset: 10,
-                  borderRadius: "50%",
-                  border: `1px solid ${COLORS.gold}25`,
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: "Helvetica, Arial, sans-serif",
-                  fontSize: 8,
-                  fontWeight: 700,
-                  color: `${COLORS.gold}80`,
-                  letterSpacing: "4px",
-                  textTransform: "uppercase",
-                  marginBottom: 8,
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
-                CORE
-              </span>
-              <span
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 30,
-                  fontWeight: 900,
-                  color: COLORS.white,
-                  lineHeight: 1,
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
-                المعرفة
-              </span>
-              <span
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 11,
-                  fontWeight: 500,
-                  color: "rgba(255,255,255,0.5)",
-                  marginTop: 6,
-                  position: "relative",
-                  zIndex: 1,
-                }}
-              >
-                المحور المركزي
-              </span>
-            </div>
+            <CenterNode size={160} />
           </div>
 
           {/* TOP */}
@@ -847,7 +595,6 @@ export default function Strategy() {
               onLeave={() => setHovered(null)}
             />
           </div>
-
           {/* RIGHT */}
           <div
             style={{
@@ -868,7 +615,6 @@ export default function Strategy() {
               onLeave={() => setHovered(null)}
             />
           </div>
-
           {/* BOTTOM */}
           <div
             style={{
@@ -889,7 +635,6 @@ export default function Strategy() {
               onLeave={() => setHovered(null)}
             />
           </div>
-
           {/* LEFT */}
           <div
             style={{
@@ -913,16 +658,231 @@ export default function Strategy() {
           </div>
         </div>
 
-        {/* ── MOBILE DIAMOND ── */}
-        <div className="strategy-mobile" style={{ display: "none" }}>
-          <MobileDiamond
-            hovered={hovered}
-            setHovered={setHovered}
-            inView={inView}
-          />
+        {/* ══════════════════════════════════════════
+            MOBILE — Premium vertical layout
+            Center node at top → connecting lines → 4 cards
+        ══════════════════════════════════════════ */}
+        <div
+          className="strategy-mobile"
+          style={{ display: "none", padding: "0 4px" }}
+        >
+          {/* Center node */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: 0,
+              ...vis(300),
+            }}
+          >
+            <CenterNode size={140} />
+          </div>
+
+          {/* Connector from center down */}
+          <div
+            style={{ display: "flex", justifyContent: "center", ...vis(400) }}
+          >
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 0,
+              }}
+            >
+              <div
+                style={{
+                  width: 1,
+                  height: 32,
+                  background: `linear-gradient(to bottom, ${COLORS.petroleum}, ${COLORS.border})`,
+                }}
+              />
+              <div
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: "50%",
+                  background: COLORS.gold,
+                }}
+              />
+              <div
+                style={{ width: 1, height: 12, background: COLORS.border }}
+              />
+            </div>
+          </div>
+
+          {/* 4 pillar cards stacked */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+              marginTop: 8,
+            }}
+          >
+            {pillars.map((p, i) => (
+              <div
+                key={i}
+                style={{
+                  opacity: inView ? 1 : 0,
+                  transform: inView ? "translateY(0)" : "translateY(20px)",
+                  transition: `opacity 0.7s ease ${500 + i * 100}ms, transform 0.7s ease ${500 + i * 100}ms`,
+                }}
+              >
+                {/* Connecting line above each card */}
+                {i > 0 && (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      height: 10,
+                      marginBottom: 0,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 1,
+                        height: "100%",
+                        background: `${p.accent}40`,
+                      }}
+                    />
+                  </div>
+                )}
+
+                {/* Mobile card — horizontal layout */}
+                <div
+                  onTouchStart={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                      p.accent;
+                    (e.currentTarget as HTMLElement).style.boxShadow =
+                      `0 8px 28px ${p.accent}20`;
+                  }}
+                  onTouchEnd={(e) => {
+                    (e.currentTarget as HTMLElement).style.borderColor =
+                      COLORS.border;
+                    (e.currentTarget as HTMLElement).style.boxShadow =
+                      "0 4px 16px rgba(1,90,98,0.05)";
+                  }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 16,
+                    background: COLORS.white,
+                    border: `1.5px solid ${COLORS.border}`,
+                    borderRadius: 20,
+                    padding: "18px 18px",
+                    position: "relative",
+                    overflow: "hidden",
+                    boxShadow: "0 4px 16px rgba(1,90,98,0.05)",
+                    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+                  }}
+                >
+                  {/* Accent right bar */}
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      width: 4,
+                      background: p.accent,
+                      borderRadius: "0 20px 20px 0",
+                    }}
+                  />
+
+                  {/* Number badge */}
+                  <div
+                    style={{
+                      width: 52,
+                      height: 52,
+                      borderRadius: 14,
+                      flexShrink: 0,
+                      background: `${p.accent}10`,
+                      border: `1.5px solid ${p.accent}30`,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "Helvetica, Arial, sans-serif",
+                        fontSize: 16,
+                        fontWeight: 900,
+                        color: p.accent,
+                      }}
+                    >
+                      {p.num}
+                    </span>
+                  </div>
+
+                  {/* Text content */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
+                        marginBottom: 5,
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 5,
+                          height: 5,
+                          borderRadius: "50%",
+                          background: p.accent,
+                          flexShrink: 0,
+                        }}
+                      />
+                      <p
+                        style={{
+                          fontFamily: "Helvetica, Arial, sans-serif",
+                          fontSize: 8,
+                          fontWeight: 700,
+                          color: p.accent,
+                          letterSpacing: "2px",
+                          textTransform: "uppercase",
+                          margin: 0,
+                        }}
+                      >
+                        {p.en}
+                      </p>
+                    </div>
+                    <h4
+                      style={{
+                        fontFamily: "'Beiruti', sans-serif",
+                        fontSize: 16,
+                        fontWeight: 800,
+                        color: COLORS.ink,
+                        margin: "0 0 4px",
+                        lineHeight: 1.3,
+                      }}
+                    >
+                      {p.ar}
+                    </h4>
+                    <p
+                      style={{
+                        fontFamily: "'Beiruti', sans-serif",
+                        fontSize: 12,
+                        fontWeight: 500,
+                        color: COLORS.inkMuted,
+                        margin: 0,
+                        lineHeight: 1.6,
+                      }}
+                    >
+                      {p.desc}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* ── SUMMARY STRIP ── */}
+        {/* ══════════════════════════════════════════
+            SUMMARY STRIP — desktop + mobile
+        ══════════════════════════════════════════ */}
         <div
           style={{
             display: "grid",
@@ -1007,7 +967,9 @@ export default function Strategy() {
         </div>
       </div>
 
-      {/* ── VISION BANNER ── */}
+      {/* ══════════════════════════════════════════
+          VISION BANNER
+      ══════════════════════════════════════════ */}
       <div
         style={{
           maxWidth: 1280,
@@ -1030,8 +992,8 @@ export default function Strategy() {
             overflow: "hidden",
             boxShadow: `0 32px 80px ${COLORS.petroleum}25`,
           }}
+          className="vision-banner"
         >
-          {/* Gold top line */}
           <div
             style={{
               position: "absolute",
@@ -1042,8 +1004,6 @@ export default function Strategy() {
               background: COLORS.gold,
             }}
           />
-
-          {/* Dot texture */}
           <div
             aria-hidden
             style={{
@@ -1055,8 +1015,6 @@ export default function Strategy() {
               backgroundSize: "20px 20px",
             }}
           />
-
-          {/* Decorative circle */}
           <div
             aria-hidden
             style={{
@@ -1071,7 +1029,7 @@ export default function Strategy() {
             }}
           />
 
-          {/* Left: text */}
+          {/* Left text */}
           <div style={{ position: "relative", zIndex: 1 }}>
             <div
               style={{
@@ -1128,7 +1086,7 @@ export default function Strategy() {
             </p>
           </div>
 
-          {/* Right: numbers in rectangle → arrow → star */}
+          {/* Right chips + arrow + star */}
           <div
             style={{
               display: "flex",
@@ -1139,10 +1097,9 @@ export default function Strategy() {
               flexWrap: "wrap",
             }}
           >
-            {/* Grouped rectangle containing 01–04 */}
             <div
               style={{
-                border: `1px solid rgba(255,255,255,0.18)`,
+                border: "1px solid rgba(255,255,255,0.18)",
                 borderRadius: 16,
                 background: "rgba(255,255,255,0.06)",
                 padding: "14px 20px",
@@ -1166,7 +1123,6 @@ export default function Strategy() {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      transition: "background 0.3s ease",
                     }}
                   >
                     <span
@@ -1192,10 +1148,7 @@ export default function Strategy() {
                 </div>
               ))}
             </div>
-
-            {/* Arrow pointing toward star (RTL: arrow points LEFT = toward star on left) */}
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              {/* Shaft */}
               <div
                 style={{
                   width: 32,
@@ -1204,7 +1157,6 @@ export default function Strategy() {
                   borderRadius: 2,
                 }}
               />
-              {/* Arrowhead pointing left */}
               <svg
                 width="10"
                 height="14"
@@ -1221,8 +1173,6 @@ export default function Strategy() {
                 />
               </svg>
             </div>
-
-            {/* Star destination */}
             <div
               style={{
                 width: 52,
@@ -1244,17 +1194,19 @@ export default function Strategy() {
       </div>
 
       <style>{`
-        @media (min-width: 1025px) {
-          .strategy-desktop { display: block !important; }
-          .strategy-mobile  { display: none !important; }
-        }
+        /* Desktop */
+        .strategy-desktop { display: block !important; }
+        .strategy-mobile  { display: none   !important; }
+
+        /* Mobile */
         @media (max-width: 1024px) {
-          .strategy-desktop { display: none !important; }
+          .strategy-desktop { display: none  !important; }
           .strategy-mobile  { display: block !important; }
-          .strategy-strip   { grid-template-columns: repeat(2,1fr) !important; }
+          .strategy-strip   { display: none  !important; }
+          .vision-banner    { padding: 32px 24px !important; }
         }
         @media (max-width: 600px) {
-          .strategy-strip { grid-template-columns: 1fr !important; }
+          .vision-banner { padding: 28px 20px !important; }
         }
       `}</style>
     </section>

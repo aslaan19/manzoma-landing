@@ -16,7 +16,7 @@ const C = {
   inkMuted: "#7A8C8D",
 };
 
-const accents = [C.petroleum, C.gold, C.crimson, C.rose, C.petroleum, C.gold];
+const accents = [C.petroleum, C.gold, C.crimson, C.rose, C.petroleum];
 
 const partners = [
   {
@@ -56,7 +56,13 @@ const partners = [
   },
 ];
 
-function useInView(threshold = 0.1) {
+function getPos(i: number, total: number, r: number) {
+  const angle = (i * 360) / total - 90;
+  const rad = (angle * Math.PI) / 180;
+  return { x: 50 + r * Math.cos(rad), y: 50 + r * Math.sin(rad) };
+}
+
+function useInView(threshold = 0.08) {
   const ref = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
@@ -70,16 +76,6 @@ function useInView(threshold = 0.1) {
     return () => obs.disconnect();
   }, [threshold]);
   return { ref, inView };
-}
-
-// Get orbital positions — evenly distributed around center
-function getPos(i: number, total: number, radiusVw: number) {
-  const angle = (i * 360) / total - 90; // start from top
-  const rad = (angle * Math.PI) / 180;
-  return {
-    x: 50 + radiusVw * Math.cos(rad),
-    y: 50 + radiusVw * Math.sin(rad),
-  };
 }
 
 export default function Partners() {
@@ -118,7 +114,9 @@ export default function Partners() {
         }}
       />
 
-      {/* ── HEADER ── */}
+      {/* ══════════════════════════════════════════
+          HEADER
+      ══════════════════════════════════════════ */}
       <div
         style={{
           background: C.white,
@@ -128,7 +126,6 @@ export default function Partners() {
           zIndex: 10,
         }}
       >
-        {/* 4-color top line */}
         <div
           style={{
             position: "absolute",
@@ -139,8 +136,6 @@ export default function Partners() {
             background: `linear-gradient(to left, ${C.rose}, ${C.crimson}, ${C.gold}, ${C.petroleum})`,
           }}
         />
-
-        {/* Faint watermark */}
         <div
           aria-hidden
           style={{
@@ -170,7 +165,6 @@ export default function Partners() {
             zIndex: 1,
           }}
         >
-          {/* Breadcrumb */}
           <div
             style={{
               display: "flex",
@@ -209,7 +203,7 @@ export default function Partners() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))",
               gap: 80,
               alignItems: "end",
             }}
@@ -254,7 +248,6 @@ export default function Partners() {
                 </span>
               </h2>
             </div>
-
             <div style={{ paddingBottom: 8, ...vis(280) }}>
               <div
                 style={{
@@ -296,8 +289,11 @@ export default function Partners() {
         </div>
       </div>
 
-      {/* ── CONSTELLATION DIAGRAM ── */}
+      {/* ══════════════════════════════════════════
+          DESKTOP — Constellation diagram
+      ══════════════════════════════════════════ */}
       <div
+        className="partners-desktop"
         style={{
           position: "relative",
           zIndex: 10,
@@ -310,11 +306,10 @@ export default function Partners() {
           style={{
             position: "relative",
             width: "100%",
-            paddingBottom: "90%", // square-ish aspect ratio
+            paddingBottom: "90%",
             ...vis(300),
           }}
         >
-          {/* ── SVG — rings + lines ── */}
           <svg
             style={{
               position: "absolute",
@@ -326,19 +321,6 @@ export default function Partners() {
             }}
           >
             <defs>
-              {/* Gold gradient for active lines */}
-              <linearGradient id="goldLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor={C.gold} stopOpacity="0.05" />
-                <stop offset="50%" stopColor={C.gold} stopOpacity="0.55" />
-                <stop offset="100%" stopColor={C.gold} stopOpacity="0.05" />
-              </linearGradient>
-              {/* Petroleum gradient for idle lines */}
-              <linearGradient id="idleLine" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor={C.petroleum} stopOpacity="0" />
-                <stop offset="50%" stopColor={C.petroleum} stopOpacity="0.12" />
-                <stop offset="100%" stopColor={C.petroleum} stopOpacity="0" />
-              </linearGradient>
-              {/* Glow filter */}
               <filter id="lineGlow">
                 <feGaussianBlur stdDeviation="2" result="blur" />
                 <feMerge>
@@ -347,8 +329,6 @@ export default function Partners() {
                 </feMerge>
               </filter>
             </defs>
-
-            {/* Outer decorative ring */}
             <circle
               cx="50%"
               cy="50%"
@@ -362,7 +342,6 @@ export default function Partners() {
                 transition: "opacity 1s ease 400ms",
               }}
             />
-            {/* Inner ring */}
             <circle
               cx="50%"
               cy="50%"
@@ -375,8 +354,6 @@ export default function Partners() {
                 transition: "opacity 1s ease 600ms",
               }}
             />
-
-            {/* Lines from center to each partner */}
             {partners.map((_, i) => {
               const pos = getPos(i, partners.length, 43);
               const isActive = active === i;
@@ -396,8 +373,6 @@ export default function Partners() {
                 />
               );
             })}
-
-            {/* Outer ring connecting dots */}
             {partners.map((_, i) => {
               const p1 = getPos(i, partners.length, 43);
               const p2 = getPos((i + 1) % partners.length, partners.length, 43);
@@ -418,8 +393,6 @@ export default function Partners() {
                 />
               );
             })}
-
-            {/* Gold dot at center */}
             <circle
               cx="50%"
               cy="50%"
@@ -430,8 +403,6 @@ export default function Partners() {
                 transition: "opacity 0.8s ease 700ms",
               }}
             />
-
-            {/* Animated pulse dot on active line */}
             {active !== null &&
               (() => {
                 const pos = getPos(active, partners.length, 43);
@@ -447,7 +418,7 @@ export default function Partners() {
               })()}
           </svg>
 
-          {/* ── CENTER — Manzoma logo ── */}
+          {/* Center — Manzoma */}
           <div
             style={{
               position: "absolute",
@@ -461,23 +432,19 @@ export default function Partners() {
           >
             <div
               style={{
-                width: 150,
-                height: 150,
+                width: 180,
+                height: 180,
                 borderRadius: "50%",
                 background: C.white,
                 border: `1.5px solid ${C.border}`,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                boxShadow: `
-  0 20px 60px rgba(1,90,98,0.12),
-  0 0 0 8px ${C.offwhite}
-              `,
+                boxShadow: `0 0 0 14px ${C.offwhite}, 0 0 0 15px ${C.border}, 0 24px 64px rgba(1,90,98,0.14)`,
                 position: "relative",
                 overflow: "hidden",
               }}
             >
-              {/* Subtle dot texture */}
               <div
                 aria-hidden
                 style={{
@@ -489,14 +456,13 @@ export default function Partners() {
                   backgroundSize: "10px 10px",
                 }}
               />
-              {/* Gold top arc line */}
 
-              {/* Manzoma logo */}
               <div
                 style={{
                   width: 150,
                   overflow: "hidden",
-
+                  marginTop: "-8%",
+                  marginBottom: "-8%",
                   position: "relative",
                   zIndex: 1,
                 }}
@@ -504,8 +470,8 @@ export default function Partners() {
                 <Image
                   src="/logo2.png"
                   alt="منظومة"
-                  width={400}
-                  height={300}
+                  width={300}
+                  height={135}
                   style={{
                     objectFit: "contain",
                     width: "100%",
@@ -517,12 +483,11 @@ export default function Partners() {
             </div>
           </div>
 
-          {/* ── PARTNER NODES ── */}
+          {/* Partner nodes */}
           {partners.map((p, i) => {
             const pos = getPos(i, partners.length, 43);
             const isActive = active === i;
             const acc = accents[i];
-
             return (
               <a
                 key={p.id}
@@ -542,29 +507,26 @@ export default function Partners() {
                   transition: `opacity 0.7s ease ${300 + i * 120}ms, transform 0.35s cubic-bezier(0.4,0,0.2,1)`,
                 }}
               >
-                {/* Outer glow ring on hover */}
                 <div
                   style={{
                     position: "absolute",
                     top: "50%",
                     left: "50%",
                     transform: "translate(-50%, -50%)",
-                    width: isActive ? 110 : 80,
-                    height: isActive ? 110 : 80,
+                    width: isActive ? 120 : 88,
+                    height: isActive ? 120 : 88,
                     borderRadius: "50%",
                     background: `radial-gradient(circle, ${acc}22 0%, transparent 70%)`,
                     transition: "all 0.4s ease",
                     pointerEvents: "none",
                   }}
                 />
-
-                {/* Card */}
                 <div
                   style={{
                     width: 120,
                     height: 120,
                     borderRadius: 20,
-                    background: isActive ? C.white : C.white,
+                    background: C.white,
                     border: `1.5px solid ${isActive ? acc : C.border}`,
                     display: "flex",
                     flexDirection: "column",
@@ -579,7 +541,6 @@ export default function Partners() {
                     overflow: "hidden",
                   }}
                 >
-                  {/* Accent top bar */}
                   <div
                     style={{
                       position: "absolute",
@@ -592,8 +553,6 @@ export default function Partners() {
                       transition: "opacity 0.35s ease",
                     }}
                   />
-
-                  {/* Gold corner brackets on hover */}
                   {isActive && (
                     <>
                       <div
@@ -622,8 +581,6 @@ export default function Partners() {
                       />
                     </>
                   )}
-
-                  {/* Logo */}
                   <div
                     style={{
                       width: 120,
@@ -648,8 +605,7 @@ export default function Partners() {
                     />
                   </div>
                 </div>
-
-                {/* Tooltip — appears on hover */}
+                {/* Tooltip */}
                 <div
                   style={{
                     position: "absolute",
@@ -673,7 +629,6 @@ export default function Partners() {
                       position: "relative",
                     }}
                   >
-                    {/* Tooltip arrow */}
                     <div
                       style={{
                         position: "absolute",
@@ -687,7 +642,6 @@ export default function Partners() {
                         borderBottom: `6px solid ${C.petroleum}`,
                       }}
                     />
-                    {/* Gold dot */}
                     <div
                       style={{
                         display: "flex",
@@ -735,7 +689,291 @@ export default function Partners() {
         </div>
       </div>
 
-      {/* ── PARTNER LIST STRIP ── */}
+      {/* ══════════════════════════════════════════
+          MOBILE — Premium layout (hidden on desktop)
+          Manzoma badge → gold line → partner cards
+      ══════════════════════════════════════════ */}
+      <div
+        className="partners-mobile"
+        style={{
+          display: "none",
+          padding: "52px 20px 20px",
+          position: "relative",
+          zIndex: 10,
+        }}
+      >
+        {/* Manzoma center badge */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginBottom: 8,
+            ...vis(180),
+          }}
+        >
+          <div
+            style={{
+              width: 130,
+              height: 130,
+              borderRadius: "50%",
+              background: C.white,
+              border: `1.5px solid ${C.border}`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              boxShadow: `0 0 0 10px ${C.offwhite}, 0 0 0 11px ${C.border}, 0 16px 48px rgba(1,90,98,0.1)`,
+              position: "relative",
+              overflow: "hidden",
+              flexShrink: 0,
+            }}
+          >
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+                borderRadius: "50%",
+                backgroundImage: `radial-gradient(${C.petroleum}06 1px, transparent 1px)`,
+                backgroundSize: "10px 10px",
+              }}
+            />
+            <div
+              style={{
+                width: 105,
+                overflow: "hidden",
+                marginTop: "-8%",
+                marginBottom: "-8%",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <Image
+                src="/logo2.png"
+                alt="منظومة"
+                width={210}
+                height={95}
+                style={{
+                  objectFit: "contain",
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Connecting line + dot */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              margin: "12px 0",
+            }}
+          >
+            <div
+              style={{
+                width: 1,
+                height: 28,
+                background: `linear-gradient(to bottom, ${C.gold}, ${C.border})`,
+              }}
+            />
+            <div
+              style={{
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: C.gold,
+                marginTop: -2,
+              }}
+            />
+          </div>
+
+          {/* Label */}
+          <p
+            style={{
+              fontFamily: "Helvetica, Arial, sans-serif",
+              fontSize: 9,
+              fontWeight: 700,
+              color: C.inkMuted,
+              letterSpacing: "3px",
+              textTransform: "uppercase",
+              margin: 0,
+            }}
+          >
+            شركاء النجاح
+          </p>
+        </div>
+
+        {/* Vertical partner cards */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 12,
+            marginTop: 28,
+          }}
+        >
+          {partners.map((p, i) => (
+            <a
+              key={p.id}
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                textDecoration: "none",
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                background: C.white,
+                border: `1.5px solid ${C.border}`,
+                borderRadius: 20,
+                padding: "16px 18px",
+                position: "relative",
+                overflow: "hidden",
+                boxShadow: "0 4px 16px rgba(1,90,98,0.05)",
+                ...vis(260 + i * 80),
+              }}
+              onTouchStart={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = accents[i];
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  `0 8px 28px ${accents[i]}20`;
+              }}
+              onTouchEnd={(e) => {
+                (e.currentTarget as HTMLElement).style.borderColor = C.border;
+                (e.currentTarget as HTMLElement).style.boxShadow =
+                  "0 4px 16px rgba(1,90,98,0.05)";
+              }}
+            >
+              {/* Accent right bar (RTL) */}
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: 4,
+                  background: accents[i],
+                  borderRadius: "0 20px 20px 0",
+                }}
+              />
+
+              {/* Logo box */}
+              <div
+                style={{
+                  width: 64,
+                  height: 64,
+                  borderRadius: 16,
+                  flexShrink: 0,
+                  background: `${accents[i]}08`,
+                  border: `1.5px solid ${accents[i]}25`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  src={p.logo}
+                  alt={p.name}
+                  width={48}
+                  height={48}
+                  style={{ objectFit: "contain", width: "75%", height: "75%" }}
+                />
+              </div>
+
+              {/* Text */}
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    marginBottom: 4,
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 5,
+                      height: 5,
+                      borderRadius: "50%",
+                      background: accents[i],
+                      flexShrink: 0,
+                    }}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 9,
+                      fontWeight: 700,
+                      color: accents[i],
+                      letterSpacing: "2px",
+                      textTransform: "uppercase",
+                      margin: 0,
+                    }}
+                  >
+                    PARTNER 0{i + 1}
+                  </p>
+                </div>
+                <p
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 16,
+                    fontWeight: 800,
+                    color: C.ink,
+                    margin: "0 0 3px",
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {p.name}
+                </p>
+                <p
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: 13,
+                    fontWeight: 500,
+                    color: C.inkMuted,
+                    margin: 0,
+                  }}
+                >
+                  {p.desc}
+                </p>
+              </div>
+
+              {/* Arrow */}
+              <div
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 10,
+                  flexShrink: 0,
+                  background: `${accents[i]}10`,
+                  border: `1.5px solid ${accents[i]}30`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <path
+                    d="M10 6.5H3M3 6.5L6.5 3M3 6.5L6.5 10"
+                    stroke={accents[i]}
+                    strokeWidth="1.7"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════
+          BOTTOM STRIP — both desktop + mobile
+      ══════════════════════════════════════════ */}
       <div
         style={{
           maxWidth: 1280,
@@ -768,17 +1006,15 @@ export default function Partners() {
               style={{
                 textDecoration: "none",
                 background: active === i ? accents[i] : C.white,
-                padding: "24px 20px",
+                padding: "22px 12px",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 10,
+                gap: 8,
                 position: "relative",
                 transition: "background 0.3s ease",
-                cursor: "pointer",
               }}
             >
-              {/* Top accent */}
               <div
                 style={{
                   position: "absolute",
@@ -791,24 +1027,22 @@ export default function Partners() {
                   transition: "opacity 0.3s ease",
                 }}
               />
-
-              {/* Logo */}
               <div
                 style={{
-                  width: 64,
-                  height: 64,
-                  filter: active === i ? "none" : "grayscale(20%)",
-                  transition: "filter 0.3s ease",
+                  width: 52,
+                  height: 52,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
+                  filter: active === i ? "none" : "grayscale(20%)",
+                  transition: "filter 0.3s ease",
                 }}
               >
                 <Image
                   src={p.logo}
                   alt={p.name}
-                  width={64}
-                  height={64}
+                  width={44}
+                  height={44}
                   style={{
                     objectFit: "contain",
                     width: "100%",
@@ -816,16 +1050,16 @@ export default function Partners() {
                   }}
                 />
               </div>
-
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 13,
+                  fontSize: 11,
                   fontWeight: 700,
                   color: active === i ? C.white : C.ink,
                   margin: 0,
                   textAlign: "center",
                   transition: "color 0.3s ease",
+                  lineHeight: 1.3,
                 }}
               >
                 {p.name}
@@ -836,11 +1070,18 @@ export default function Partners() {
       </div>
 
       <style>{`
+        /* ── Desktop ── */
+        .partners-desktop { display: block; }
+        .partners-mobile  { display: none !important; }
+
+        /* ── Mobile: hide constellation, show cards ── */
         @media (max-width: 768px) {
-          .partners-strip { grid-template-columns: repeat(3,1fr) !important; }
+          .partners-desktop { display: none !important; }
+          .partners-mobile  { display: block !important; }
+          .partners-strip   { grid-template-columns: repeat(3, 1fr) !important; }
         }
         @media (max-width: 480px) {
-          .partners-strip { grid-template-columns: repeat(2,1fr) !important; }
+          .partners-strip { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
     </section>
