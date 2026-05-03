@@ -2,11 +2,10 @@
 
 @theme {
   /* ── Fonts ── */
-  --font-tajawal:   "Beiruti", sans-serif;
   --font-helvetica: "Helvetica", Arial, sans-serif;
 
   /* ── Brand Colors ── */
-  --color-brand-primary:           #015A62;
+  --color-brand-primary:           #124f45;
   --color-brand-accent:            #01707A;
   --color-brand-gold:              #C7A856;
   --color-brand-gold-bg:           #FAF4E4;

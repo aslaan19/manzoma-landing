@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 // ── EXACT 4 BRAND COLORS — unchanged ──
 const C = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -13,7 +13,7 @@ const C = {
   offwhite: "#F8F6F1",
   border: "#E8E4DC",
   borderSoft: "#F0ECE6",
-  ink: "#015A62 ",
+  ink: "#0D1F21 ",
   inkSoft: "#2E4547",
   inkMuted: "#7A8C8D",
 };
@@ -175,7 +175,7 @@ export default function About() {
                 <span
                   style={{
                     fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: 700,
                     color: C.gold,
                     letterSpacing: "5px",
@@ -232,8 +232,8 @@ export default function About() {
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 18,
-                  fontWeight: 500,
+                  fontSize: 19,
+                  fontWeight: 600,
                   color: C.inkSoft,
                   lineHeight: 2.1,
                   margin: "0 0 22px",
@@ -249,7 +249,7 @@ export default function About() {
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: 16,
-                  fontWeight: 400,
+                  fontWeight: 800,
                   color: C.inkMuted,
                   lineHeight: 2,
                   margin: 0,
@@ -307,8 +307,8 @@ export default function About() {
             <p
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 56,
-                fontWeight: 900,
+                fontSize: 58,
+                fontWeight: 600,
                 color: C.ink,
                 margin: "0 0 12px",
                 lineHeight: 1,
@@ -321,7 +321,7 @@ export default function About() {
             <p
               style={{
                 fontFamily: "'Beiruti', sans-serif",
-                fontSize: 17,
+                fontSize: 20,
                 fontWeight: 700,
                 color: C.ink,
                 margin: "0 0 8px",
@@ -384,7 +384,7 @@ export default function About() {
         >
           {/* Key points */}
           <div>
-            <div style={{ marginBottom: 52, ...vis(500) }}>
+            <div style={{ marginBottom: 32, ...vis(500) }}>
               <div
                 style={{
                   display: "flex",
@@ -410,8 +410,8 @@ export default function About() {
               <h3
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 28,
-                  fontWeight: 900,
+                  fontSize: 32,
+                  fontWeight: 700,
                   color: C.ink,
                   margin: 0,
                 }}
@@ -479,7 +479,7 @@ export default function About() {
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
                       fontSize: 18,
-                      fontWeight: 700,
+                      fontWeight: 600,
                       color: hovered === i ? p.accent : C.ink,
                       lineHeight: 1.5,
                       transition: "color 0.3s ease",

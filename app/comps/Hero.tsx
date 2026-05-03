@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -711,8 +711,8 @@ export default function Hero() {
             <span
               style={{
                 fontFamily: "'Beiruti', sans-serif",
-                fontSize: 10,
-                fontWeight: 700,
+                fontSize: 30,
+                fontWeight: 500,
                 color: COLORS.inkMuted,
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
@@ -796,8 +796,8 @@ export default function Hero() {
                       top: 12,
                       left: 12,
                       fontFamily: "'Beiruti', sans-serif",
-                      fontSize: 9,
-                      fontWeight: 800,
+                      fontSize: 14,
+                      fontWeight: 600,
                       color: highlight ? el.accent : `${COLORS.inkMuted}60`,
                       letterSpacing: "0.15em",
                       transition: "color 0.4s ease",
@@ -832,7 +832,7 @@ export default function Hero() {
                   <p
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
-                      fontSize: "clamp(15px, 1.6vw, 18px)",
+                      fontSize: "clamp(18px, 1.6vw, 20px)",
                       fontWeight: 800,
                       color: highlight ? el.accent : COLORS.ink,
                       margin: 0,
@@ -847,7 +847,7 @@ export default function Hero() {
                   <p
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
-                      fontSize: "clamp(11px, 1.1vw, 12.5px)",
+                      fontSize: "clamp(12px, 1.1vw, 12.5px)",
                       fontWeight: 500,
                       color: highlight ? `${el.accent}CC` : COLORS.inkMuted,
                       margin: 0,
@@ -894,8 +894,8 @@ export default function Hero() {
             href="#about"
             style={{
               fontFamily: "'Beiruti', sans-serif",
-              fontSize: 15,
-              fontWeight: 800,
+              fontSize: 18,
+              fontWeight: 600,
               color: COLORS.white,
               textDecoration: "none",
               background: `linear-gradient(135deg, #01707A, ${COLORS.petroleum})`,
@@ -943,7 +943,7 @@ export default function Hero() {
             href="#contact"
             style={{
               fontFamily: "'Beiruti', sans-serif",
-              fontSize: 15,
+              fontSize: 18,
               fontWeight: 700,
               color: COLORS.petroleum,
               textDecoration: "none",

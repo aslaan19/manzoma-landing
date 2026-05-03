@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -145,7 +145,7 @@ function PillarCard({
       <h4
         style={{
           fontFamily: "'Beiruti', sans-serif",
-          fontSize: compact ? 14 : 15,
+          fontSize: compact ? 14 : 18,
           fontWeight: 800,
           color: hovered ? pillar.accent : COLORS.ink,
           margin: "0 0 6px",
@@ -158,8 +158,8 @@ function PillarCard({
       <p
         style={{
           fontFamily: "'Beiruti', sans-serif",
-          fontSize: compact ? 11 : 12,
-          fontWeight: 500,
+          fontSize: compact ? 18 : 15,
+          fontWeight: 600,
           color: COLORS.inkMuted,
           margin: "0 0 8px",
           lineHeight: 1.7,

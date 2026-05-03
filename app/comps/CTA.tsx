@@ -263,7 +263,7 @@ export default function CTA() {
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 20,
+                    fontSize: 26,
                     fontWeight: 900,
                     color: COLORS.petroleum,
                     margin: 0,
@@ -280,7 +280,7 @@ export default function CTA() {
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: 500,
                   color: COLORS.inkSoft,
                   margin: 0,

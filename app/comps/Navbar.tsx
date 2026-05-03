@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   accent: "#01707A",
   gold: "#C7A856",
   crimson: "#972B28",

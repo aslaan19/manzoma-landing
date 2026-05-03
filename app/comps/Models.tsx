@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -263,7 +263,7 @@ export default function Models() {
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 22,
+                    fontSize: 26,
                     fontWeight: 900,
                     color: COLORS.petroleum,
                     margin: 0,

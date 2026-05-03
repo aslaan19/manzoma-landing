@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 const C = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",

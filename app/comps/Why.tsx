@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -223,7 +223,7 @@ export default function Why() {
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 24,
+                    fontSize: 30,
                     fontWeight: 900,
                     color: COLORS.petroleum,
                     margin: 0,
@@ -238,7 +238,7 @@ export default function Why() {
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: 500,
                   color: COLORS.inkSoft,
                   margin: 0,
@@ -512,8 +512,8 @@ export default function Why() {
                 <h3
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: "clamp(26px, 2.8vw, 40px)",
-                    fontWeight: 900,
+                    fontSize: "clamp(32px, 2.8vw, 40px)",
+                    fontWeight: 700,
                     color: COLORS.ink,
                     lineHeight: 1.4,
                     margin: "0 0 20px",
@@ -528,14 +528,14 @@ export default function Why() {
                     height: 3,
                     borderRadius: 2,
                     background: reasons[active].accent,
-                    marginBottom: 20,
+                    marginBottom: 12,
                     transition: "background 0.4s ease",
                   }}
                 />
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 17,
+                    fontSize: 20,
                     fontWeight: 500,
                     color: COLORS.inkSoft,
                     lineHeight: 2.1,
@@ -704,8 +704,8 @@ export default function Why() {
                       <p
                         style={{
                           fontFamily: "'Beiruti', sans-serif",
-                          fontSize: 16,
-                          fontWeight: 800,
+                          fontSize: 19,
+                          fontWeight: 700,
                           color: active === i ? r.accent : COLORS.ink,
                           margin: "0 0 4px",
                           lineHeight: 1.4,
