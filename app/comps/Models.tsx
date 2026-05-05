@@ -552,7 +552,7 @@ export default function Models() {
                     <span>زيارة الموقع</span>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                       <path
-                        d="M3 8H13M13 8L8 3M13 8L8 13"
+                        d="M13 8H3M3 8L8 3M3 8L8 13"
                         stroke="white"
                         strokeWidth="1.8"
                         strokeLinecap="round"

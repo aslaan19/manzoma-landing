@@ -661,7 +661,7 @@ export default function CTA() {
                 <span>تواصل معنا</span>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path
-                    d="M2 7H12M12 7L7 2M12 7L7 12"
+                    d="M12 7H2M2 7L7 2M2 7L7 12"
                     stroke={COLORS.ink}
                     strokeWidth="1.8"
                     strokeLinecap="round"

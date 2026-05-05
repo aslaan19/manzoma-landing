@@ -966,7 +966,7 @@ export default function Strategy() {
         </div>
       </div>
 
-      {/* VISION BANNER — untouched */}
+      {/* VISION QUOTE — clean, simple, professional */}
       <div
         style={{
           maxWidth: 1280,
@@ -977,211 +977,61 @@ export default function Strategy() {
       >
         <div
           style={{
-            background: COLORS.petroleum,
-            borderRadius: 24,
-            padding: "44px 52px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexWrap: "wrap",
-            gap: 28,
-            position: "relative",
-            overflow: "hidden",
-            boxShadow: `0 32px 80px ${COLORS.petroleum}25`,
+            borderRight: `4px solid ${COLORS.petroleum}`,
+            paddingRight: 32,
           }}
-          className="vision-banner"
         >
-          <div
+          <p
             style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              left: 0,
-              height: 3,
-              background: COLORS.gold,
-            }}
-          />
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              pointerEvents: "none",
-              backgroundImage:
-                "radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px)",
-              backgroundSize: "20px 20px",
-            }}
-          />
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              bottom: -60,
-              left: -60,
-              width: 200,
-              height: 200,
-              borderRadius: "50%",
-              border: "1px solid rgba(255,255,255,0.07)",
-              pointerEvents: "none",
-            }}
-          />
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                marginBottom: 14,
-              }}
-            >
-              <div
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: COLORS.gold,
-                }}
-              />
-              <span
-                style={{
-                  fontFamily: "Helvetica, Arial, sans-serif",
-                  fontSize: 9,
-                  fontWeight: 700,
-                  color: "rgba(255,255,255,0.4)",
-                  letterSpacing: "4px",
-                  textTransform: "uppercase",
-                }}
-              >
-                VISION DIRECTION
-              </span>
-            </div>
-            <h3
-              style={{
-                fontFamily: "'Beiruti', sans-serif",
-                fontSize: 28,
-                fontWeight: 900,
-                color: COLORS.white,
-                margin: "0 0 10px",
-                lineHeight: 1.3,
-              }}
-            >
-              التوجه نحو الرؤية
-            </h3>
-            <p
-              style={{
-                fontFamily: "'Beiruti', sans-serif",
-                fontSize: 15,
-                fontWeight: 500,
-                color: "rgba(255,255,255,0.65)",
-                margin: 0,
-                lineHeight: 1.5,
-              }}
-            >
-              التكاملية بين العناصر الأربعة تقودنا نحو تحقيق الرؤية
-            </p>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 16,
-              position: "relative",
-              zIndex: 1,
-              flexWrap: "wrap",
+              fontFamily: "Helvetica, Arial, sans-serif",
+              fontSize: 9,
+              fontWeight: 700,
+              color: COLORS.gold,
+              letterSpacing: "4px",
+              textTransform: "uppercase",
+              margin: "0 0 16px",
             }}
           >
+            VISION DIRECTION
+          </p>
+
+          <h3
+            style={{
+              fontFamily: "'Beiruti', sans-serif",
+              fontSize: "clamp(24px, 3vw, 36px)",
+              fontWeight: 900,
+              color: COLORS.petroleum,
+              margin: "0 0 12px",
+              lineHeight: 1.2,
+              letterSpacing: -0.5,
+            }}
+          >
+            التوجه نحو الرؤية
+          </h3>
+
+          <p
+            style={{
+              fontFamily: "'Beiruti', sans-serif",
+              fontSize: "clamp(15px, 1.6vw, 18px)",
+              fontWeight: 400,
+              color: COLORS.inkSoft,
+              margin: "0 0 20px",
+              lineHeight: 1.9,
+            }}
+          >
+            التكاملية بين العناصر الأربعة تقودنا نحو تحقيق الرؤية
+          </p>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ width: 24, height: 1, background: COLORS.gold }} />
             <div
               style={{
-                border: "1px solid rgba(255,255,255,0.18)",
-                borderRadius: 16,
-                background: "rgba(255,255,255,0.06)",
-                padding: "14px 20px",
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
+                width: 6,
+                height: 6,
+                borderRadius: "50%",
+                background: COLORS.gold,
               }}
-            >
-              {pillars.map((p, i) => (
-                <div
-                  key={i}
-                  style={{ display: "flex", alignItems: "center", gap: 10 }}
-                >
-                  <div
-                    style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 11,
-                      background: "rgba(255,255,255,0.07)",
-                      border: `1.5px solid ${p.accent}60`,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "Helvetica, Arial, sans-serif",
-                        fontSize: 11,
-                        fontWeight: 800,
-                        color: p.accent,
-                      }}
-                    >
-                      {p.num}
-                    </span>
-                  </div>
-                  {i < pillars.length - 1 && (
-                    <div
-                      style={{
-                        width: 10,
-                        height: 1,
-                        background: "rgba(255,255,255,0.12)",
-                      }}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-              <div
-                style={{
-                  width: 32,
-                  height: 1.5,
-                  background: `${COLORS.gold}70`,
-                  borderRadius: 2,
-                }}
-              />
-              <svg
-                width="10"
-                height="14"
-                viewBox="0 0 10 14"
-                fill="none"
-                style={{ flexShrink: 0, marginRight: -2 }}
-              >
-                <path
-                  d="M9 1L1 7L9 13"
-                  stroke={COLORS.gold}
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: 14,
-                background: `${COLORS.gold}20`,
-                border: `2px solid ${COLORS.gold}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 8px 24px ${COLORS.gold}35`,
-                flexShrink: 0,
-              }}
-            >
-              <span style={{ color: COLORS.gold, fontSize: 22 }}>✦</span>
-            </div>
+            />
           </div>
         </div>
       </div>
