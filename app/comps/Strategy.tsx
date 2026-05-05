@@ -195,7 +195,6 @@ export default function Strategy() {
     transition: `opacity 0.8s ease ${delay}ms, transform 0.8s ease ${delay}ms`,
   });
 
-  /* ── Center node — shared between desktop + mobile ── */
   const CenterNode = ({ size = 160 }: { size?: number }) => (
     <div
       style={{
@@ -292,7 +291,6 @@ export default function Strategy() {
         overflow: "hidden",
       }}
     >
-      {/* Grid texture */}
       <div
         aria-hidden
         style={{
@@ -307,9 +305,7 @@ export default function Strategy() {
         }}
       />
 
-      {/* ══════════════════════════════════════════
-          HEADER
-      ══════════════════════════════════════════ */}
+      {/* ── HEADER — untouched ── */}
       <div
         style={{
           borderBottom: `1px solid ${COLORS.border}`,
@@ -328,11 +324,9 @@ export default function Strategy() {
             background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
           }}
         />
-
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div
             style={{
-
               display: "flex",
               alignItems: "center",
               gap: 14,
@@ -365,7 +359,6 @@ export default function Strategy() {
               OUR STRATEGY
             </span>
           </div>
-
           <div
             style={{
               display: "grid",
@@ -391,7 +384,6 @@ export default function Strategy() {
                 <span
                   style={{
                     fontWeight: 800,
-
                     color: COLORS.petroleum,
                     position: "relative",
                     display: "inline-block",
@@ -466,9 +458,7 @@ export default function Strategy() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════
-          DIAGRAM WRAPPER
-      ══════════════════════════════════════════ */}
+      {/* ── DIAGRAM WRAPPER — untouched ── */}
       <div
         style={{
           maxWidth: 1280,
@@ -478,7 +468,7 @@ export default function Strategy() {
           zIndex: 10,
         }}
       >
-        {/* ── DESKTOP DIAMOND ── */}
+        {/* DESKTOP DIAMOND — untouched */}
         <div
           className="strategy-desktop"
           style={{ position: "relative", height: 700, ...vis(400) }}
@@ -571,8 +561,6 @@ export default function Strategy() {
             ))}
             <circle cx="50%" cy="50%" r="6" fill={COLORS.gold} />
           </svg>
-
-          {/* Center */}
           <div
             style={{
               position: "absolute",
@@ -585,8 +573,6 @@ export default function Strategy() {
           >
             <CenterNode size={180} />
           </div>
-
-          {/* TOP */}
           <div
             style={{
               position: "absolute",
@@ -606,7 +592,6 @@ export default function Strategy() {
               onLeave={() => setHovered(null)}
             />
           </div>
-          {/* RIGHT */}
           <div
             style={{
               position: "absolute",
@@ -626,7 +611,6 @@ export default function Strategy() {
               onLeave={() => setHovered(null)}
             />
           </div>
-          {/* BOTTOM */}
           <div
             style={{
               position: "absolute",
@@ -646,7 +630,6 @@ export default function Strategy() {
               onLeave={() => setHovered(null)}
             />
           </div>
-          {/* LEFT */}
           <div
             style={{
               position: "absolute",
@@ -670,26 +653,21 @@ export default function Strategy() {
         </div>
 
         {/* ══════════════════════════════════════════
-            MOBILE — Premium vertical layout
-            Center node at top → connecting lines → 4 cards
+            MOBILE — rebuilt for mobile-first feel
+            Center node → connecting line → 4 tap cards
         ══════════════════════════════════════════ */}
         <div
           className="strategy-mobile"
-          style={{ display: "none", padding: "0 4px" }}
+          style={{ display: "none", padding: "0 4px 16px" }}
         >
           {/* Center node */}
           <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              marginBottom: 0,
-              ...vis(300),
-            }}
+            style={{ display: "flex", justifyContent: "center", ...vis(300) }}
           >
             <CenterNode size={140} />
           </div>
 
-          {/* Connector from center down */}
+          {/* Connector */}
           <div
             style={{ display: "flex", justifyContent: "center", ...vis(400) }}
           >
@@ -698,7 +676,6 @@ export default function Strategy() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
-                gap: 0,
               }}
             >
               <div
@@ -722,7 +699,7 @@ export default function Strategy() {
             </div>
           </div>
 
-          {/* 4 pillar cards stacked */}
+          {/* 4 pillar cards — horizontal layout, staggered */}
           <div
             style={{
               display: "flex",
@@ -736,41 +713,43 @@ export default function Strategy() {
                 key={i}
                 style={{
                   opacity: inView ? 1 : 0,
-                  transform: inView ? "translateY(0)" : "translateY(20px)",
-                  transition: `opacity 0.7s ease ${500 + i * 100}ms, transform 0.7s ease ${500 + i * 100}ms`,
+                  transform: inView ? "translateX(0)" : "translateX(24px)",
+                  transition: `opacity 0.7s ease ${500 + i * 100}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${500 + i * 100}ms`,
                 }}
               >
-                {/* Connecting line above each card */}
+                {/* Thin connecting line between cards */}
                 {i > 0 && (
                   <div
                     style={{
                       display: "flex",
                       justifyContent: "center",
                       height: 10,
-                      marginBottom: 0,
                     }}
                   >
                     <div
                       style={{
                         width: 1,
                         height: "100%",
-                        background: `${p.accent}40`,
+                        background: `${p.accent}35`,
                       }}
                     />
                   </div>
                 )}
 
-                {/* Mobile card — horizontal layout */}
                 <div
                   onTouchStart={(e) => {
                     (e.currentTarget as HTMLElement).style.borderColor =
                       p.accent;
+                    (e.currentTarget as HTMLElement).style.background =
+                      COLORS.white;
                     (e.currentTarget as HTMLElement).style.boxShadow =
                       `0 8px 28px ${p.accent}20`;
                   }}
                   onTouchEnd={(e) => {
                     (e.currentTarget as HTMLElement).style.borderColor =
                       COLORS.border;
+                    (e.currentTarget as HTMLElement).style.background =
+                      COLORS.offwhite;
                     (e.currentTarget as HTMLElement).style.boxShadow =
                       "0 4px 16px rgba(1,90,98,0.05)";
                   }}
@@ -778,14 +757,15 @@ export default function Strategy() {
                     display: "flex",
                     alignItems: "center",
                     gap: 16,
-                    background: COLORS.white,
+                    background: COLORS.offwhite,
                     border: `1.5px solid ${COLORS.border}`,
                     borderRadius: 20,
-                    padding: "18px 18px",
+                    padding: "18px 20px",
                     position: "relative",
                     overflow: "hidden",
                     boxShadow: "0 4px 16px rgba(1,90,98,0.05)",
-                    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
+                    transition:
+                      "border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease",
                   }}
                 >
                   {/* Accent right bar */}
@@ -808,7 +788,7 @@ export default function Strategy() {
                       height: 52,
                       borderRadius: 14,
                       flexShrink: 0,
-                      background: `${p.accent}10`,
+                      background: `${p.accent}12`,
                       border: `1.5px solid ${p.accent}30`,
                       display: "flex",
                       alignItems: "center",
@@ -827,7 +807,7 @@ export default function Strategy() {
                     </span>
                   </div>
 
-                  {/* Text content */}
+                  {/* Text */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div
                       style={{
@@ -875,7 +855,7 @@ export default function Strategy() {
                     <p
                       style={{
                         fontFamily: "'Beiruti', sans-serif",
-                        fontSize: 12,
+                        fontSize: 13,
                         fontWeight: 500,
                         color: COLORS.inkMuted,
                         margin: 0,
@@ -891,9 +871,7 @@ export default function Strategy() {
           </div>
         </div>
 
-        {/* ══════════════════════════════════════════
-            SUMMARY STRIP — desktop + mobile
-        ══════════════════════════════════════════ */}
+        {/* SUMMARY STRIP — untouched */}
         <div
           style={{
             display: "grid",
@@ -978,9 +956,7 @@ export default function Strategy() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════
-          VISION BANNER
-      ══════════════════════════════════════════ */}
+      {/* VISION BANNER — untouched */}
       <div
         style={{
           maxWidth: 1280,
@@ -1039,8 +1015,6 @@ export default function Strategy() {
               pointerEvents: "none",
             }}
           />
-
-          {/* Left text */}
           <div style={{ position: "relative", zIndex: 1 }}>
             <div
               style={{
@@ -1096,8 +1070,6 @@ export default function Strategy() {
               التكاملية بين العناصر الأربعة تقودنا نحو تحقيق الرؤية
             </p>
           </div>
-
-          {/* Right chips + arrow + star */}
           <div
             style={{
               display: "flex",
@@ -1205,11 +1177,9 @@ export default function Strategy() {
       </div>
 
       <style>{`
-        /* Desktop */
         .strategy-desktop { display: block !important; }
         .strategy-mobile  { display: none   !important; }
 
-        /* Mobile */
         @media (max-width: 1024px) {
           .strategy-desktop { display: none  !important; }
           .strategy-mobile  { display: block !important; }

@@ -103,10 +103,10 @@ export default function Why() {
           HEADER
       ══════════════════════════════════════════ */}
       <div
+        className="why-header"
         style={{
           background: COLORS.white,
           borderBottom: `1px solid ${COLORS.border}`,
-          padding: "80px 24px 72px",
           position: "relative",
           zIndex: 10,
         }}
@@ -143,9 +143,7 @@ export default function Why() {
             >
               02
             </span>
-
             <div style={{ width: 40, height: 1, background: COLORS.border }} />
-
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
@@ -160,24 +158,16 @@ export default function Why() {
             </span>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))",
-              gap: 72,
-              alignItems: "end",
-            }}
-          >
+          <div className="why-header-grid">
             <div style={vis(150)}>
               <h2
+                className="why-h2"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(48px,5.5vw,80px)",
                   fontWeight: 800,
                   color: COLORS.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
-                  marginTop: -20,
                   marginBottom: 0,
                 }}
               >
@@ -215,14 +205,14 @@ export default function Why() {
               <div
                 style={{
                   borderRight: `4px solid ${COLORS.petroleum}`,
-                  paddingRight: 24,
-                  marginBottom: 22,
+                  paddingRight: 20,
+                  marginBottom: 18,
                 }}
               >
                 <p
+                  className="why-tagline"
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 36,
                     fontWeight: 800,
                     color: COLORS.petroleum,
                     margin: 0,
@@ -231,22 +221,13 @@ export default function Why() {
                 >
                   نبدأ من النموذج
                   <br />
-                  <span
-                    style={{
-                      fontSize: 37,
-                      fontWeight: 800,
-                      color: COLORS.gold,
-                    }}
-                  >
-                    لنشكّل الواقع
-                  </span>
+                  <span style={{ color: COLORS.gold }}>لنشكّل الواقع</span>
                 </p>
               </div>
-
               <p
+                className="why-body"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 20,
                   fontWeight: 500,
                   color: COLORS.inkSoft,
                   margin: 0,
@@ -264,30 +245,19 @@ export default function Why() {
       {/* ══════════════════════════════════════════
           MAIN INTERACTIVE SECTION
       ══════════════════════════════════════════ */}
-      <div
-        style={{ maxWidth: 1280, margin: "0 auto", padding: "64px 24px 104px" }}
-      >
-        {/* 4 floating reason cards */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4,1fr)",
-            gap: 12,
-            marginBottom: 16,
-            ...vis(320),
-          }}
-          className="why-tabs"
-        >
+      <div className="why-main">
+        {/* ── TAB CARDS ── */}
+        <div className="why-tabs" style={{ ...vis(320) }}>
           {reasons.map((r, i) => (
             <button
               key={i}
               onClick={() => handleSetActive(i)}
+              className="why-tab-btn"
               style={{
                 background: active === i ? r.accent : COLORS.white,
                 border: `1.5px solid ${active === i ? r.accent : COLORS.border}`,
                 borderRadius: 20,
                 cursor: "pointer",
-                padding: "28px 28px 24px",
                 textAlign: "right",
                 position: "relative",
                 overflow: "hidden",
@@ -350,6 +320,7 @@ export default function Why() {
               >
                 {r.num}
               </div>
+
               <div
                 style={{
                   display: "inline-flex",
@@ -361,7 +332,7 @@ export default function Why() {
                   background:
                     active === i ? "rgba(255,255,255,0.2)" : `${r.accent}10`,
                   border: `1px solid ${active === i ? "rgba(255,255,255,0.3)" : `${r.accent}25`}`,
-                  marginBottom: 20,
+                  marginBottom: 16,
                   transition: "all 0.3s ease",
                 }}
               >
@@ -378,13 +349,14 @@ export default function Why() {
                   {r.num}
                 </span>
               </div>
+
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 20,
+                  fontSize: "clamp(17px, 2vw, 20px)",
                   fontWeight: 900,
                   color: active === i ? COLORS.white : COLORS.ink,
-                  margin: "0 0 6px",
+                  margin: "0 0 5px",
                   lineHeight: 1.25,
                   transition: "color 0.3s ease",
                 }}
@@ -400,7 +372,7 @@ export default function Why() {
                     active === i ? "rgba(255,255,255,0.5)" : COLORS.inkMuted,
                   letterSpacing: "2px",
                   textTransform: "uppercase",
-                  margin: "0 0 16px",
+                  margin: "0 0 14px",
                   transition: "color 0.3s ease",
                 }}
               >
@@ -419,7 +391,7 @@ export default function Why() {
           ))}
         </div>
 
-        {/* Detail panel */}
+        {/* ── DETAIL PANEL ── */}
         <div
           style={{
             background: COLORS.white,
@@ -437,18 +409,12 @@ export default function Why() {
               transition: "background 0.4s ease",
             }}
           />
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              minHeight: 380,
-            }}
-            className="why-panel"
-          >
-            {/* LEFT */}
+
+          <div className="why-panel">
+            {/* LEFT — detail content */}
             <div
+              className="why-panel-left"
               style={{
-                padding: "56px 60px",
                 position: "relative",
                 overflow: "hidden",
                 display: "flex",
@@ -476,6 +442,7 @@ export default function Why() {
               >
                 {reasons[active].num}
               </div>
+
               <div
                 key={animKey}
                 style={{
@@ -487,11 +454,11 @@ export default function Why() {
                 <h3
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: "clamp(26px, 2.8vw, 40px)",
+                    fontSize: "clamp(22px, 2.8vw, 40px)",
                     fontWeight: 700,
                     color: COLORS.ink,
                     lineHeight: 1.4,
-                    margin: "0 0 20px",
+                    margin: "0 0 18px",
                     letterSpacing: -0.5,
                   }}
                 >
@@ -503,14 +470,14 @@ export default function Why() {
                     height: 3,
                     borderRadius: 2,
                     background: reasons[active].accent,
-                    marginBottom: 20,
+                    marginBottom: 18,
                     transition: "background 0.4s ease",
                   }}
                 />
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 17,
+                    fontSize: "clamp(15px, 1.6vw, 17px)",
                     fontWeight: 500,
                     color: COLORS.inkSoft,
                     lineHeight: 2.1,
@@ -521,12 +488,14 @@ export default function Why() {
                   {reasons[active].desc}
                 </p>
               </div>
+
+              {/* Navigation */}
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  marginTop: 44,
+                  marginTop: 36,
                   position: "relative",
                   zIndex: 1,
                 }}
@@ -611,12 +580,13 @@ export default function Why() {
               </div>
             </div>
 
-            {/* RIGHT */}
+            {/* RIGHT — list */}
             <div style={{ background: COLORS.offwhite }}>
               {reasons.map((r, i) => (
                 <div key={i} style={visX(400 + i * 90)}>
                   <button
                     onClick={() => handleSetActive(i)}
+                    className="why-list-btn"
                     style={{
                       width: "100%",
                       border: "none",
@@ -624,8 +594,7 @@ export default function Why() {
                       cursor: "pointer",
                       display: "flex",
                       alignItems: "center",
-                      gap: 18,
-                      padding: "26px 32px",
+                      gap: 16,
                       background: active === i ? COLORS.white : "transparent",
                       borderBottom:
                         i < reasons.length - 1
@@ -647,9 +616,9 @@ export default function Why() {
                   >
                     <div
                       style={{
-                        width: 52,
-                        height: 52,
-                        borderRadius: 16,
+                        width: 48,
+                        height: 48,
+                        borderRadius: 14,
                         flexShrink: 0,
                         background: active === i ? r.accent : COLORS.white,
                         border: `1.5px solid ${active === i ? r.accent : COLORS.border}`,
@@ -666,7 +635,7 @@ export default function Why() {
                       <span
                         style={{
                           fontFamily: "Helvetica, Arial, sans-serif",
-                          fontSize: 14,
+                          fontSize: 13,
                           fontWeight: 900,
                           color: active === i ? COLORS.white : r.accent,
                           transition: "color 0.25s ease",
@@ -675,14 +644,15 @@ export default function Why() {
                         {r.num}
                       </span>
                     </div>
+
                     <div style={{ flex: 1 }}>
                       <p
                         style={{
                           fontFamily: "'Beiruti', sans-serif",
-                          fontSize: 17,
+                          fontSize: "clamp(14px, 1.8vw, 17px)",
                           fontWeight: 700,
                           color: active === i ? r.accent : COLORS.ink,
-                          margin: "0 0 4px",
+                          margin: "0 0 3px",
                           lineHeight: 1.4,
                           transition: "color 0.25s ease",
                         }}
@@ -690,6 +660,7 @@ export default function Why() {
                         {r.ar}
                       </p>
                       <p
+                        className="why-list-en"
                         style={{
                           fontFamily: "Helvetica, Arial, sans-serif",
                           fontSize: 9,
@@ -705,6 +676,7 @@ export default function Why() {
                         {r.en}
                       </p>
                     </div>
+
                     <div
                       style={{
                         width: 28,
@@ -744,10 +716,94 @@ export default function Why() {
           from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @media (max-width: 900px) {
-          .why-tabs       { grid-template-columns: repeat(2,1fr) !important; }
-          .why-panel      { grid-template-columns: 1fr !important; }
-          .why-quote-grid { grid-template-columns: 1fr !important; }
+
+        /* ── HEADER ── */
+        .why-header        { padding: 80px 24px 72px; }
+        .why-header-grid   {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 64px;
+          align-items: end;
+        }
+        .why-h2            { font-size: clamp(44px, 5.5vw, 80px); margin-top: -20px; }
+        .why-tagline       { font-size: 36px; }
+        .why-body          { font-size: 20px; }
+
+        /* ── MAIN ── */
+        .why-main { max-width: 1280px; margin: 0 auto; padding: 64px 24px 104px; }
+
+        /* ── TABS ── */
+        .why-tabs {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+        .why-tab-btn { padding: 28px 28px 24px; }
+
+        /* ── PANEL ── */
+        .why-panel {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          min-height: 380px;
+        }
+        .why-panel-left  { padding: 56px 52px; }
+        .why-list-btn    { padding: 26px 28px; }
+        .why-list-en     { display: block; }
+
+        /* ════════════════════════════════════════
+           TABLET — 1024px
+        ════════════════════════════════════════ */
+        @media (max-width: 1024px) {
+          .why-tabs { grid-template-columns: repeat(2, 1fr) !important; }
+          .why-panel { grid-template-columns: 1fr !important; min-height: auto !important; }
+          .why-panel-left { border-left: none !important; border-bottom: 1px solid ${COLORS.border} !important; }
+        }
+
+        /* ════════════════════════════════════════
+           MOBILE — 640px
+           Designed specifically for thumb use.
+           Tabs become 2x2, panel goes full stack,
+           list becomes compact swipeable rows.
+        ════════════════════════════════════════ */
+        @media (max-width: 640px) {
+
+          /* Header */
+          .why-header { padding: 48px 20px 44px !important; }
+          .why-header-grid { gap: 28px !important; }
+          .why-h2 { font-size: clamp(40px, 11vw, 56px) !important; margin-top: 12px !important; }
+          .why-tagline { font-size: clamp(22px, 6vw, 30px) !important; }
+          .why-body { font-size: clamp(15px, 4vw, 18px) !important; }
+
+          /* Main wrapper */
+          .why-main { padding: 36px 16px 72px !important; }
+
+          /* Tabs — 2x2 grid, more compact cards */
+          .why-tabs { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; margin-bottom: 12px !important; }
+          .why-tab-btn { padding: 20px 18px 18px !important; border-radius: 16px !important; }
+
+          /* Panel — full stack */
+          .why-panel { grid-template-columns: 1fr !important; min-height: auto !important; }
+          .why-panel-left {
+            padding: 32px 24px 28px !important;
+            border-left: none !important;
+            border-bottom: 1px solid ${COLORS.border} !important;
+          }
+
+          /* List rows — tighter on mobile */
+          .why-list-btn { padding: 18px 20px !important; gap: 14px !important; }
+          .why-list-en  { display: none !important; }
+        }
+
+        /* ════════════════════════════════════════
+           VERY SMALL — 380px
+        ════════════════════════════════════════ */
+        @media (max-width: 380px) {
+          .why-header { padding: 40px 16px 36px !important; }
+          .why-main   { padding: 28px 12px 56px !important; }
+          .why-tab-btn { padding: 16px 14px 14px !important; }
+          .why-panel-left { padding: 24px 18px 22px !important; }
+          .why-list-btn { padding: 16px 16px !important; }
         }
       `}</style>
     </section>

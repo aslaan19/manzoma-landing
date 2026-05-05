@@ -2,18 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// ── EXACT 4 BRAND COLORS — unchanged ──
 const C = {
   petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
-  // Neutrals — supporting cast
   white: "#FFFFFF",
   offwhite: "#F8F6F1",
   border: "#E8E4DC",
   borderSoft: "#F0ECE6",
-  ink: "#0D1F21 ",
+  ink: "#0D1F21",
   inkSoft: "#2E4547",
   inkMuted: "#7A8C8D",
 };
@@ -90,28 +88,21 @@ export default function About() {
       id="about"
       dir="rtl"
       ref={ref}
-      style={{
-        background: C.white,
-        position: "relative",
-        overflow: "hidden",
-      }}
+      style={{ background: C.white, position: "relative", overflow: "hidden" }}
     >
-      {/* ══════════════════════════════════════════
+      {/* ══════════════════════════════
           PART 1 — HEADER
-          White background. Ink typography.
-          4-color line at top. Petroleum used as
-          a SINGLE border accent — not a background.
-      ══════════════════════════════════════════ */}
+      ══════════════════════════════ */}
       <div
+        className="about-header"
         style={{
           background: C.white,
           borderBottom: `1px solid ${C.border}`,
-          padding: "96px 24px 88px",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* ── 4-color gradient top line ── */}
+        {/* 4-color top line */}
         <div
           style={{
             position: "absolute",
@@ -123,16 +114,17 @@ export default function About() {
           }}
         />
 
-        {/* Faint watermark */}
+        {/* Watermark — hidden on mobile */}
         <div
           aria-hidden
+          className="about-watermark"
           style={{
             position: "absolute",
             left: -10,
             top: "50%",
             transform: "translateY(-50%)",
             fontFamily: "Helvetica, Arial, sans-serif",
-            fontSize: "clamp(160px,20vw,280px)",
+            fontSize: "clamp(120px,20vw,280px)",
             fontWeight: 900,
             color: `${C.petroleum}04`,
             lineHeight: 1,
@@ -152,15 +144,9 @@ export default function About() {
             position: "relative",
             zIndex: 1,
           }}
+          className="about-header-inner"
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))",
-              gap: 80,
-              alignItems: "end",
-            }}
-          >
+          <div className="about-header-grid">
             {/* Heading */}
             <div style={vis(100)}>
               <div
@@ -175,7 +161,7 @@ export default function About() {
                 <span
                   style={{
                     fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 700,
                     color: C.petroleum,
                     letterSpacing: "5px",
@@ -189,10 +175,10 @@ export default function About() {
               <h2
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(44px,5vw,68px)",
+                  fontSize: "clamp(38px, 5vw, 68px)",
                   fontWeight: 800,
                   color: C.ink,
-                  lineHeight: 1.15,
+                  lineHeight: 1.2,
                   letterSpacing: -1.5,
                   margin: 0,
                 }}
@@ -205,13 +191,9 @@ export default function About() {
                     color: C.petroleum,
                     position: "relative",
                     display: "inline-block",
-                    fontSize: "clamp(44px,5vw,70px)",
-
-                    fontWeight: 800,
                   }}
                 >
                   المعرفة
-                  {/* Gold animated underline */}
                   <span
                     style={{
                       position: "absolute",
@@ -219,7 +201,6 @@ export default function About() {
                       right: 0,
                       left: 0,
                       height: 3,
-
                       background: C.gold,
                       borderRadius: 2,
                       transformOrigin: "right",
@@ -236,13 +217,13 @@ export default function About() {
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 19,
+                  fontSize: "clamp(16px, 2vw, 19px)",
                   fontWeight: 600,
                   color: C.inkSoft,
                   lineHeight: 2.1,
                   margin: "0 0 22px",
                   borderRight: `3px solid ${C.petroleum}`,
-                  paddingRight: 24,
+                  paddingRight: 20,
                 }}
               >
                 شركة متخصصة في بناء النماذج والمنتجات المعرفية التي تمكّن
@@ -252,7 +233,7 @@ export default function About() {
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 16,
+                  fontSize: "clamp(14px, 1.8vw, 16px)",
                   fontWeight: 800,
                   color: C.inkMuted,
                   lineHeight: 2,
@@ -267,128 +248,99 @@ export default function About() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════
+      {/* ══════════════════════════════
           STAT BOXES
-          Offwhite background.
-          Each stat: its accent color as top bar + dot.
-          Numbers in ink — NOT in accent color.
-          This is the luxury move: accent used as
-          a small signal, not a loud color flood.
-      ══════════════════════════════════════════ */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3,1fr)",
-          gap: 1,
-          background: C.border,
-          borderBottom: `1px solid ${C.border}`,
-        }}
-        className="stat-boxes-grid"
-      >
-        {stats.map((s, i) => (
-          <div
-            key={i}
-            style={{
-              background: C.offwhite,
-              padding: "48px 52px",
-              position: "relative",
-              ...vis(300 + i * 100),
-            }}
-          >
-            {/* Colored top bar */}
+          Horizontal scroll on mobile
+      ══════════════════════════════ */}
+      <div className="stat-scroll-wrapper">
+        <div className="stat-boxes-grid" style={{ background: C.border }}>
+          {stats.map((s, i) => (
             <div
+              key={i}
+              className="stat-box"
               style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                left: 0,
-                height: 4,
-                background: s.accent,
-              }}
-            />
-
-            {/* Number — big, ink */}
-            <p
-              style={{
-                fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 58,
-                fontWeight: 600,
-                color: C.ink,
-                margin: "0 0 12px",
-                lineHeight: 1,
-                letterSpacing: -2,
+                background: C.offwhite,
+                position: "relative",
+                ...vis(300 + i * 100),
               }}
             >
-              {s.value}
-            </p>
-
-            <p
-              style={{
-                fontFamily: "'Beiruti', sans-serif",
-                fontSize: 20,
-                fontWeight: 700,
-                color: C.ink,
-                margin: "0 0 8px",
-              }}
-            >
-              {s.label}
-            </p>
-
-            {/* Accent dot + EN */}
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <div
                 style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  left: 0,
+                  height: 4,
                   background: s.accent,
-                  flexShrink: 0,
                 }}
               />
+
               <p
                 style={{
                   fontFamily: "Helvetica, Arial, sans-serif",
-                  fontSize: 10,
+                  fontSize: "clamp(40px, 6vw, 58px)",
                   fontWeight: 600,
-                  color: C.inkMuted,
-                  margin: 0,
-                  letterSpacing: "2.5px",
-                  textTransform: "uppercase",
+                  color: C.ink,
+                  margin: "0 0 10px",
+                  lineHeight: 1,
+                  letterSpacing: -2,
                 }}
               >
-                {s.sub}
+                {s.value}
               </p>
+              <p
+                style={{
+                  fontFamily: "'Beiruti', sans-serif",
+                  fontSize: "clamp(16px, 2vw, 20px)",
+                  fontWeight: 700,
+                  color: C.ink,
+                  margin: "0 0 8px",
+                }}
+              >
+                {s.label}
+              </p>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div
+                  style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: "50%",
+                    background: s.accent,
+                    flexShrink: 0,
+                  }}
+                />
+                <p
+                  style={{
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontSize: 10,
+                    fontWeight: 600,
+                    color: C.inkMuted,
+                    margin: 0,
+                    letterSpacing: "2.5px",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {s.sub}
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* ══════════════════════════════════════════
-          PART 2 — KEY POINTS + IDENTITY CARD
-          Each key point gets its own accent color.
-          The 4 colors appear naturally — not forced.
-      ══════════════════════════════════════════ */}
+      {/* ══════════════════════════════
+          PART 2 — KEY POINTS + CARD
+      ══════════════════════════════ */}
       <div
         style={{
           background: C.offwhite,
           borderBottom: `1px solid ${C.border}`,
         }}
       >
-        <div
-          style={{
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "96px 24px 112px",
-            display: "grid",
-            gridTemplateColumns: "1fr 400px",
-            gap: 96,
-            alignItems: "start",
-          }}
-          className="about-body-grid"
-        >
+        <div className="about-body-grid">
           {/* Key points */}
           <div>
-            <div style={{ marginBottom: 32, ...vis(500) }}>
+            <div style={{ marginBottom: 28, ...vis(500) }}>
               <div
                 style={{
                   display: "flex",
@@ -414,7 +366,7 @@ export default function About() {
               <h3
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 32,
+                  fontSize: "clamp(24px, 3vw, 32px)",
                   fontWeight: 700,
                   color: C.ink,
                   margin: 0,
@@ -429,29 +381,30 @@ export default function About() {
                 <div
                   onMouseEnter={() => setHovered(i)}
                   onMouseLeave={() => setHovered(null)}
+                  className="key-point-row"
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "60px 1fr auto",
+                    gridTemplateColumns: "52px 1fr auto",
                     alignItems: "center",
-                    gap: 24,
-                    padding: "22px 20px",
+                    gap: 18,
+                    padding: "18px 16px",
                     borderBottom: `1px solid ${hovered === i ? "transparent" : C.border}`,
                     borderRadius: hovered === i ? 16 : 0,
                     background: hovered === i ? C.white : "transparent",
                     boxShadow:
                       hovered === i ? `0 4px 24px rgba(1,90,98,0.06)` : "none",
                     transform:
-                      hovered === i ? "translateX(-6px)" : "translateX(0)",
+                      hovered === i ? "translateX(-4px)" : "translateX(0)",
                     transition: "all 0.3s ease",
                     cursor: "default",
                   }}
                 >
-                  {/* Number badge — uses each point's accent color on hover */}
+                  {/* Number badge */}
                   <div
                     style={{
-                      width: 52,
-                      height: 52,
-                      borderRadius: 14,
+                      width: 48,
+                      height: 48,
+                      borderRadius: 13,
                       flexShrink: 0,
                       background: hovered === i ? p.accent : C.white,
                       border: `1.5px solid ${hovered === i ? p.accent : C.border}`,
@@ -468,7 +421,7 @@ export default function About() {
                     <span
                       style={{
                         fontFamily: "Helvetica, Arial, sans-serif",
-                        fontSize: 13,
+                        fontSize: 12,
                         fontWeight: 900,
                         color: hovered === i ? C.white : C.ink,
                         transition: "color 0.3s ease",
@@ -478,11 +431,11 @@ export default function About() {
                     </span>
                   </div>
 
-                  {/* Arabic */}
+                  {/* Arabic text */}
                   <span
                     style={{
                       fontFamily: "'Beiruti', sans-serif",
-                      fontSize: 18,
+                      fontSize: "clamp(15px, 2vw, 18px)",
                       fontWeight: 600,
                       color: hovered === i ? p.accent : C.ink,
                       lineHeight: 1.5,
@@ -492,8 +445,9 @@ export default function About() {
                     {p.ar}
                   </span>
 
-                  {/* English */}
+                  {/* English label — hidden on very small screens via CSS */}
                   <span
+                    className="key-point-en"
                     style={{
                       fontFamily: "Helvetica, Arial, sans-serif",
                       fontSize: 9,
@@ -514,7 +468,7 @@ export default function About() {
           </div>
 
           {/* Identity card */}
-          <div style={{ position: "sticky", top: 96, ...vis(480) }}>
+          <div className="identity-card-wrapper" style={vis(480)}>
             <div
               style={{
                 background: C.white,
@@ -524,11 +478,11 @@ export default function About() {
                 boxShadow: "0 24px 64px rgba(13,31,33,0.07)",
               }}
             >
-              {/* Card header — petroleum, used intentionally here */}
+              {/* Card header */}
               <div
                 style={{
                   background: C.petroleum,
-                  padding: "44px 40px",
+                  padding: "clamp(28px, 5vw, 44px) clamp(24px, 5vw, 40px)",
                   position: "relative",
                   overflow: "hidden",
                 }}
@@ -544,7 +498,6 @@ export default function About() {
                     backgroundSize: "18px 18px",
                   }}
                 />
-                {/* Gold top line */}
                 <div
                   style={{
                     position: "absolute",
@@ -576,7 +529,7 @@ export default function About() {
                     color: "rgba(255,255,255,0.3)",
                     letterSpacing: "5px",
                     textTransform: "uppercase",
-                    margin: "0 0 20px",
+                    margin: "0 0 16px",
                     position: "relative",
                     zIndex: 1,
                   }}
@@ -586,7 +539,7 @@ export default function About() {
                 <p
                   style={{
                     fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 88,
+                    fontSize: "clamp(64px, 10vw, 88px)",
                     fontWeight: 900,
                     color: C.white,
                     margin: 0,
@@ -598,14 +551,13 @@ export default function About() {
                 >
                   2024
                 </p>
-                {/* Gold accent line under year */}
                 <div
                   style={{
                     width: 40,
                     height: 2,
                     background: C.gold,
                     borderRadius: 2,
-                    marginTop: 20,
+                    marginTop: 16,
                     position: "relative",
                     zIndex: 1,
                   }}
@@ -613,7 +565,7 @@ export default function About() {
               </div>
 
               {/* Card rows */}
-              <div style={{ padding: "0 40px" }}>
+              <div className="card-rows">
                 {[
                   {
                     en: "SPECIALIZATION",
@@ -624,7 +576,7 @@ export default function About() {
                   <div
                     key={i}
                     style={{
-                      padding: "26px 0",
+                      padding: "22px 0",
                       borderBottom: `1px solid ${C.borderSoft}`,
                     }}
                   >
@@ -644,7 +596,7 @@ export default function About() {
                     <p
                       style={{
                         fontFamily: "'Beiruti', sans-serif",
-                        fontSize: 17,
+                        fontSize: "clamp(15px, 2vw, 17px)",
                         fontWeight: 800,
                         color: C.ink,
                         margin: 0,
@@ -656,8 +608,8 @@ export default function About() {
                   </div>
                 ))}
 
-                {/* 4-color dots badge — shows all 4 colors together */}
-                <div style={{ padding: "28px 0" }}>
+                {/* 4-color badge */}
+                <div style={{ padding: "24px 0" }}>
                   <div
                     style={{
                       display: "flex",
@@ -666,10 +618,9 @@ export default function About() {
                       background: C.offwhite,
                       border: `1px solid ${C.border}`,
                       borderRadius: 12,
-                      padding: "14px 20px",
+                      padding: "14px 18px",
                     }}
                   >
-                    {/* All 4 brand colors as dots */}
                     <div style={{ display: "flex", gap: 5 }}>
                       {[C.petroleum, C.gold, C.crimson, C.rose].map(
                         (col, i) => (
@@ -720,11 +671,115 @@ export default function About() {
       </div>
 
       <style>{`
-        @media (max-width: 1100px) {
-          .about-body-grid { grid-template-columns: 1fr !important; gap: 52px !important; }
+
+        /* ── HEADER ── */
+        .about-header { padding: 72px 20px 64px; }
+        .about-header-inner { padding: 0 4px; }
+        .about-header-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 56px;
+          align-items: end;
         }
-        @media (max-width: 768px) {
-          .stat-boxes-grid { grid-template-columns: 1fr !important; }
+
+        /* ── STAT BOXES ── */
+        .stat-scroll-wrapper {
+          /* On desktop: no scroll — just a grid wrapper */
+        }
+        .stat-boxes-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1px;
+          border-bottom: 1px solid ${C.border};
+        }
+        .stat-box { padding: 44px 44px; }
+
+        /* ── BODY ── */
+        .about-body-grid {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 88px 24px 104px;
+          display: grid;
+          grid-template-columns: 1fr 400px;
+          gap: 88px;
+          align-items: start;
+        }
+        .identity-card-wrapper { position: sticky; top: 88px; }
+        .card-rows { padding: 0 36px; }
+        .key-point-en { display: inline; }
+
+        /* ════════════════════════════════════════
+           TABLET — 900px
+        ════════════════════════════════════════ */
+        @media (max-width: 1100px) {
+          .about-body-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+            padding: 64px 20px 80px !important;
+          }
+          .identity-card-wrapper { position: static !important; top: auto !important; }
+        }
+
+        /* ════════════════════════════════════════
+           MOBILE — 640px
+           Everything designed specifically for
+           a one-column, thumb-friendly layout.
+        ════════════════════════════════════════ */
+        @media (max-width: 640px) {
+
+          /* Header */
+          .about-header { padding: 52px 20px 48px !important; }
+          .about-header-grid { gap: 32px !important; }
+          .about-watermark { display: none !important; }
+
+          /* Stat boxes — horizontal scroll strip */
+          .stat-scroll-wrapper {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scroll-snap-type: x mandatory;
+            /* Fade hint on right edge */
+            -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
+            mask-image: linear-gradient(to right, black 85%, transparent 100%);
+          }
+          .stat-boxes-grid {
+            display: flex !important;
+            gap: 0 !important;
+            width: max-content;
+            border-bottom: none !important;
+          }
+          .stat-box {
+            scroll-snap-align: start;
+            min-width: 56vw;
+            padding: 32px 28px !important;
+            border-left: 1px solid ${C.border};
+            border-bottom: 1px solid ${C.border};
+          }
+          .stat-box:first-child { border-right: 1px solid ${C.border}; }
+
+          /* Body */
+          .about-body-grid {
+            padding: 48px 20px 64px !important;
+            gap: 36px !important;
+          }
+
+          /* Key point rows — tighter on mobile */
+          .key-point-row {
+            gap: 14px !important;
+            padding: 16px 12px !important;
+          }
+          .key-point-en { display: none !important; }
+
+          /* Identity card */
+          .card-rows { padding: 0 20px !important; }
+        }
+
+        /* ════════════════════════════════════════
+           VERY SMALL — 380px
+        ════════════════════════════════════════ */
+        @media (max-width: 380px) {
+          .about-header { padding: 44px 16px 40px !important; }
+          .stat-box { min-width: 72vw !important; }
+          .about-body-grid { padding: 40px 16px 56px !important; }
         }
       `}</style>
     </section>
