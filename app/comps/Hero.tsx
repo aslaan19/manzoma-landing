@@ -749,7 +749,7 @@ export default function Hero() {
           <h1
             style={{
               fontFamily: "'Beiruti', sans-serif",
-              fontSize: "clamp(54px, 5.2vw, 62px)",
+              fontSize: "clamp(48px, 5.2vw, 62px)",
               fontWeight: 600,
               color: COLORS.ink,
               lineHeight: 1.4,
@@ -763,7 +763,7 @@ export default function Hero() {
                 color: COLORS.petroleum,
                 position: "relative",
                 display: "inline-block",
-                fontSize: "clamp(34px, 4.6vw, 60px)",
+                fontSize: "clamp(54px, 4.6vw, 60px)",
                 fontWeight: 900,
               }}
             >
