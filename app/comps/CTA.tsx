@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const COLORS = {
-  petroleum: "#015A62",
+  petroleum: "#124f45",
   gold: "#C7A856",
   crimson: "#972B28",
   rose: "#B18083",
@@ -163,7 +163,27 @@ export default function CTA() {
             background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
           }}
         />
-
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: -10,
+            top: "50%",
+            transform: "translateY(-50%)",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontSize: "clamp(140px,18vw,240px)",
+            fontWeight: 800,
+            color: `${COLORS.petroleum}04`,
+            lineHeight: 1,
+            letterSpacing: -8,
+            userSelect: "none",
+            pointerEvents: "none",
+            whiteSpace: "nowrap",
+            marginTop: -40,
+          }}
+        >
+          07
+        </div>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           {/* Breadcrumb */}
           <div
@@ -184,13 +204,13 @@ export default function CTA() {
                 letterSpacing: "2px",
               }}
             >
-              05
+              07
             </span>
             <div style={{ width: 40, height: 1, background: COLORS.border }} />
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 color: COLORS.petroleum,
                 letterSpacing: "5px",
@@ -215,7 +235,7 @@ export default function CTA() {
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: "clamp(44px, 5vw, 72px)",
-                  fontWeight: 900,
+                  fontWeight: 800,
                   color: COLORS.ink,
                   lineHeight: 1.15,
                   letterSpacing: -2,
@@ -264,7 +284,7 @@ export default function CTA() {
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
                     fontSize: 26,
-                    fontWeight: 900,
+                    fontWeight: 700,
                     color: COLORS.petroleum,
                     margin: 0,
                     lineHeight: 1.65,
@@ -272,7 +292,13 @@ export default function CTA() {
                 >
                   منظومة ليست مشروعًا تشغيليًا،
                   <br />
-                  <span style={{ color: COLORS.gold }}>
+                  <span
+                    style={{
+                      color: COLORS.gold,
+                      fontSize: 30,
+                      fontWeight: 800,
+                    }}
+                  >
                     بل بنية معرفية تُبنى ليُبنى عليها.
                   </span>
                 </p>
@@ -321,9 +347,9 @@ export default function CTA() {
           <span
             style={{
               fontFamily: "Helvetica, Arial, sans-serif",
-              fontSize: 9,
+              fontSize: 12,
               fontWeight: 700,
-              color: COLORS.gold,
+              color: COLORS.inkMuted,
               letterSpacing: "4px",
               textTransform: "uppercase",
             }}
@@ -558,28 +584,7 @@ export default function CTA() {
                   gap: 10,
                   marginBottom: 20,
                 }}
-              >
-                <div
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: COLORS.gold,
-                  }}
-                />
-                <span
-                  style={{
-                    fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: "rgba(255,255,255,0.4)",
-                    letterSpacing: "4px",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Manzoma Knowledge Co.
-                </span>
-              </div>
+              ></div>
 
               <h3
                 style={{

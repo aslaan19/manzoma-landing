@@ -332,10 +332,11 @@ export default function Strategy() {
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div
             style={{
+
               display: "flex",
               alignItems: "center",
               gap: 14,
-              marginBottom: 36,
+              marginBottom: 0,
               ...vis(60),
             }}
           >
@@ -354,7 +355,7 @@ export default function Strategy() {
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 color: COLORS.petroleum,
                 letterSpacing: "5px",
@@ -378,17 +379,19 @@ export default function Strategy() {
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: "clamp(48px,5.5vw,80px)",
-                  fontWeight: 900,
+                  fontWeight: 800,
                   color: COLORS.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
-                  margin: 0,
+                  marginTop: -20,
                 }}
               >
                 استراتيجية
                 <br />
                 <span
                   style={{
+                    fontWeight: 800,
+
                     color: COLORS.petroleum,
                     position: "relative",
                     display: "inline-block",
@@ -424,8 +427,8 @@ export default function Strategy() {
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 22,
-                    fontWeight: 900,
+                    fontSize: 36,
+                    fontWeight: 800,
                     color: COLORS.petroleum,
                     margin: 0,
                     lineHeight: 1.6,
@@ -433,13 +436,21 @@ export default function Strategy() {
                 >
                   ابتكار القيمة من خلال
                   <br />
-                  استثمار المعرفة
+                  <span
+                    style={{
+                      fontSize: 37,
+                      fontWeight: 800,
+                      color: COLORS.gold,
+                    }}
+                  >
+                    استثمار المعرفة
+                  </span>
                 </p>
               </div>
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 16,
+                  fontSize: 20,
                   fontWeight: 500,
                   color: COLORS.inkSoft,
                   margin: 0,
@@ -567,12 +578,12 @@ export default function Strategy() {
               position: "absolute",
               top: "50%",
               left: "50%",
-              marginTop: -80,
-              marginLeft: -80,
+              marginTop: -90,
+              marginLeft: -90,
               zIndex: 20,
             }}
           >
-            <CenterNode size={160} />
+            <CenterNode size={180} />
           </div>
 
           {/* TOP */}

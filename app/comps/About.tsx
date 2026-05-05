@@ -171,13 +171,13 @@ export default function About() {
                   marginBottom: 20,
                 }}
               >
-                <div style={{ width: 36, height: 1, background: C.gold }} />
+                <div style={{ width: 40, height: 1, background: C.border }} />
                 <span
                   style={{
                     fontFamily: "Helvetica, Arial, sans-serif",
                     fontSize: 12,
                     fontWeight: 700,
-                    color: C.gold,
+                    color: C.petroleum,
                     letterSpacing: "5px",
                     textTransform: "uppercase",
                   }}
@@ -189,8 +189,8 @@ export default function About() {
               <h2
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(44px,5vw,72px)",
-                  fontWeight: 900,
+                  fontSize: "clamp(44px,5vw,68px)",
+                  fontWeight: 800,
                   color: C.ink,
                   lineHeight: 1.15,
                   letterSpacing: -1.5,
@@ -205,6 +205,9 @@ export default function About() {
                     color: C.petroleum,
                     position: "relative",
                     display: "inline-block",
+                    fontSize: "clamp(44px,5vw,70px)",
+
+                    fontWeight: 800,
                   }}
                 >
                   المعرفة
@@ -216,6 +219,7 @@ export default function About() {
                       right: 0,
                       left: 0,
                       height: 3,
+
                       background: C.gold,
                       borderRadius: 2,
                       transformOrigin: "right",

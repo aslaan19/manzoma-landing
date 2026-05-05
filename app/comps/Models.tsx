@@ -152,7 +152,7 @@ export default function Models() {
           zIndex: 10,
         }}
       >
-        {/* 4-color top line */}
+        {/* Top Gradient Line */}
         <div
           style={{
             position: "absolute",
@@ -164,8 +164,15 @@ export default function Models() {
           }}
         />
 
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          {/* Breadcrumb */}
+        <div
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          {/* ───── Breadcrumb ───── */}
           <div
             style={{
               display: "flex",
@@ -186,7 +193,9 @@ export default function Models() {
             >
               04
             </span>
+
             <div style={{ width: 40, height: 1, background: COLORS.border }} />
+
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
@@ -201,21 +210,22 @@ export default function Models() {
             </span>
           </div>
 
+          {/* ───── Main Grid ───── */}
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(320px,1fr))",
               gap: 72,
-              alignItems: "end",
+              alignItems: "start",
             }}
           >
-            {/* Heading */}
+            {/* ───── Left Title ───── */}
             <div style={vis(150)}>
               <h2
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(44px, 5vw, 76px)",
-                  fontWeight: 900,
+                  fontSize: "clamp(48px,5.5vw,80px)",
+                  fontWeight: 800,
                   color: COLORS.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
@@ -236,7 +246,7 @@ export default function Models() {
                   <span
                     style={{
                       position: "absolute",
-                      bottom: 4,
+                      bottom: 2,
                       right: 0,
                       left: 0,
                       height: 3,
@@ -251,19 +261,19 @@ export default function Models() {
               </h2>
             </div>
 
-            {/* Right block */}
-            <div style={{ paddingBottom: 8, ...vis(280) }}>
+            {/* ───── Right Content ───── */}
+            <div style={{ paddingBottom: 2, ...vis(280) }}>
+              {/* Highlight Box */}
               <div
                 style={{
                   borderRight: `4px solid ${COLORS.petroleum}`,
                   paddingRight: 24,
-                  marginBottom: 22,
                 }}
               >
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 26,
+                    fontSize: 28,
                     fontWeight: 900,
                     color: COLORS.petroleum,
                     margin: 0,
@@ -272,26 +282,38 @@ export default function Models() {
                 >
                   ثمانية نماذج معرفية
                   <br />
-                  مصممة للأثر
+                  <span style={{ color: COLORS.gold }}>
+                    مصممة لإحداث أثر حقيقي
+                  </span>
                 </p>
               </div>
+
+              {/* Description */}
               <p
                 style={{
+                  marginTop: 20,
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: 500,
                   color: COLORS.inkSoft,
-                  margin: "0 0 28px",
-                  lineHeight: 1.95,
+                  lineHeight: 1.9,
+                  marginBottom: 10,
                 }}
               >
-                كل نموذج من نماذج منظومة هو منتج معرفي قائم بذاته — مُصمَّم
-                لبناء قدرة مؤسسية حقيقية، وتحويل المعرفة إلى أصل اقتصادي قابل
-                للتفعيل.
+                كل نموذج من نماذج منظومة يمثل منتجًا معرفيًا متكاملًا — مصممًا
+                لبناء قدرات مؤسسية مستدامة، وتحويل المعرفة إلى قيمة اقتصادية
+                قابلة للتطبيق.
               </p>
 
-              {/* Counters */}
-              <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+              {/* Stats */}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 32,
+                  marginBottom: -25,
+                }}
+              >
                 {[
                   { val: "8", label: "نماذج معرفية" },
                   { val: "100%", label: "تخصص معرفي" },
@@ -309,6 +331,7 @@ export default function Models() {
                         }}
                       />
                     )}
+
                     <div style={{ textAlign: "center" }}>
                       <p
                         style={{
@@ -323,6 +346,7 @@ export default function Models() {
                       >
                         {s.val}
                       </p>
+
                       <p
                         style={{
                           fontFamily: "'Beiruti', sans-serif",
@@ -342,7 +366,6 @@ export default function Models() {
           </div>
         </div>
       </div>
-
       {/* ══════════════════════════════════════════
           FEATURED PRODUCT — هاكاثون الوعي المعرفي
       ══════════════════════════════════════════ */}
@@ -537,19 +560,6 @@ export default function Models() {
                       />
                     </svg>
                   </div>
-                  <p
-                    style={{
-                      fontFamily: "Helvetica, Arial, sans-serif",
-                      fontSize: 10,
-                      fontWeight: 600,
-                      color: COLORS.inkMuted,
-                      letterSpacing: "1.5px",
-                      marginTop: 10,
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    hackathonwa3i.online
-                  </p>
                 </div>
               </div>
 
@@ -610,14 +620,6 @@ export default function Models() {
                       backdropFilter: "blur(8px)",
                     }}
                   >
-                    <div
-                      style={{
-                        width: 5,
-                        height: 5,
-                        borderRadius: "50%",
-                        background: COLORS.gold,
-                      }}
-                    />
                     <span
                       style={{
                         fontFamily: "Helvetica, Arial, sans-serif",
@@ -761,19 +763,6 @@ export default function Models() {
               />
 
               {/* Gold dot — top left */}
-              <div
-                style={{
-                  position: "absolute",
-                  top: 16,
-                  left: 16,
-                  width: 5,
-                  height: 5,
-                  borderRadius: "50%",
-                  background: COLORS.gold,
-                  opacity: hovered === i ? 1 : 0,
-                  transition: "opacity 0.25s ease",
-                }}
-              />
 
               {/* Number + icon */}
               <div

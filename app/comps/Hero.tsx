@@ -3,6 +3,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Image from "next/image";
+import { BookOpen, Coins, LineChart, Users } from "lucide-react";
 
 const COLORS = {
   petroleum: "#124f45",
@@ -25,49 +26,17 @@ const elements = [
     accent: COLORS.rose,
     number: "01",
     icon: (color: string) => (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 32 32"
-        fill="none"
-        stroke={color}
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="16" cy="9" r="4" fill={`${color}20`} />
-        <path d="M11 9 Q9 15 11 18 H21 Q23 15 21 9" />
-        <path d="M13 18 L13 22 M19 18 L19 22" />
-        <path d="M11 22 H21" />
-        <path d="M9 25 H23" />
-        <path d="M14 5 L16 3 L18 5" strokeWidth="1" />
-      </svg>
+      <BookOpen size={26} stroke={color} strokeWidth={1.4} />
     ),
   },
   {
-    ar: "الحافز المالي",
+    ar: "الحافز  \u00A0المالي",
     desc: "شرارة الانطلاق",
     en: "Financial Drive",
     accent: COLORS.gold,
     number: "02",
     icon: (color: string) => (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 32 32"
-        fill="none"
-        stroke={color}
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="16" cy="16" r="11" />
-        <circle cx="16" cy="16" r="8" fill={`${color}15`} />
-        <path
-          d="M16 8 L17.5 12.5 L22 12.5 L18.5 15.5 L20 20 L16 17 L12 20 L13.5 15.5 L10 12.5 L14.5 12.5 Z"
-          fill={`${color}30`}
-        />
-      </svg>
+      <Coins size={26} stroke={color} strokeWidth={1.4} />
     ),
   },
   {
@@ -77,26 +46,7 @@ const elements = [
     accent: COLORS.petroleum,
     number: "03",
     icon: (color: string) => (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 32 32"
-        fill="none"
-        stroke={color}
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <ellipse cx="16" cy="24" rx="11" ry="4" fill={`${color}10`} />
-        <path d="M5 24 C5 20 27 20 27 24" />
-        <path d="M8 21 L8 15" />
-        <path d="M12 22 L12 12" />
-        <path d="M16 22 L16 8" />
-        <path d="M20 22 L20 12" />
-        <path d="M24 21 L24 15" />
-        <path d="M13 8 L16 5 L19 8" strokeWidth="1" />
-        <circle cx="16" cy="8" r="1.5" fill={color} />
-      </svg>
+      <LineChart size={26} stroke={color} strokeWidth={1.4} />
     ),
   },
   {
@@ -106,24 +56,7 @@ const elements = [
     accent: COLORS.crimson,
     number: "04",
     icon: (color: string) => (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 32 32"
-        fill="none"
-        stroke={color}
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <circle cx="16" cy="8" r="3.5" fill={`${color}20`} />
-        <path d="M16 12 L16 20" />
-        <path d="M12 14 L16 17 L20 14" />
-        <path d="M10 26 L16 20 L22 26" />
-        <path d="M8 16 Q6 20 8 24" strokeDasharray="2 2" />
-        <path d="M24 16 Q26 20 24 24" strokeDasharray="2 2" />
-        <path d="M12 28 L20 28" strokeWidth="1.5" />
-      </svg>
+      <Users size={26} stroke={color} strokeWidth={1.4} />
     ),
   },
 ];
@@ -154,10 +87,21 @@ function useTyping(words: string[], speed = 85, pause = 2000) {
   return displayed;
 }
 
+type Phase =
+  | "curtain"
+  | "logo"
+  | "divider"
+  | "headline"
+  | "pillars"
+  | "cta"
+  | "done";
+
 export default function Hero() {
+  const [phase, setPhase] = useState<Phase>("curtain");
   const [loaded, setLoaded] = useState(false);
   const [activeEl, setActiveEl] = useState(0);
   const [hoveredEl, setHoveredEl] = useState<number | null>(null);
+  const [logoHovered, setLogoHovered] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -167,9 +111,23 @@ export default function Hero() {
     1800,
   );
 
+  // ── CINEMATIC ENTRANCE SEQUENCE ──
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 100);
-    return () => clearTimeout(t);
+    const timings: [Phase, number][] = [
+      ["logo", 900],
+      ["divider", 1700],
+      ["headline", 2050],
+      ["pillars", 2400],
+      ["cta", 2900],
+      ["done", 3300],
+    ];
+    const timers = timings.map(([p, ms]) =>
+      setTimeout(() => {
+        setPhase(p);
+        if (p === "done") setLoaded(true);
+      }, ms),
+    );
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   useEffect(() => {
@@ -192,13 +150,31 @@ export default function Hero() {
     return () => window.removeEventListener("mousemove", handleMouse);
   }, []);
 
-  const stagger = (delay: number): React.CSSProperties => ({
-    opacity: loaded ? 1 : 0,
-    transform: loaded ? "translateY(0)" : "translateY(32px)",
-    transition: `opacity 1s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 1s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-  });
-
   const currentAccent = elements[activeEl]?.accent || COLORS.petroleum;
+
+  const isAfter = (p: Phase, target: Phase): boolean => {
+    const order: Phase[] = [
+      "curtain",
+      "logo",
+      "divider",
+      "headline",
+      "pillars",
+      "cta",
+      "done",
+    ];
+    return order.indexOf(p) >= order.indexOf(target);
+  };
+
+  const contentStyle = (
+    targetPhase: Phase,
+    delayOffset = 0,
+  ): React.CSSProperties => ({
+    opacity: isAfter(phase, targetPhase) ? 1 : 0,
+    transform: isAfter(phase, targetPhase)
+      ? "translateY(0)"
+      : "translateY(28px)",
+    transition: `opacity 0.9s cubic-bezier(0.16,1,0.3,1) ${delayOffset}ms, transform 0.9s cubic-bezier(0.16,1,0.3,1) ${delayOffset}ms`,
+  });
 
   return (
     <section
@@ -214,9 +190,43 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* ── LAYERED BACKGROUND SYSTEM ── */}
+      {/* ══════════════════════════════════════════
+          CINEMATIC CURTAIN — lifts on load
+      ══════════════════════════════════════════ */}
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          inset: 0,
+          zIndex: 9999,
+          background: COLORS.offwhite,
+          transformOrigin: "top center",
+          animation:
+            "curtainLift 1s cubic-bezier(0.76,0,0.24,1) 0.05s forwards",
+          pointerEvents: phase === "curtain" ? "all" : "none",
+        }}
+      />
+      {/* Gold sweep line that rides the curtain edge */}
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          left: 0,
+          right: 0,
+          height: 2,
+          zIndex: 10000,
+          background: `linear-gradient(90deg, transparent 0%, ${COLORS.gold} 30%, ${COLORS.white} 50%, ${COLORS.gold} 70%, transparent 100%)`,
+          animation:
+            "goldLineSweep 1s cubic-bezier(0.76,0,0.24,1) 0.05s forwards",
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* Subtle noise texture overlay */}
+      {/* ══════════════════════════════════════════
+          BACKGROUND SYSTEM
+      ══════════════════════════════════════════ */}
+
+      {/* Noise texture */}
       <div
         aria-hidden
         style={{
@@ -229,7 +239,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Precision grid */}
+      {/* Grid */}
       <div
         aria-hidden
         style={{
@@ -237,15 +247,12 @@ export default function Hero() {
           inset: 0,
           pointerEvents: "none",
           zIndex: 1,
-          backgroundImage: `
-          linear-gradient(${COLORS.petroleum}04 1px, transparent 1px),
-          linear-gradient(90deg, ${COLORS.petroleum}04 1px, transparent 1px)
-        `,
+          backgroundImage: `linear-gradient(${COLORS.petroleum}04 1px, transparent 1px), linear-gradient(90deg, ${COLORS.petroleum}04 1px, transparent 1px)`,
           backgroundSize: "72px 72px",
         }}
       />
 
-      {/* Dynamic mouse-following radial */}
+      {/* Mouse radial */}
       <div
         aria-hidden
         style={{
@@ -258,7 +265,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Static ambient glow — petroleum */}
+      {/* Petroleum ambient */}
       <div
         aria-hidden
         style={{
@@ -275,7 +282,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Static ambient glow — gold */}
+      {/* Gold ambient */}
       <div
         aria-hidden
         style={{
@@ -292,7 +299,7 @@ export default function Hero() {
         }}
       />
 
-      {/* Geometric accent lines — top left */}
+      {/* Geo lines top-left */}
       <div
         aria-hidden
         style={{
@@ -350,7 +357,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Geometric accent lines — bottom right */}
+      {/* Geo lines bottom-right */}
       <div
         aria-hidden
         style={{
@@ -400,7 +407,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Dot matrix — top right */}
+      {/* Dot matrix top-right */}
       <div
         aria-hidden
         style={{
@@ -428,7 +435,7 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Dot matrix — bottom left */}
+      {/* Dot matrix bottom-left */}
       <div
         aria-hidden
         style={{
@@ -456,7 +463,7 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Vertical rule — left edge */}
+      {/* Vertical rule */}
       <div
         aria-hidden
         style={{
@@ -470,8 +477,6 @@ export default function Hero() {
           zIndex: 3,
         }}
       />
-
-      {/* Vertical rule tick marks */}
       {[0.2, 0.4, 0.6, 0.8].map((pct, i) => (
         <div
           key={i}
@@ -489,7 +494,9 @@ export default function Hero() {
         />
       ))}
 
-      {/* ── MAIN CONTENT ── */}
+      {/* ══════════════════════════════════════════
+          MAIN CONTENT
+      ══════════════════════════════════════════ */}
       <div
         style={{
           flex: 1,
@@ -505,33 +512,117 @@ export default function Hero() {
       >
         {/* ── LOGO ── */}
         <div
+          onMouseEnter={() => setLogoHovered(true)}
+          onMouseLeave={() => setLogoHovered(false)}
           style={{
-            width: "clamp(240px, 32vw, 440px)",
-            overflow: "hidden",
-            marginTop: "-2%",
+            position: "relative",
+            width: "clamp(240px, 56vw, 580px)",
+            marginTop: "-6%",
             marginBottom: 4,
-            ...stagger(160),
+            cursor: "default",
+            opacity: isAfter(phase, "logo") ? 1 : 0,
+            filter: isAfter(phase, "logo") ? "blur(0px)" : "blur(16px)",
+            transform: isAfter(phase, "logo") ? "scale(1)" : "scale(0.92)",
+            transition:
+              "opacity 1.1s cubic-bezier(0.16,1,0.3,1), filter 1.1s cubic-bezier(0.16,1,0.3,1), transform 1.1s cubic-bezier(0.16,1,0.3,1)",
           }}
         >
-          <Image
-            src="/logo.png"
-            alt="منظومة - Manzoma"
-            width={1040}
-            height={840}
-            priority
+          {/* Outermost wide halo */}
+          <div
+            aria-hidden
             style={{
-              objectFit: "contain",
-              width: "100%",
-              height: "auto",
-              display: "block",
-              marginTop: "-8%",
-              marginBottom: "-8%",
+              position: "absolute",
+              inset: "-40% -22%",
+              pointerEvents: "none",
+              zIndex: 0,
+              borderRadius: "50%",
+              background: `radial-gradient(ellipse 62% 48% at 50% 50%, ${COLORS.petroleum}1c 0%, ${COLORS.petroleum}09 42%, transparent 68%)`,
+              filter: "blur(24px)",
+              opacity: logoHovered ? 0.1 : 0,
+              transition: "opacity 0.85s cubic-bezier(0.16,1,0.3,1)",
             }}
           />
+          {/* Mid halo */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: "-24% -12%",
+              pointerEvents: "none",
+              zIndex: 0,
+              borderRadius: "48%",
+              background: `radial-gradient(ellipse 58% 44% at 50% 50%, ${COLORS.gold}16 0%, ${COLORS.gold}07 48%, transparent 68%)`,
+              filter: "blur(13px)",
+              opacity: logoHovered ? 0.1 : 0,
+              transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.07s",
+            }}
+          />
+          {/* Core halo */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: "-12% -6%",
+              pointerEvents: "none",
+              zIndex: 0,
+              borderRadius: "38%",
+              background: `radial-gradient(ellipse 54% 40% at 50% 50%, ${COLORS.petroleum}2a 0%, ${COLORS.petroleum}0e 52%, transparent 72%)`,
+              filter: "blur(3px)",
+              opacity: logoHovered ? 0.1 : 0,
+              transition: "opacity 0.55s cubic-bezier(0.16,1,0.3,1) 0.1s",
+            }}
+          />
+          {/* Bottom spill */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              bottom: "-52%",
+              left: "8%",
+              right: "8%",
+              height: "58%",
+              pointerEvents: "none",
+              zIndex: 0,
+              background: `radial-gradient(ellipse 78% 100% at 50% 0%, ${COLORS.petroleum}16 0%, ${COLORS.gold}08 44%, transparent 70%)`,
+              filter: "blur(18px)",
+              opacity: logoHovered ? 0.1 : 0,
+              transition: "opacity 0.95s cubic-bezier(0.16,1,0.3,1) 0.13s",
+            }}
+          />
+
+          {/* Logo image */}
+          <div
+            style={{
+              position: "relative",
+              zIndex: 1,
+              transition: "transform 0.55s cubic-bezier(0.16,1,0.3,1)",
+              transform: logoHovered ? "scale(1.015)" : "scale(1)",
+            }}
+          >
+            <Image
+              src="/logo.png"
+              alt="منظومة - Manzoma"
+              width={1380}
+              height={340}
+              priority
+              style={{
+                objectFit: "contain",
+                width: "100%",
+                height: "auto",
+                display: "block",
+                marginTop: "-12%",
+                marginBottom: "-22%",
+                transition: "filter 0.55s cubic-bezier(0.16,1,0.3,1)",
+                filter: logoHovered
+                  ? `brightness(1.07) contrast(1.02) drop-shadow(0 0 6px rgba(18,79,69,0.45)) drop-shadow(0 0 20px rgba(18,79,69,0.28)) drop-shadow(0 0 40px rgba(199,168,86,0.18)) drop-shadow(0 0 70px rgba(18,79,69,0.12))`
+                  : "brightness(1) contrast(1)",
+              }}
+            />
+          </div>
         </div>
 
         {/* ── PREMIUM DIVIDER ── */}
-        <div style={{ marginBottom: 36, ...stagger(260) }}>
+        <div style={{ marginBottom: 36, ...contentStyle("divider") }}>
           <div
             style={{
               display: "flex",
@@ -542,10 +633,10 @@ export default function Hero() {
           >
             <div
               style={{
-                width: loaded ? 56 : 0,
+                width: isAfter(phase, "divider") ? 56 : 0,
                 height: 1,
                 background: `linear-gradient(to right, transparent, ${COLORS.gold})`,
-                transition: "width 1.2s cubic-bezier(0.16,1,0.3,1) 400ms",
+                transition: "width 1.2s cubic-bezier(0.16,1,0.3,1) 200ms",
               }}
             />
             <div
@@ -554,29 +645,29 @@ export default function Hero() {
                 height: 6,
                 borderRadius: "50%",
                 background: COLORS.gold,
-                opacity: loaded ? 1 : 0,
-                transform: loaded ? "scale(1)" : "scale(0)",
-                transition: "all 0.6s ease 700ms",
+                opacity: isAfter(phase, "divider") ? 1 : 0,
+                transform: isAfter(phase, "divider") ? "scale(1)" : "scale(0)",
+                transition: "all 0.6s ease 400ms",
               }}
             />
             <div
               style={{
-                width: loaded ? 56 : 0,
+                width: isAfter(phase, "divider") ? 56 : 0,
                 height: 1,
                 background: `linear-gradient(to left, transparent, ${COLORS.gold})`,
-                transition: "width 1.2s cubic-bezier(0.16,1,0.3,1) 400ms",
+                transition: "width 1.2s cubic-bezier(0.16,1,0.3,1) 200ms",
               }}
             />
           </div>
         </div>
 
         {/* ── HEADLINE ── */}
-        <div style={{ marginBottom: 8, ...stagger(360) }}>
+        <div style={{ marginBottom: 8, ...contentStyle("headline") }}>
           <h1
             style={{
               fontFamily: "'Beiruti', sans-serif",
-              fontSize: "clamp(30px, 4.5vw, 58px)",
-              fontWeight: 900,
+              fontSize: "clamp(54px, 5.2vw, 62px)",
+              fontWeight: 800,
               color: COLORS.ink,
               lineHeight: 1.4,
               margin: 0,
@@ -590,7 +681,7 @@ export default function Hero() {
           >
             <span style={{ color: COLORS.inkMuted, fontWeight: 600 }}>بـ</span>
 
-            {/* Typing word with highlight pill */}
+            {/* Typing word */}
             <span
               style={{
                 position: "relative",
@@ -599,7 +690,18 @@ export default function Hero() {
                 textAlign: "center",
               }}
             >
-              {/* Underline highlight */}
+              <span
+                style={{
+                  position: "absolute",
+                  inset: "-8px -10px",
+                  borderRadius: 40,
+                  background: currentAccent,
+                  opacity: 0.06,
+                  filter: "blur(6px)",
+                  transition: "background 0.4s ease, opacity 0.4s ease",
+                  pointerEvents: "none",
+                }}
+              />
               <span
                 style={{
                   position: "absolute",
@@ -628,7 +730,7 @@ export default function Hero() {
                     height: "0.8em",
                     background: currentAccent,
                     marginRight: 4,
-                    marginBottom: -3,
+                    marginBottom: 2,
                     borderRadius: 2,
                     animation: "cursorBlink 1s ease-in-out infinite",
                     transition: "background 0.4s ease",
@@ -643,12 +745,12 @@ export default function Hero() {
         </div>
 
         {/* ── HEADLINE LINE 2 ── */}
-        <div style={{ marginBottom: 52, ...stagger(440) }}>
+        <div style={{ marginBottom: 52, ...contentStyle("headline", 100) }}>
           <h1
             style={{
               fontFamily: "'Beiruti', sans-serif",
-              fontSize: "clamp(30px, 4.5vw, 58px)",
-              fontWeight: 900,
+              fontSize: "clamp(54px, 5.2vw, 62px)",
+              fontWeight: 600,
               color: COLORS.ink,
               lineHeight: 1.4,
               margin: 0,
@@ -661,10 +763,11 @@ export default function Hero() {
                 color: COLORS.petroleum,
                 position: "relative",
                 display: "inline-block",
+                fontSize: "clamp(34px, 4.6vw, 60px)",
+                fontWeight: 900,
               }}
             >
               قيمة
-              {/* Petroleum underline */}
               <span
                 style={{
                   position: "absolute",
@@ -681,16 +784,9 @@ export default function Hero() {
           </h1>
         </div>
 
-        {/* ── 4 PILLARS — PREMIUM CARD STRIP ── */}
-        <div
-          style={{
-            width: "100%",
-            maxWidth: 900,
-            marginBottom: 48,
-            ...stagger(540),
-          }}
-        >
-          {/* Top label */}
+        {/* ── 4 PILLARS ── */}
+        <div style={{ width: "100%", maxWidth: 900, marginBottom: 48 }}>
+          {/* Label */}
           <div
             style={{
               display: "flex",
@@ -698,6 +794,7 @@ export default function Hero() {
               gap: 16,
               marginBottom: 20,
               justifyContent: "center",
+              ...contentStyle("pillars"),
             }}
           >
             <div
@@ -715,7 +812,6 @@ export default function Hero() {
                 fontWeight: 500,
                 color: COLORS.inkMuted,
                 letterSpacing: "0.2em",
-                textTransform: "uppercase",
               }}
             >
               ركائز منظومة
@@ -766,12 +862,12 @@ export default function Hero() {
                     transition: "all 0.45s cubic-bezier(0.16,1,0.3,1)",
                     transform: highlight ? "translateY(-6px)" : "translateY(0)",
                     cursor: "pointer",
-                    opacity: loaded ? 1 : 0,
-                    animation: loaded
-                      ? `fadeSlideUp 0.9s cubic-bezier(0.16,1,0.3,1) ${700 + i * 100}ms both`
-                      : "none",
                     backdropFilter: "blur(8px)",
                     overflow: "hidden",
+                    opacity: isAfter(phase, "pillars") ? 1 : 0,
+                    animation: isAfter(phase, "pillars")
+                      ? `pillCardIn 0.75s cubic-bezier(0.16,1,0.3,1) ${i * 120}ms both`
+                      : "none",
                   }}
                 >
                   {/* Top accent bar */}
@@ -837,6 +933,7 @@ export default function Hero() {
                       color: highlight ? el.accent : COLORS.ink,
                       margin: 0,
                       textAlign: "center",
+                      whiteSpace: "pre",
                       transition: "color 0.4s ease",
                     }}
                   >
@@ -859,7 +956,7 @@ export default function Hero() {
                     {el.desc}
                   </p>
 
-                  {/* Bottom separator line */}
+                  {/* Bottom line */}
                   <div
                     style={{
                       position: "absolute",
@@ -886,10 +983,10 @@ export default function Hero() {
             flexWrap: "wrap",
             justifyContent: "center",
             marginBottom: 56,
-            ...stagger(860),
+            ...contentStyle("cta"),
           }}
         >
-          {/* Primary CTA */}
+          {/* Primary */}
           <a
             href="#about"
             style={{
@@ -938,7 +1035,7 @@ export default function Hero() {
             </svg>
           </a>
 
-          {/* Secondary CTA */}
+          {/* Secondary */}
           <a
             href="#contact"
             style={{
@@ -980,8 +1077,8 @@ export default function Hero() {
         {/* ── SCROLL INDICATOR ── */}
         <div
           style={{
-            opacity: loaded ? 0.5 : 0,
-            transition: "opacity 0.8s ease 1400ms",
+            opacity: isAfter(phase, "done") ? 0.5 : 0,
+            transition: "opacity 0.8s ease 600ms",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -1029,7 +1126,27 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* ── GLOBAL STYLES ── */}
       <style>{`
+        @keyframes curtainLift {
+          0%   { transform: scaleY(1); opacity: 1; }
+          100% { transform: scaleY(0); opacity: 0; }
+        }
+        @keyframes goldLineSweep {
+          0%   { top: 0%;   opacity: 1; }
+          80%  { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
+        @keyframes pillCardIn {
+          from {
+            opacity: 0;
+            transform: translateY(32px) scale(0.96);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
         @keyframes cursorBlink {
           0%, 100% { opacity: 1; }
           50%       { opacity: 0; }
@@ -1041,14 +1158,6 @@ export default function Hero() {
         @keyframes scrollDot {
           0%, 100% { opacity: 0.3; transform: translateY(0); }
           50%       { opacity: 1;   transform: translateY(4px); }
-        }
-        @keyframes fadeSlideUp {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulseDot {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50%       { opacity: 0.5; transform: scale(0.7); }
         }
         @media (max-width: 900px) {
           .pillars-grid { grid-template-columns: repeat(2, 1fr) !important; }

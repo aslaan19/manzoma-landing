@@ -100,7 +100,7 @@ export default function Why() {
       }}
     >
       {/* ══════════════════════════════════════════
-          HEADER — petroleum band
+          HEADER
       ══════════════════════════════════════════ */}
       <div
         style={{
@@ -111,7 +111,7 @@ export default function Why() {
           overflow: "hidden",
         }}
       >
-        {/* Gold top line */}
+        {/* 4-color top line */}
         <div
           style={{
             position: "absolute",
@@ -119,9 +119,31 @@ export default function Why() {
             right: 0,
             left: 0,
             height: 3,
-            background: `linear-gradient(to left, ${COLORS.gold}, ${COLORS.petroleum})`,
+            background: `linear-gradient(to left, ${COLORS.rose}, ${COLORS.crimson}, ${COLORS.gold}, ${COLORS.petroleum})`,
           }}
         />
+
+        {/* Faint watermark */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: -10,
+            top: "50%",
+            transform: "translateY(-50%)",
+            fontFamily: "Helvetica, Arial, sans-serif",
+            fontSize: "clamp(160px, 20vw, 280px)",
+            fontWeight: 900,
+            color: `${COLORS.petroleum}04`,
+            lineHeight: 1,
+            letterSpacing: -10,
+            userSelect: "none",
+            pointerEvents: "none",
+            whiteSpace: "nowrap",
+          }}
+        >
+          02
+        </div>
 
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           {/* Breadcrumb */}
@@ -149,7 +171,7 @@ export default function Why() {
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 color: COLORS.petroleum,
                 letterSpacing: "5px",
@@ -165,7 +187,7 @@ export default function Why() {
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
               gap: 80,
-              alignItems: "end",
+              alignItems: "center",
             }}
           >
             {/* Heading */}
@@ -174,7 +196,7 @@ export default function Why() {
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: "clamp(48px, 5.5vw, 80px)",
-                  fontWeight: 900,
+                  fontWeight: 800,
                   color: COLORS.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
@@ -199,55 +221,104 @@ export default function Why() {
                       right: 0,
                       left: 0,
                       height: 3,
-
                       background: COLORS.gold,
+                      borderRadius: 2,
                       transformOrigin: "right",
                       transform: inView ? "scaleX(1)" : "scaleX(0)",
                       transition: "transform 1s ease 0.9s",
-                      borderRadius: 2,
                     }}
                   />
                 </span>
               </h2>
             </div>
 
-            {/* Core idea block */}
-            <div style={{ paddingBottom: 8, ...vis(280) }}>
+            {/* ── CLEAN QUOTE BLOCK ── */}
+            <div style={{ ...vis(280) }}>
               <div
                 style={{
                   borderRight: `4px solid ${COLORS.petroleum}`,
-                  paddingRight: 24,
-                  marginBottom: 28,
+                  paddingRight: 28,
                 }}
               >
+                {/* EN label */}
+                <p
+                  style={{
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    color: COLORS.gold,
+                    letterSpacing: "4px",
+                    textTransform: "uppercase",
+                    margin: "0 0 20px",
+                  }}
+                >
+                  CORE BELIEF
+                </p>
+
+                {/* Statement — 900 + 300 weight contrast */}
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 30,
-                    fontWeight: 900,
+                    fontSize: "clamp(24px, 2.5vw, 34px)",
+                    fontWeight: 600,
                     color: COLORS.petroleum,
-                    margin: 0,
-                    lineHeight: 1.6,
+                    margin: "0 0 2px",
+                    lineHeight: 1.25,
+                    letterSpacing: -0.5,
+                    opacity: 0.9,
                   }}
                 >
                   نبدأ من النموذج
-                  <br />
-                  لنشكل الواقع
                 </p>
+                <p
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: "clamp(24px, 2.5vw, 34px)",
+                    fontWeight: 700,
+                    color: COLORS.petroleum,
+                    margin: "0 0 28px",
+                    lineHeight: 1.25,
+                    letterSpacing: -0.5,
+                    opacity: 1,
+                  }}
+                >
+                  لنشكّل الواقع
+                </p>
+
+                {/* Body quote */}
+                <p
+                  style={{
+                    fontFamily: "'Beiruti', sans-serif",
+                    fontSize: "clamp(15px, 1.5vw, 18px)",
+                    fontWeight: 400,
+                    color: COLORS.inkSoft,
+                    margin: "0 0 24px",
+                    lineHeight: 2,
+                  }}
+                >
+                  منظومة لا تبدأ من التشغيل — بل من البنية المعرفية التي تحكم كل
+                  قرار، وتُوجّه كل استثمار، وتضبط كل توسّع.
+                </p>
+
+                {/* Attribution */}
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <div
+                    style={{ width: 20, height: 1, background: COLORS.gold }}
+                  />
+                  <span
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      fontSize: 12,
+                      fontWeight: 700,
+                      color: COLORS.inkMuted,
+                      letterSpacing: "3px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    فلسفة العمل
+                  </span>
+                </div>
               </div>
-              <p
-                style={{
-                  fontFamily: "'Beiruti', sans-serif",
-                  fontSize: 20,
-                  fontWeight: 500,
-                  color: COLORS.inkSoft,
-                  margin: 0,
-                  lineHeight: 1.95,
-                }}
-              >
-                منظومة لا تبدأ من التشغيل — بل من البنية المعرفية التي تحكم كل
-                قرار، وتوجّه كل استثمار، وتضبط كل توسع.
-              </p>
             </div>
           </div>
         </div>
@@ -259,7 +330,7 @@ export default function Why() {
       <div
         style={{ maxWidth: 1280, margin: "0 auto", padding: "64px 24px 104px" }}
       >
-        {/* ── 4 FLOATING REASON CARDS ── */}
+        {/* 4 floating reason cards */}
         <div
           style={{
             display: "grid",
@@ -411,7 +482,7 @@ export default function Why() {
           ))}
         </div>
 
-        {/* ── DETAIL PANEL ── */}
+        {/* Detail panel */}
         <div
           style={{
             background: COLORS.white,
@@ -437,7 +508,7 @@ export default function Why() {
             }}
             className="why-panel"
           >
-            {/* LEFT — content */}
+            {/* LEFT */}
             <div
               style={{
                 padding: "56px 60px",
@@ -476,43 +547,10 @@ export default function Why() {
                   animation: "fadeSlideUp 0.4s ease forwards",
                 }}
               >
-                <div
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 8,
-                    background: `${reasons[active].accent}0E`,
-                    border: `1px solid ${reasons[active].accent}30`,
-                    borderRadius: 999,
-                    padding: "6px 16px",
-                    marginBottom: 28,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 5,
-                      height: 5,
-                      borderRadius: "50%",
-                      background: reasons[active].accent,
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontFamily: "Helvetica, Arial, sans-serif",
-                      fontSize: 9,
-                      fontWeight: 700,
-                      color: reasons[active].accent,
-                      letterSpacing: "3px",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {reasons[active].en}
-                  </span>
-                </div>
                 <h3
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: "clamp(32px, 2.8vw, 40px)",
+                    fontSize: "clamp(26px, 2.8vw, 40px)",
                     fontWeight: 700,
                     color: COLORS.ink,
                     lineHeight: 1.4,
@@ -528,14 +566,14 @@ export default function Why() {
                     height: 3,
                     borderRadius: 2,
                     background: reasons[active].accent,
-                    marginBottom: 12,
+                    marginBottom: 20,
                     transition: "background 0.4s ease",
                   }}
                 />
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 20,
+                    fontSize: 17,
                     fontWeight: 500,
                     color: COLORS.inkSoft,
                     lineHeight: 2.1,
@@ -636,7 +674,7 @@ export default function Why() {
               </div>
             </div>
 
-            {/* RIGHT — list */}
+            {/* RIGHT */}
             <div style={{ background: COLORS.offwhite }}>
               {reasons.map((r, i) => (
                 <div key={i} style={visX(400 + i * 90)}>
@@ -704,7 +742,7 @@ export default function Why() {
                       <p
                         style={{
                           fontFamily: "'Beiruti', sans-serif",
-                          fontSize: 19,
+                          fontSize: 17,
                           fontWeight: 700,
                           color: active === i ? r.accent : COLORS.ink,
                           margin: "0 0 4px",
@@ -769,13 +807,10 @@ export default function Why() {
           from { opacity: 0; transform: translateY(16px); }
           to   { opacity: 1; transform: translateY(0); }
         }
-        @media (max-width: 1024px) {
-          .why-header-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
-          .why-chips { grid-template-columns: 1fr 1fr !important; }
-        }
         @media (max-width: 900px) {
-          .why-tabs  { grid-template-columns: repeat(2,1fr) !important; }
-          .why-panel { grid-template-columns: 1fr !important; }
+          .why-tabs       { grid-template-columns: repeat(2,1fr) !important; }
+          .why-panel      { grid-template-columns: 1fr !important; }
+          .why-quote-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>

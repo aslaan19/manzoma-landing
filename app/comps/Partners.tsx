@@ -16,7 +16,7 @@ const C = {
   inkMuted: "#7A8C8D",
 };
 
-const accents = [C.petroleum, C.gold, C.crimson, C.rose, C.petroleum];
+const accents = [C.petroleum, C.gold, C.crimson, C.rose, C.petroleum, C.gold];
 
 const partners = [
   {
@@ -54,6 +54,13 @@ const partners = [
     url: "https://ensan.org.sa/",
     desc: "شريك رعاية المعرفة التطويرية",
   },
+  {
+    id: 6,
+    name: "الندوة العالمية للشباب الإسلامي",
+    logo: "/wamy.png",
+    url: "https://o.wamy.org/",
+    desc: "شريك رعاية",
+  },
 ];
 
 function getPos(i: number, total: number, r: number) {
@@ -81,6 +88,14 @@ function useInView(threshold = 0.08) {
 export default function Partners() {
   const { ref, inView } = useInView();
   const [active, setActive] = useState<number | null>(null);
+  // Burst: starts false, flips true 600ms after inView (center node needs to appear first)
+  const [burst, setBurst] = useState(false);
+
+  useEffect(() => {
+    if (!inView) return;
+    const t = setTimeout(() => setBurst(true), 600);
+    return () => clearTimeout(t);
+  }, [inView]);
 
   const vis = (delay: number): React.CSSProperties => ({
     opacity: inView ? 1 : 0,
@@ -114,14 +129,12 @@ export default function Partners() {
         }}
       />
 
-      {/* ══════════════════════════════════════════
-          HEADER
-      ══════════════════════════════════════════ */}
+      {/* ── HEADER ── */}
       <div
         style={{
           background: C.white,
           borderBottom: `1px solid ${C.border}`,
-          padding: "80px 24px 72px",
+          padding: "56px 24px 48px",
           position: "relative",
           zIndex: 10,
         }}
@@ -145,13 +158,14 @@ export default function Partners() {
             transform: "translateY(-50%)",
             fontFamily: "Helvetica, Arial, sans-serif",
             fontSize: "clamp(140px,18vw,240px)",
-            fontWeight: 900,
+            fontWeight: 800,
             color: `${C.petroleum}04`,
             lineHeight: 1,
             letterSpacing: -8,
             userSelect: "none",
             pointerEvents: "none",
             whiteSpace: "nowrap",
+            marginTop: -40,
           }}
         >
           06
@@ -189,7 +203,7 @@ export default function Partners() {
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
-                fontSize: 10,
+                fontSize: 12,
                 fontWeight: 700,
                 color: C.petroleum,
                 letterSpacing: "5px",
@@ -205,29 +219,28 @@ export default function Partners() {
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))",
               gap: 80,
-              alignItems: "end",
+              alignItems: "start",
             }}
           >
             <div style={vis(150)}>
               <h2
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(44px,5.5vw,76px)",
-                  fontWeight: 900,
+                  fontSize: "clamp(44px,5.5vw,80px)",
+                  fontWeight: 800,
                   color: C.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
                   margin: 0,
                 }}
               >
-                شركاء
-                <br />
+                شركاء{" "}
                 <span
                   style={{
                     color: C.petroleum,
                     position: "relative",
                     display: "inline-block",
-                    paddingBottom: 6,
+                    paddingBottom: 10,
                   }}
                 >
                   النجاح
@@ -259,8 +272,8 @@ export default function Partners() {
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: 20,
-                    fontWeight: 900,
+                    fontSize: 32,
+                    fontWeight: 700,
                     color: C.petroleum,
                     margin: 0,
                     lineHeight: 1.6,
@@ -268,14 +281,14 @@ export default function Partners() {
                 >
                   شراكات حقيقية
                   <br />
-                  تُنتج قيمة مستدامة
+                  <span style={{ color: C.gold }}>تُنتج قيمة مستدامة</span>
                 </p>
               </div>
               <p
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: 16,
-                  fontWeight: 500,
+                  fontWeight: 600,
                   color: C.inkSoft,
                   margin: 0,
                   lineHeight: 1.95,
@@ -290,7 +303,7 @@ export default function Partners() {
       </div>
 
       {/* ══════════════════════════════════════════
-          DESKTOP — Constellation diagram
+          DESKTOP — Constellation with burst animation
       ══════════════════════════════════════════ */}
       <div
         className="partners-desktop"
@@ -310,6 +323,7 @@ export default function Partners() {
             ...vis(300),
           }}
         >
+          {/* SVG rings + lines */}
           <svg
             style={{
               position: "absolute",
@@ -329,6 +343,8 @@ export default function Partners() {
                 </feMerge>
               </filter>
             </defs>
+
+            {/* Outer dashed ring — fades in */}
             <circle
               cx="50%"
               cy="50%"
@@ -338,10 +354,11 @@ export default function Partners() {
               strokeWidth="1"
               strokeDasharray="4 8"
               style={{
-                opacity: inView ? 1 : 0,
-                transition: "opacity 1s ease 400ms",
+                opacity: burst ? 1 : 0,
+                transition: "opacity 0.8s ease 200ms",
               }}
             />
+            {/* Inner ring */}
             <circle
               cx="50%"
               cy="50%"
@@ -350,10 +367,12 @@ export default function Partners() {
               stroke={`${C.petroleum}10`}
               strokeWidth="1"
               style={{
-                opacity: inView ? 1 : 0,
-                transition: "opacity 1s ease 600ms",
+                opacity: burst ? 1 : 0,
+                transition: "opacity 0.8s ease 400ms",
               }}
             />
+
+            {/* Spokes — draw in after burst */}
             {partners.map((_, i) => {
               const pos = getPos(i, partners.length, 43);
               const isActive = active === i;
@@ -369,10 +388,15 @@ export default function Partners() {
                   strokeOpacity={isActive ? 0.55 : 0.1}
                   strokeDasharray={isActive ? "0" : "5 5"}
                   filter={isActive ? "url(#lineGlow)" : undefined}
-                  style={{ transition: "all 0.4s ease" }}
+                  style={{
+                    opacity: burst ? 1 : 0,
+                    transition: `opacity 0.6s ease ${300 + i * 80}ms, stroke 0.4s ease, stroke-opacity 0.4s ease`,
+                  }}
                 />
               );
             })}
+
+            {/* Connecting ring between nodes */}
             {partners.map((_, i) => {
               const p1 = getPos(i, partners.length, 43);
               const p2 = getPos((i + 1) % partners.length, partners.length, 43);
@@ -389,20 +413,17 @@ export default function Partners() {
                   strokeWidth="1"
                   strokeOpacity={isActive ? 0.5 : 0.7}
                   strokeDasharray="3 6"
-                  style={{ transition: "all 0.4s ease" }}
+                  style={{
+                    opacity: burst ? 1 : 0,
+                    transition: `opacity 0.6s ease ${600 + i * 60}ms, stroke 0.4s ease`,
+                  }}
                 />
               );
             })}
-            <circle
-              cx="50%"
-              cy="50%"
-              r="4"
-              fill={C.gold}
-              style={{
-                opacity: inView ? 1 : 0,
-                transition: "opacity 0.8s ease 700ms",
-              }}
-            />
+
+            {/* Center gold dot */}
+
+            {/* Animated travelling dot on active spoke */}
             {active !== null &&
               (() => {
                 const pos = getPos(active, partners.length, 43);
@@ -418,7 +439,7 @@ export default function Partners() {
               })()}
           </svg>
 
-          {/* Center — Manzoma */}
+          {/* ── CENTER — Manzoma logo ── */}
           <div
             style={{
               position: "absolute",
@@ -426,8 +447,10 @@ export default function Partners() {
               left: "50%",
               transform: "translate(-50%, -50%)",
               zIndex: 20,
+              // Center node appears first — before burst
               opacity: inView ? 1 : 0,
-              transition: "opacity 0.9s ease 500ms",
+              transition:
+                "opacity 0.7s ease 200ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) 200ms",
             }}
           >
             <div
@@ -483,11 +506,17 @@ export default function Partners() {
             </div>
           </div>
 
-          {/* Partner nodes */}
+          {/* ── PARTNER NODES — burst from center ── */}
           {partners.map((p, i) => {
             const pos = getPos(i, partners.length, 43);
             const isActive = active === i;
             const acc = accents[i];
+
+            // Before burst: node sits at center (translate to 50%,50% = 0 offset from center)
+            // After burst: node moves to its orbital position
+            // We achieve this by animating the `left` and `top` via transform
+            const burstDelay = 700 + i * 80; // stagger each node
+
             return (
               <a
                 key={p.id}
@@ -498,15 +527,30 @@ export default function Partners() {
                 onMouseLeave={() => setActive(null)}
                 style={{
                   position: "absolute",
+                  // Always positioned at the final orbital spot
                   left: `${pos.x}%`,
                   top: `${pos.y}%`,
-                  transform: `translate(-50%, -50%) ${isActive ? "scale(1.08)" : "scale(1)"}`,
                   zIndex: 15,
                   textDecoration: "none",
-                  opacity: inView ? 1 : 0,
-                  transition: `opacity 0.7s ease ${300 + i * 120}ms, transform 0.35s cubic-bezier(0.4,0,0.2,1)`,
+
+                  // Before burst: pull back to center using translate offset
+                  // After burst: translate only -50%,-50% (normal centering)
+                  transform: burst
+                    ? `translate(-50%, -50%) scale(${isActive ? 1.08 : 1})`
+                    : `translate(calc(-50% + ${(50 - pos.x) * 3.5}px), calc(-50% + ${(50 - pos.y) * 3.5}px)) scale(0.3)`,
+
+                  opacity: burst ? 1 : 0,
+                  transition: [
+                    `transform 0.9s cubic-bezier(0.16,1,0.3,1) ${burstDelay}ms`,
+                    `opacity 0.5s ease ${burstDelay - 100}ms`,
+                    // hover scale stays fast
+                    isActive ? "transform 0.35s cubic-bezier(0.4,0,0.2,1)" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(", "),
                 }}
               >
+                {/* Glow ring */}
                 <div
                   style={{
                     position: "absolute",
@@ -521,6 +565,8 @@ export default function Partners() {
                     pointerEvents: "none",
                   }}
                 />
+
+                {/* Card */}
                 <div
                   style={{
                     width: 120,
@@ -605,6 +651,7 @@ export default function Partners() {
                     />
                   </div>
                 </div>
+
                 {/* Tooltip */}
                 <div
                   style={{
@@ -690,8 +737,7 @@ export default function Partners() {
       </div>
 
       {/* ══════════════════════════════════════════
-          MOBILE — Premium layout (hidden on desktop)
-          Manzoma badge → gold line → partner cards
+          MOBILE — Cards fade + slide up with stagger
       ══════════════════════════════════════════ */}
       <div
         className="partners-mobile"
@@ -702,7 +748,7 @@ export default function Partners() {
           zIndex: 10,
         }}
       >
-        {/* Manzoma center badge */}
+        {/* Manzoma badge */}
         <div
           style={{
             display: "flex",
@@ -741,6 +787,16 @@ export default function Partners() {
             />
             <div
               style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                left: 0,
+                height: 3,
+                background: C.gold,
+              }}
+            />
+            <div
+              style={{
                 width: 105,
                 overflow: "hidden",
                 marginTop: "-8%",
@@ -763,8 +819,6 @@ export default function Partners() {
               />
             </div>
           </div>
-
-          {/* Connecting line + dot */}
           <div
             style={{
               display: "flex",
@@ -790,8 +844,6 @@ export default function Partners() {
               }}
             />
           </div>
-
-          {/* Label */}
           <p
             style={{
               fontFamily: "Helvetica, Arial, sans-serif",
@@ -807,7 +859,7 @@ export default function Partners() {
           </p>
         </div>
 
-        {/* Vertical partner cards */}
+        {/* Partner cards — staggered fade + slide */}
         <div
           style={{
             display: "flex",
@@ -834,7 +886,10 @@ export default function Partners() {
                 position: "relative",
                 overflow: "hidden",
                 boxShadow: "0 4px 16px rgba(1,90,98,0.05)",
-                ...vis(260 + i * 80),
+                // Staggered fade-slide from right (RTL direction)
+                opacity: inView ? 1 : 0,
+                transform: inView ? "translateX(0)" : "translateX(32px)",
+                transition: `opacity 0.7s ease ${400 + i * 100}ms, transform 0.7s cubic-bezier(0.16,1,0.3,1) ${400 + i * 100}ms`,
               }}
               onTouchStart={(e) => {
                 (e.currentTarget as HTMLElement).style.borderColor = accents[i];
@@ -847,7 +902,6 @@ export default function Partners() {
                   "0 4px 16px rgba(1,90,98,0.05)";
               }}
             >
-              {/* Accent right bar (RTL) */}
               <div
                 style={{
                   position: "absolute",
@@ -859,8 +913,6 @@ export default function Partners() {
                   borderRadius: "0 20px 20px 0",
                 }}
               />
-
-              {/* Logo box */}
               <div
                 style={{
                   width: 64,
@@ -883,8 +935,6 @@ export default function Partners() {
                   style={{ objectFit: "contain", width: "75%", height: "75%" }}
                 />
               </div>
-
-              {/* Text */}
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div
                   style={{
@@ -941,8 +991,6 @@ export default function Partners() {
                   {p.desc}
                 </p>
               </div>
-
-              {/* Arrow */}
               <div
                 style={{
                   width: 36,
@@ -971,9 +1019,7 @@ export default function Partners() {
         </div>
       </div>
 
-      {/* ══════════════════════════════════════════
-          BOTTOM STRIP — both desktop + mobile
-      ══════════════════════════════════════════ */}
+      {/* ── BOTTOM STRIP ── */}
       <div
         style={{
           maxWidth: 1280,
@@ -1070,11 +1116,8 @@ export default function Partners() {
       </div>
 
       <style>{`
-        /* ── Desktop ── */
         .partners-desktop { display: block; }
         .partners-mobile  { display: none !important; }
-
-        /* ── Mobile: hide constellation, show cards ── */
         @media (max-width: 768px) {
           .partners-desktop { display: none !important; }
           .partners-mobile  { display: block !important; }
