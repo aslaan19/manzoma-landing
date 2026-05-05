@@ -140,7 +140,7 @@ export default function Navbar() {
           >
             <div style={{ marginTop: 8 }}>
               <Image
-                src="/logo.png"
+                src="/logo3.png"
                 alt="منظومة - Manzoma"
                 width={160}
                 height={72}

@@ -600,7 +600,7 @@ export default function Hero() {
             }}
           >
             <Image
-              src="/logo.png"
+              src="/logo3.png"
               alt="منظومة - Manzoma"
               width={1380}
               height={340}
