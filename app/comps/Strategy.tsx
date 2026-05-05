@@ -307,6 +307,7 @@ export default function Strategy() {
 
       {/* ── HEADER — untouched ── */}
       <div
+        className="strategy-header"
         style={{
           borderBottom: `1px solid ${COLORS.border}`,
           padding: "80px 24px 72px",
@@ -326,6 +327,7 @@ export default function Strategy() {
         />
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div
+            className="strategy-header-breadcrumb"
             style={{
               display: "flex",
               alignItems: "center",
@@ -360,6 +362,7 @@ export default function Strategy() {
             </span>
           </div>
           <div
+            className="strategy-header-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))",
@@ -369,6 +372,7 @@ export default function Strategy() {
           >
             <div style={vis(150)}>
               <h2
+                className="strategy-header-title"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: "clamp(48px,5.5vw,80px)",
@@ -408,7 +412,10 @@ export default function Strategy() {
                 </span>
               </h2>
             </div>
-            <div style={{ paddingBottom: 8, ...vis(280) }}>
+            <div
+              className="strategy-header-copy"
+              style={{ paddingBottom: 8, ...vis(280) }}
+            >
               <div
                 style={{
                   borderRight: `4px solid ${COLORS.petroleum}`,
@@ -417,6 +424,7 @@ export default function Strategy() {
                 }}
               >
                 <p
+                  className="strategy-header-lead"
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
                     fontSize: 36,
@@ -429,6 +437,7 @@ export default function Strategy() {
                   ابتكار القيمة من خلال
                   <br />
                   <span
+                    className="strategy-header-lead-gold"
                     style={{
                       fontSize: 37,
                       fontWeight: 800,
@@ -440,6 +449,7 @@ export default function Strategy() {
                 </p>
               </div>
               <p
+                className="strategy-header-description"
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
                   fontSize: 20,
@@ -1185,6 +1195,66 @@ export default function Strategy() {
           .strategy-mobile  { display: block !important; }
           .strategy-strip   { display: none  !important; }
           .vision-banner    { padding: 32px 24px !important; }
+        }
+        @media (max-width: 768px) {
+          .strategy-header {
+            padding: 48px 20px 44px !important;
+          }
+          .strategy-header-breadcrumb {
+            margin-bottom: 18px !important;
+            gap: 10px !important;
+          }
+          .strategy-header-breadcrumb span:last-child {
+            font-size: 9px !important;
+            letter-spacing: 4px !important;
+            white-space: nowrap !important;
+          }
+          .strategy-header-grid {
+            grid-template-columns: 1fr !important;
+            gap: 34px !important;
+            align-items: start !important;
+          }
+          .strategy-header-title {
+            font-size: 42px !important;
+            line-height: 1.05 !important;
+            margin-top: 0 !important;
+            letter-spacing: -1px !important;
+          }
+          .strategy-header-copy {
+            padding-bottom: 0 !important;
+          }
+          .strategy-header-copy > div {
+            padding-right: 18px !important;
+            margin-bottom: 16px !important;
+          }
+          .strategy-header-lead {
+            font-size: 26px !important;
+            line-height: 1.45 !important;
+          }
+          .strategy-header-lead-gold {
+            font-size: 27px !important;
+          }
+          .strategy-header-description {
+            font-size: 16px !important;
+            line-height: 1.9 !important;
+          }
+        }
+        @media (max-width: 420px) {
+          .strategy-header {
+            padding: 42px 18px 40px !important;
+          }
+          .strategy-header-title {
+            font-size: 38px !important;
+          }
+          .strategy-header-lead {
+            font-size: 24px !important;
+          }
+          .strategy-header-lead-gold {
+            font-size: 25px !important;
+          }
+          .strategy-header-description {
+            font-size: 15px !important;
+          }
         }
         @media (max-width: 600px) {
           .vision-banner { padding: 28px 20px !important; }
