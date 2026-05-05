@@ -108,10 +108,9 @@ export default function Why() {
           borderBottom: `1px solid ${COLORS.border}`,
           padding: "80px 24px 72px",
           position: "relative",
-          overflow: "hidden",
+          zIndex: 10,
         }}
       >
-        {/* 4-color top line */}
         <div
           style={{
             position: "absolute",
@@ -123,36 +122,13 @@ export default function Why() {
           }}
         />
 
-        {/* Faint watermark */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            left: -10,
-            top: "50%",
-            transform: "translateY(-50%)",
-            fontFamily: "Helvetica, Arial, sans-serif",
-            fontSize: "clamp(160px, 20vw, 280px)",
-            fontWeight: 900,
-            color: `${COLORS.petroleum}04`,
-            lineHeight: 1,
-            letterSpacing: -10,
-            userSelect: "none",
-            pointerEvents: "none",
-            whiteSpace: "nowrap",
-          }}
-        >
-          02
-        </div>
-
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          {/* Breadcrumb */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: 14,
-              marginBottom: 36,
+              marginBottom: 0,
               ...vis(60),
             }}
           >
@@ -167,7 +143,9 @@ export default function Why() {
             >
               02
             </span>
+
             <div style={{ width: 40, height: 1, background: COLORS.border }} />
+
             <span
               style={{
                 fontFamily: "Helvetica, Arial, sans-serif",
@@ -185,28 +163,29 @@ export default function Why() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-              gap: 80,
-              alignItems: "center",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px,1fr))",
+              gap: 72,
+              alignItems: "end",
             }}
           >
-            {/* Heading */}
             <div style={vis(150)}>
               <h2
                 style={{
                   fontFamily: "'Beiruti', sans-serif",
-                  fontSize: "clamp(48px, 5.5vw, 80px)",
+                  fontSize: "clamp(48px,5.5vw,80px)",
                   fontWeight: 800,
                   color: COLORS.ink,
                   lineHeight: 1.1,
                   letterSpacing: -2,
-                  margin: 0,
+                  marginTop: -20,
+                  marginBottom: 0,
                 }}
               >
                 لماذا
                 <br />
                 <span
                   style={{
+                    fontWeight: 800,
                     color: COLORS.petroleum,
                     position: "relative",
                     display: "inline-block",
@@ -232,93 +211,51 @@ export default function Why() {
               </h2>
             </div>
 
-            {/* ── CLEAN QUOTE BLOCK ── */}
-            <div style={{ ...vis(280) }}>
+            <div style={{ paddingBottom: 8, ...vis(280) }}>
               <div
                 style={{
                   borderRight: `4px solid ${COLORS.petroleum}`,
-                  paddingRight: 28,
+                  paddingRight: 24,
+                  marginBottom: 22,
                 }}
               >
-                {/* EN label */}
-                <p
-                  style={{
-                    fontFamily: "Helvetica, Arial, sans-serif",
-                    fontSize: 9,
-                    fontWeight: 700,
-                    color: COLORS.gold,
-                    letterSpacing: "4px",
-                    textTransform: "uppercase",
-                    margin: "0 0 20px",
-                  }}
-                >
-                  CORE BELIEF
-                </p>
-
-                {/* Statement — 900 + 300 weight contrast */}
                 <p
                   style={{
                     fontFamily: "'Beiruti', sans-serif",
-                    fontSize: "clamp(24px, 2.5vw, 34px)",
-                    fontWeight: 600,
+                    fontSize: 36,
+                    fontWeight: 800,
                     color: COLORS.petroleum,
-                    margin: "0 0 2px",
-                    lineHeight: 1.25,
-                    letterSpacing: -0.5,
-                    opacity: 0.9,
+                    margin: 0,
+                    lineHeight: 1.6,
                   }}
                 >
                   نبدأ من النموذج
-                </p>
-                <p
-                  style={{
-                    fontFamily: "'Beiruti', sans-serif",
-                    fontSize: "clamp(24px, 2.5vw, 34px)",
-                    fontWeight: 700,
-                    color: COLORS.petroleum,
-                    margin: "0 0 28px",
-                    lineHeight: 1.25,
-                    letterSpacing: -0.5,
-                    opacity: 1,
-                  }}
-                >
-                  لنشكّل الواقع
-                </p>
-
-                {/* Body quote */}
-                <p
-                  style={{
-                    fontFamily: "'Beiruti', sans-serif",
-                    fontSize: "clamp(15px, 1.5vw, 18px)",
-                    fontWeight: 400,
-                    color: COLORS.inkSoft,
-                    margin: "0 0 24px",
-                    lineHeight: 2,
-                  }}
-                >
-                  منظومة لا تبدأ من التشغيل — بل من البنية المعرفية التي تحكم كل
-                  قرار، وتُوجّه كل استثمار، وتضبط كل توسّع.
-                </p>
-
-                {/* Attribution */}
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <div
-                    style={{ width: 20, height: 1, background: COLORS.gold }}
-                  />
+                  <br />
                   <span
                     style={{
-                      fontFamily: "Helvetica, Arial, sans-serif",
-                      fontSize: 12,
-                      fontWeight: 700,
-                      color: COLORS.inkMuted,
-                      letterSpacing: "3px",
-                      textTransform: "uppercase",
+                      fontSize: 37,
+                      fontWeight: 800,
+                      color: COLORS.gold,
                     }}
                   >
-                    فلسفة العمل
+                    لنشكّل الواقع
                   </span>
-                </div>
+                </p>
               </div>
+
+              <p
+                style={{
+                  fontFamily: "'Beiruti', sans-serif",
+                  fontSize: 20,
+                  fontWeight: 500,
+                  color: COLORS.inkSoft,
+                  margin: 0,
+                  lineHeight: 1.95,
+                }}
+              >
+                منظومة لا تبدأ من التشغيل — بل من البنية المعرفية التي تحكم كل
+                قرار، وتُوجّه كل استثمار، وتضبط كل توسّع.
+              </p>
             </div>
           </div>
         </div>
